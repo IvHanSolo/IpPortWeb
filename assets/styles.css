@@ -1,5 +1,15 @@
 
-:root{--o:#FF5A1F;--f-head:"Bebas Neue",Impact,"Arial Narrow",sans-serif;--f-body:"Newsreader",Georgia,serif;--f-hand:"Caveat","Comic Sans MS",cursive;--disp:var(--f-head);--f-title:var(--f-head);--f-text:var(--f-body);--f-note:var(--f-hand);--bg:#060606;color-scheme:dark;
+@font-face{font-family:"Champagne & Limousines";src:url("fonts/Champagne___Limousines.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Champagne & Limousines";src:url("fonts/Champagne___Limousines_Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Champagne & Limousines";src:url("fonts/Champagne___Limousines_Italic.ttf") format("truetype");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Champagne & Limousines";src:url("fonts/Champagne___Limousines_Bold_Italic.ttf") format("truetype");font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url("fonts/PlayfairDisplay-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url("fonts/PlayfairDisplay-Italic.ttf") format("truetype");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url("fonts/PlayfairDisplay-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url("fonts/PlayfairDisplay-BoldItalic.ttf") format("truetype");font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url("fonts/PlayfairDisplay-Black.ttf") format("truetype");font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url("fonts/PlayfairDisplay-BlackItalic.ttf") format("truetype");font-weight:900;font-style:italic;font-display:swap}
+:root{--f-sub:"Playfair Display",Georgia,"Times New Roman",serif;--o:#FF5A1F;--f-head:"Champagne & Limousines",Georgia,serif;--f-body:"Champagne & Limousines",Georgia,serif;--f-hand:"Champagne & Limousines",Georgia,serif;--disp:var(--f-head);--f-title:var(--f-head);--f-text:var(--f-body);--f-note:var(--f-hand);--bg:#060606;color-scheme:dark;
 --spv:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='28'%3E%3Ccircle cx='5' cy='13.5' r='3.2' fill='%23000'/%3E%3Ccircle cx='39' cy='13.5' r='3.2' fill='%23000'/%3E%3Crect x='4' y='9' width='36' height='9' rx='4.5' fill='none' stroke='%23c8c8c2' stroke-width='2.6'/%3E%3Crect x='6' y='10.2' width='32' height='2.6' rx='1.3' fill='%23fff' opacity='.4'/%3E%3C/svg%3E");
 --sph:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='44'%3E%3Ccircle cx='13.5' cy='5' r='3.2' fill='%23000'/%3E%3Ccircle cx='13.5' cy='39' r='3.2' fill='%23000'/%3E%3Crect x='9' y='4' width='9' height='36' rx='4.5' fill='none' stroke='%23c8c8c2' stroke-width='2.6'/%3E%3Crect x='10.2' y='6' width='2.6' height='32' rx='1.3' fill='%23fff' opacity='.4'/%3E%3C/svg%3E")}
 *{box-sizing:border-box}html,body{height:100%}
@@ -373,3 +383,121 @@ body.nt #fh .fd{top:calc(env(safe-area-inset-top,0px) + 8px)}
 .rl{display:flex;justify-content:space-between;font:italic .95rem var(--f-body)}.rl button{background:none;border:0;color:#5a5750;cursor:pointer;text-decoration:underline;font:inherit}.rl button:disabled{visibility:hidden}
 body.rdo{overflow:hidden}
 @media(max-width:900px){.rd{font-size:1.05rem}.tabs a,.tabs a:nth-child(n){font-size:12px!important;padding:.7rem .2rem!important;line-height:1.15}}
+
+/* ================= V14 ================= */
+/* shared */
+.sc{--ix:1}
+.toc a{font-size:calc(1.9rem*var(--ix));padding:calc(.7rem*var(--ix)) 0}
+.cvh{display:none}
+.ptr{display:none}
+
+/* ---- reader: light / dark + download ---- */
+.rd{transition:background .3s,color .3s}
+.rs{padding-top:2.8rem}
+.rtools{position:absolute;top:calc(.8rem + env(safe-area-inset-top,0px));left:clamp(1rem,5vw,4rem);display:flex;gap:.5rem;z-index:2}
+.rtb{display:inline-flex;align-items:center;height:2.2rem;padding:0 1rem;border:2px solid currentColor;border-radius:2rem;background:none;color:inherit;font:400 1rem var(--f-head);letter-spacing:.08em;text-decoration:none;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.rtb:hover,.rtb:focus-visible{background:var(--o);border-color:var(--o);color:#111}
+.rx{top:calc(.8rem + env(safe-area-inset-top,0px))}
+.rd.dk{background:#0d0d0d;color:#F2F2EF}
+.rd.dk .rt h1{color:#F2F2EF}.rd.dk .rdd{color:#a8a8a3}
+.rd.dk .rx{border-color:#F2F2EF;color:#F2F2EF}.rd.dk .rx:hover{background:var(--o);border-color:var(--o);color:#111}
+.rd.dk .rl button{color:#a8a8a3}
+
+/* ---- laptop ---- */
+@media(min-width:901px){
+/* smaller spiral, content takes the freed space */
+body{padding-top:calc(1.8vw + env(safe-area-inset-top,0px));padding-bottom:1.8vw;padding-left:2vw}
+body.nt{padding-left:2.5vw}
+.book,.bw{max-width:1320px}
+.book{grid-template-columns:1fr 30px 1fr}
+.spiral{padding:2rem 0}
+.spiral i{width:30px;height:19px}
+.sc{padding:2rem 2.4rem 4rem}
+
+/* index: shrink to fit, no scrolling */
+.book.ix .sc{overflow:hidden}
+.book.ix h1{font-size:calc(clamp(3rem,6.2vw,6rem)*var(--ix));margin-bottom:calc(1.2rem*var(--ix))}
+
+/* video: left page never scrolls, showreel takes whatever height is left */
+.sc:has(.vt.sr){overflow:hidden;display:flex;flex-direction:column}
+.sc:has(.vt.sr)>*{flex:none}
+.sc:has(.vt.sr)>.vt.sr{flex:1 1 0;min-height:7rem;margin:.5rem 0;container-type:size;--vw:min(100cqw,calc((100cqh - 2.4rem)*1.7778));display:flex;flex-direction:column;align-items:center;justify-content:center}
+.vt.sr .vp{margin:0;width:var(--vw);aspect-ratio:16/9}
+.vt.sr .vfr{width:var(--vw)}
+
+/* about: contact details sit beside the portrait */
+.abl{display:flex;align-items:center;gap:1.4em;margin-top:1em}
+.abl .portrait{flex:0 0 auto;width:11em;max-width:42%;margin:0}
+.abl .links{margin:0;flex:1;min-width:0;gap:.9em}
+.abl .links a{display:grid;gap:.05em;overflow-wrap:anywhere}
+.abl .links b{min-width:0}
+}
+
+/* ---- phone ---- */
+@media(max-width:900px){
+/* cover: centred, with the swipe hint */
+.book.solo .r[data-theme=cover] .sc{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.2rem;min-height:calc(100svh - 38px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+.cv{height:auto;width:100%;justify-items:center;text-align:center}
+.cvh{display:block;margin:.6rem auto 0;max-width:19em;font:italic .95rem/1.4 var(--f-body);color:var(--mut)}
+/* spiral rings sit above the breadcrumb */
+.l .sc{padding-top:3.1rem}
+/* long pull down = refresh */
+.ptr{display:block;position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:50%;translate:-50% -220%;z-index:40;padding:.3rem .9rem;border-radius:2rem;background:var(--o);color:#111;font:600 12px/1.2 var(--f-body);letter-spacing:.04em;opacity:0;pointer-events:none;transition:opacity .2s,translate .2s}
+.ptr.on{opacity:1;translate:-50% 0}
+}
+
+
+/* ================= V15 : fonts ================= */
+/* Champagne & Limousines = headings, buttons, body.  Playfair Display = descriptions and subtexts.
+   Special thanks keeps Newsreader; only the group headings there use Playfair. */
+.lede,.item p,.fold span,.note em,.note small,.crumb,.bh,.alb>span,.wh,.pnote p,.bt .cap small,.vi small,.vi p,.ah small,.ah p,.rdd,.cvh,.org,.ptr{font-family:var(--f-sub)}
+.lede{font-size:calc(1.1rem*var(--k));line-height:1.5}
+.item p{font-size:calc(.98rem*var(--k))}
+.fold span{font-size:calc(.95rem*var(--k))}
+.note em{font-size:calc(1rem*var(--k))}
+.crumb{font-size:.82rem}
+.r[data-theme=thanks],.r[data-theme=thanks] *{font-family:"Newsreader",Georgia,serif!important}
+.r[data-theme=thanks] .th2:not(.tend),.r[data-theme=thanks] .tsub{font-family:"Playfair Display",Georgia,serif!important;font-weight:700}
+.item .more{font-family:var(--f-sub)}
+
+/* ---- tabs (side tags / phone bottom bar) in Playfair ---- */
+.tabs a{font-family:var(--f-sub);letter-spacing:.01em}
+
+/* ================= V16 ================= */
+/* more Playfair: titles, album + video names, chips and album labels */
+.chip,.alb>span,.fold small,.badge,.al .ag,.al .ad,.al small,.bt .cap small{font-family:var(--f-sub)}
+.chip{font-size:.85rem;letter-spacing:.01em}.vch .chip{font-size:.74rem}
+.item h3,.wk h3,.fold b,.bt .cap b,.al b,.vi h2,.ah h2,.vt h2,.lb .panel h2,.rt h1,.hit b,.note b{font-family:var(--f-sub)}
+.fold b{font-size:1.25rem;font-weight:700;letter-spacing:0}
+.bt .cap b,.al b{font-size:1rem;font-weight:700;letter-spacing:0;line-height:1.15}
+.vi h2,.ah h2{font-size:clamp(1.7rem,3.6vw,2.7rem);font-weight:400;line-height:1.08;letter-spacing:0}
+.vt h2,.lb .panel h2{font-weight:700;letter-spacing:0}
+.rt h1{font-weight:700;letter-spacing:0}
+
+/* special thanks: names in bold */
+.r[data-theme=thanks] .te b,.r[data-theme=thanks] .te .tn,.r[data-theme=thanks] .te .tg{font-weight:800}
+
+/* writing: PDF covers on semi-transparent dark cards */
+.wkw{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem;align-items:stretch}
+.wk{display:flex;flex-direction:column;padding:.6rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);transition:border-color .25s,transform .25s}
+.wk:hover,.wk.hl{border-color:var(--o);transform:translateY(-2px)}.wk.hl{outline:2px solid var(--o)}
+.wk .cvr{display:grid;place-items:center;aspect-ratio:3/4;overflow:hidden;border-radius:6px;background:rgba(255,255,255,.06);color:var(--mut);font:italic .9rem var(--f-sub);text-decoration:none;box-shadow:0 6px 16px rgba(0,0,0,.5);cursor:pointer}
+.wk .cvr.ok{background:#fff}
+.wk .cvr canvas,.wk .cvr img{display:block;width:100%;height:100%;object-fit:cover}
+.wk h3{font-size:1.05rem;font-weight:700;line-height:1.2;margin:.7rem 0 .15rem}
+.wk p{margin:0;font-size:.9rem;line-height:1.35;color:var(--mut)}
+.wk .btn{margin:auto 0 0;padding:.25rem .8rem;font-size:.95rem;text-align:center}.wk h3+.btn,.wk p+.btn{margin-top:.7rem}
+.wk .btn.off{opacity:.4}
+
+/* cover: dead centre */
+.r[data-theme=cover] .sc{padding:2rem 2.4rem}
+@media(max-width:900px){
+body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
+.book.solo .r[data-theme=cover]{display:flex;flex-direction:column}
+.book.solo .r[data-theme=cover] .sc{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.2rem}
+.wkw{grid-template-columns:repeat(2,1fr)}
+}
+.wk p{font-family:var(--f-sub)}
+
+/* ---- v16b: thank-you names, strongest bold ---- */
+.r[data-theme=thanks] .te b{font-weight:800!important}

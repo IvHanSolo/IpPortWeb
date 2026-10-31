@@ -232,7 +232,7 @@ document.addEventListener('click',e=>{if(e.target.closest('[data-sx]'))$('.studi
 if(e.target.closest('[data-sdl]')){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(CONTENT,null,1)],{type:'application/json'}));a.download='content.json';a.click()}
 if(e.target.closest('[data-sreset]')){try{localStorage.removeItem('ipdraft')}catch(_){}location.reload()}});
 if(EDIT){const b=document.createElement('button');b.className='btn sbtn';b.textContent='Studio';b.onclick=studio;document.body.append(b)}
-Promise.race([Promise.all(['1em "Bebas Neue"','400 1em Newsreader','italic 400 1em Newsreader','1em Caveat'].map(f=>document.fonts.load(f).catch(()=>0))),new Promise(r=>setTimeout(r,700))]).then(()=>fetch('content.json',EDIT?{cache:'no-store'}:{})).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{if(j)Object.assign(CONTENT,j);if(EDIT)try{const d=JSON.parse(localStorage.getItem('ipdraft')||'null');d&&Object.assign(CONTENT,d)}catch(_){}build();nav()});
+Promise.race([Promise.all(['400 1em "Champagne & Limousines"','italic 400 1em "Champagne & Limousines"','400 1em "Playfair Display"','italic 400 1em "Playfair Display"'].map(f=>document.fonts.load(f).catch(()=>0))),new Promise(r=>setTimeout(r,700))]).then(()=>fetch('content.json',EDIT?{cache:'no-store'}:{})).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{if(j)Object.assign(CONTENT,j);if(EDIT)try{const d=JSON.parse(localStorage.getItem('ipdraft')||'null');d&&Object.assign(CONTENT,d)}catch(_){}build();nav()});
 
 var ssT=null;
 function fsOn(on){if(!lb)return;lb.classList.toggle('fs',on);try{if(on&&!document.fullscreenElement&&lb.requestFullscreen)lb.requestFullscreen().catch(()=>{});else if(!on&&document.fullscreenElement)document.exitFullscreen()}catch(_){}}

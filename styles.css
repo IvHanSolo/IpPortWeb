@@ -459,3 +459,42 @@ body.nt{padding-left:2.5vw}
 .r[data-theme=thanks],.r[data-theme=thanks] *{font-family:"Newsreader",Georgia,serif!important}
 .r[data-theme=thanks] .th2:not(.tend),.r[data-theme=thanks] .tsub{font-family:"Playfair Display",Georgia,serif!important;font-weight:700}
 .item .more{font-family:var(--f-sub)}
+
+/* ---- tabs (side tags / phone bottom bar) in Playfair ---- */
+.tabs a{font-family:var(--f-sub);letter-spacing:.01em}
+
+/* ================= V16 ================= */
+/* more Playfair: titles, album + video names, chips and album labels */
+.chip,.alb>span,.fold small,.badge,.al .ag,.al .ad,.al small,.bt .cap small{font-family:var(--f-sub)}
+.chip{font-size:.85rem;letter-spacing:.01em}.vch .chip{font-size:.74rem}
+.item h3,.wk h3,.fold b,.bt .cap b,.al b,.vi h2,.ah h2,.vt h2,.lb .panel h2,.rt h1,.hit b,.note b{font-family:var(--f-sub)}
+.fold b{font-size:1.25rem;font-weight:700;letter-spacing:0}
+.bt .cap b,.al b{font-size:1rem;font-weight:700;letter-spacing:0;line-height:1.15}
+.vi h2,.ah h2{font-size:clamp(1.7rem,3.6vw,2.7rem);font-weight:400;line-height:1.08;letter-spacing:0}
+.vt h2,.lb .panel h2{font-weight:700;letter-spacing:0}
+.rt h1{font-weight:700;letter-spacing:0}
+
+/* special thanks: names in bold */
+.r[data-theme=thanks] .te b,.r[data-theme=thanks] .te .tn,.r[data-theme=thanks] .te .tg{font-weight:800}
+
+/* writing: PDF covers on semi-transparent dark cards */
+.wkw{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem;align-items:stretch}
+.wk{display:flex;flex-direction:column;padding:.6rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);transition:border-color .25s,transform .25s}
+.wk:hover,.wk.hl{border-color:var(--o);transform:translateY(-2px)}.wk.hl{outline:2px solid var(--o)}
+.wk .cvr{display:grid;place-items:center;aspect-ratio:3/4;overflow:hidden;border-radius:6px;background:rgba(255,255,255,.06);color:var(--mut);font:italic .9rem var(--f-sub);text-decoration:none;box-shadow:0 6px 16px rgba(0,0,0,.5);cursor:pointer}
+.wk .cvr.ok{background:#fff}
+.wk .cvr canvas,.wk .cvr img{display:block;width:100%;height:100%;object-fit:cover}
+.wk h3{font-size:1.05rem;font-weight:700;line-height:1.2;margin:.7rem 0 .15rem}
+.wk p{margin:0;font-size:.9rem;line-height:1.35;color:var(--mut)}
+.wk .btn{margin:auto 0 0;padding:.25rem .8rem;font-size:.95rem;text-align:center}.wk h3+.btn,.wk p+.btn{margin-top:.7rem}
+.wk .btn.off{opacity:.4}
+
+/* cover: dead centre */
+.r[data-theme=cover] .sc{padding:2rem 2.4rem}
+@media(max-width:900px){
+body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
+.book.solo .r[data-theme=cover]{display:flex;flex-direction:column}
+.book.solo .r[data-theme=cover] .sc{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.2rem}
+.wkw{grid-template-columns:repeat(2,1fr)}
+}
+.wk p{font-family:var(--f-sub)}

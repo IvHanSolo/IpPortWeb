@@ -1,10 +1,27 @@
 {
  "intro": "Welcome to a glimpse of my work. I hope that you enjoy your journey and gain an understanding of what I can do, and why I do it.",
  "about": {
-  "photo": ""
+  "photo": "",
+  "email": "Ivan913.ip@gmail.com",
+  "phone": "+91 93172 91752",
+  "instagram": "pp_fr_2"
  },
  "writing": {
-  "leisure": [
+  "items": [
+   {
+    "title": "Piece title 1",
+    "src": "",
+    "desc": "Short description goes here.",
+    "text": "Paste the full piece here.",
+    "pdf": ""
+   },
+   {
+    "title": "Piece title 2",
+    "src": "",
+    "desc": "Short description goes here.",
+    "text": "Paste the full piece here.",
+    "pdf": ""
+   },
    {
     "title": "Piece title 1",
     "src": "",
@@ -24,22 +41,6 @@
     "src": "",
     "desc": "Short description goes here.",
     "text": "Paste the full piece here.\n\nA blank line starts a new paragraph.",
-    "pdf": ""
-   }
-  ],
-  "work": [
-   {
-    "title": "Piece title 1",
-    "src": "",
-    "desc": "Short description goes here.",
-    "text": "Paste the full piece here.",
-    "pdf": ""
-   },
-   {
-    "title": "Piece title 2",
-    "src": "",
-    "desc": "Short description goes here.",
-    "text": "Paste the full piece here.",
     "pdf": ""
    }
   ]
@@ -956,5 +957,6 @@
    "n": "Kalpana Ma'am",
    "r": "For allowing me to appreciate myself through my art"
   }
- ]
+ ],
+ "pages": {}
 }

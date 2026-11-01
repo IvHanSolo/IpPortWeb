@@ -39,7 +39,7 @@ const norm=(x,b={})=>{const o=typeof x=='string'?{src:x}:{...x};if(o.src&&b.fold
 o.title=o.title||(o.src?o.src.split('/').pop().replace(/\.\w+$/,'').replace(/[-_]+/g,' '):'Untitled');return o};
 const sw=m=>`<div class="switch" role="group" aria-label="Collection">${['work','leisure'].map(k=>`<button data-mode="${k}" aria-selected="${k===m}">${cap(k)}</button>`).join('')}</div>`;
 const lab=o=>o.label||(isVid(o)?'Video':isDoc(o)?'Document':'Image');
-const tl=(o,r)=>`<button class="tile" data-r="${r}" aria-label="Open ${esc(o.title)}">${o.src&&!isDoc(o)&&!isVid(o)?`<img src="${esc(o.src)}" alt="${esc(o.title)}" loading="lazy">`:`<span>${lab(o)}</span>`}</button>`;
+const tl=(o,r)=>`<button class="tile${o.kind==='album'?' mp':''}" data-r="${r}" aria-label="Open ${esc(o.title)}">${o.kind==='album'&&o.src?poster(o,1):o.src&&!isDoc(o)&&!isVid(o)?`<img src="${esc(o.src)}" alt="${esc(o.title)}" loading="lazy">`:`<span>${lab(o)}</span>`}</button>`;
 const note=(o,a,n,on)=>`<button class="note${on?' on':''}" ${a}><b>${esc(o.title)}${n?` <small>${esc(n)}</small>`:''}</b>${o.desc?`<em>${esc(o.desc)}</em>`:''}</button>`;
 const ytid=u=>{const m=String(u||'').match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);return m?m[1]:''};
 const thumb=o=>o.thumb||(o.embed&&ytid(o.embed)?'https://i.ytimg.com/vi/'+ytid(o.embed)+'/hqdefault.jpg':'');
@@ -175,7 +175,7 @@ if(w)m=o.pdf?`<div class="pdfv"><p class="pdfl">Loading the PDF...</p></div>`:'<
 else if(o.embed)m=`<iframe src="${esc(emb(o.embed))}" title="${esc(o.title)}" allowfullscreen></iframe>`;
 else if(o.src)m=/\.(mp4|webm|mov)$/i.test(o.src)?`<video src="${esc(o.src)}" controls></video>`:/\.pdf$/i.test(o.src)?`<iframe class="pdf" src="${esc(o.src)}" title="${esc(o.title)}"></iframe>`:isDoc(o)?'<div class="ph">Export to PDF to preview</div>':`<img src="${esc(o.src)}" alt="${esc(o.title)}">`;
 else m=`<div class="ph">${lab(o)} placeholder</div>`;
-const st=$('.stage',lb);st.innerHTML=m;st.hidden=!m;lb.classList.toggle('wr',w);if(w&&o.pdf)pdfRead($('.pdfv',st),o.pdf);
+if(o.kind==='album')m=poster(o);const st=$('.stage',lb);st.innerHTML=m;st.hidden=!m;lb.classList.toggle('po',o.kind==='album');if(o.kind==='album'){posterPal();posterFit()}lb.classList.toggle('wr',w);if(w&&o.pdf)pdfRead($('.pdfv',st),o.pdf);
 $('.panel',lb).innerHTML=`<h2>${esc(o.title)}</h2>`+(o.desc?`<p class="d">${esc(o.desc)}</p>`:'')+(o.text&&!(w&&o.pdf)?String(o.text).split(/\n\s*\n/).map(p=>`<p class="w">${esc(p)}</p>`).join(''):'')+(w&&o.pdf?'<p class="vn pgn"></p>':'')+(w?`<a class="btn" ${o.pdf?`href="${esc(o.pdf)}" download`:'aria-disabled="true"'}>Download PDF</a>`:'')+(o.url?`<p><a href="${esc(o.url)}" target="_blank" rel="noopener">Open original</a></p>`:'');$('.panel',lb).scrollTop=0}
 function close(){ssStop();fsOn(false);lb.hidden=true;$('.stage',lb).innerHTML='';last&&last.focus()}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('[role=button]'))e.target.click()});
@@ -324,3 +324,14 @@ function pdfCovers(){$$('.cvr[data-pdf]').forEach(el=>{if(el.dataset.done)return
 function pdfRead(el,u){if(!el||!u)return;pdfLib().then(L=>L.getDocument(u.split('#')[0]).promise).then(async d=>{if(!el.isConnected)return;el.innerHTML='';const W=Math.min(el.clientWidth||760,860),dpr=Math.min(2,devicePixelRatio||1),pn=$('.pgn',lb);if(pn)pn.textContent=d.numPages+' page'+(d.numPages==1?'':'s');
  for(let i=1;i<=d.numPages;i++){if(!el.isConnected)return;const pg=await d.getPage(i),v0=pg.getViewport({scale:1}),v=pg.getViewport({scale:W/v0.width*dpr}),c=document.createElement('canvas');c.width=v.width;c.height=v.height;c.className='pdfp';el.append(c);await pg.render({canvasContext:c.getContext('2d'),viewport:v}).promise}})
  .catch(()=>{if(el.isConnected)el.innerHTML=`<iframe class="pdf" src="${esc(u)}" title="PDF"></iframe>`})}
+
+function poster(o,mini){let tr=o.tracks;if(typeof tr==='number')tr=Array.from({length:tr},(_,i)=>'Track '+(i+1));tr=tr||[];
+ const h=tr.length>12?12:Math.ceil(tr.length/2),ol=(a,n)=>a.length?`<ol style="counter-reset:t ${n-1}">${a.map(t=>`<li>${esc(t)}</li>`).join('')}</ol>`:'',pal=(o.palette||[]).map(c=>`<i style="background:${esc(c)}"></i>`).join(''),wm=o.watermark??CONTENT.watermark??'© Ivan Philips · T&C apply';
+ return `<article class="poster" data-pal="${o.palette?'':'auto'}"><div class="pin"><div class="pcv"><img src="${esc(o.src)}" alt="${esc(o.title)}"${mini?' loading="lazy"':''} onload="palOf(this.closest('.poster'))"><span class="pwm">${esc(wm)}</span></div><div class="pbd"><div class="ptk">${ol(tr.slice(0,h),1)}${ol(tr.slice(h),h+1)}</div><div class="pmt"><div class="psw">${pal}</div>${o.date?`<p class="prd"><b>Released date:</b> ${esc(o.date)}</p>`:''}</div></div><div class="pft">${o.artist?`<p class="pa">${esc(o.artist)}</p>`:''}<p class="pt"${o.font?` style="font-family:'${esc(o.font)}',Georgia,serif"`:''}>${esc(o.title)}</p></div></div></article>`}
+function posterFit(){const p=$('.lb .poster');if(!p)return;const st=p.parentElement,H=innerHeight-28;let W=Math.min(innerWidth*.94,540);st.style.width=W+'px';for(let i=0;i<4;i++){const h=p.offsetHeight;if(h<=H)break;W=Math.max(150,W*H/h*.99);st.style.width=W+'px'}}
+addEventListener('resize',()=>{if(lb&&!lb.hidden&&lb.classList.contains('po'))posterFit()});
+function palOf(p){if(!p||p.dataset.pal!=='auto')return;p.dataset.pal='done';const im=$('.pcv img',p),sw=$('.psw',p),go=()=>{try{const c=document.createElement('canvas');c.width=c.height=40;const x=c.getContext('2d');x.drawImage(im,0,0,40,40);const d=x.getImageData(0,0,40,40).data,m={};
+ for(let i=0;i<d.length;i+=4){const k=(d[i]>>5)+','+(d[i+1]>>5)+','+(d[i+2]>>5),e=m[k]||(m[k]={n:0,r:0,g:0,b:0});e.n++;e.r+=d[i];e.g+=d[i+1];e.b+=d[i+2]}
+ const out=[];for(const e of Object.values(m).sort((a,b)=>b.n-a.n)){const q=[e.r/e.n|0,e.g/e.n|0,e.b/e.n|0];if(out.every(o=>Math.abs(o[0]-q[0])+Math.abs(o[1]-q[1])+Math.abs(o[2]-q[2])>90))out.push(q);if(out.length==5)break}
+ sw.innerHTML=out.map(q=>`<i style="background:rgb(${q})"></i>`).join('')}catch(_){}};im.complete?go():im.addEventListener('load',go)}
+function posterPal(){$$('.poster[data-pal=auto]').forEach(palOf)}

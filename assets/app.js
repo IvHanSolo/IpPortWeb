@@ -39,7 +39,7 @@ const norm=(x,b={})=>{const o=typeof x=='string'?{src:x}:{...x};if(o.src&&b.fold
 o.title=o.title||(o.src?o.src.split('/').pop().replace(/\.\w+$/,'').replace(/[-_]+/g,' '):'Untitled');return o};
 const sw=m=>`<div class="switch" role="group" aria-label="Collection">${['work','leisure'].map(k=>`<button data-mode="${k}" aria-selected="${k===m}">${cap(k)}</button>`).join('')}</div>`;
 const lab=o=>o.label||(isVid(o)?'Video':isDoc(o)?'Document':'Image');
-const tl=(o,r)=>`<button class="tile${o.kind==='album'?' mp':''}" data-r="${r}" aria-label="Open ${esc(o.title)}">${o.kind==='album'&&o.src?poster(o,1):o.src&&!isDoc(o)&&!isVid(o)?`<img src="${esc(o.src)}" alt="${esc(o.title)}" loading="lazy">`:`<span>${lab(o)}</span>`}</button>`;
+const tl=(o,r)=>`<button class="tile${o.kind==='album'?' mp':''}" data-r="${r}" aria-label="Open ${esc(o.title)}">${o.kind==='album'&&o.src?poster(o,1):o.cover&&isDoc(o)?`<img src="${esc(o.cover)}" alt="${esc(o.title)}" loading="lazy">`:o.src&&!isDoc(o)&&!isVid(o)?`<img src="${esc(o.src)}" alt="${esc(o.title)}" loading="lazy">`:`<span>${lab(o)}</span>`}</button>`;
 const note=(o,a,n,on)=>`<button class="note${on?' on':''}" ${a}><b>${esc(o.title)}${n?` <small>${esc(n)}</small>`:''}</b>${o.desc?`<em>${esc(o.desc)}</em>`:''}</button>`;
 const ytid=u=>{const m=String(u||'').match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);return m?m[1]:''};
 const thumb=o=>o.thumb||(o.embed&&ytid(o.embed)?'https://i.ytimg.com/vi/'+ytid(o.embed)+'/hqdefault.jpg':'');

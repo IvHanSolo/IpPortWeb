@@ -835,18 +835,136 @@
    "desc": "An ongoing process.",
    "items": [
     {
-     "title": "Album art 1",
-     "src": "",
+     "title": "Under the Summer Skies",
+     "kind": "album",
+     "src": "images/album-art/under-the-summer-skies.webp",
+     "artist": "Artist name",
+     "date": "Month 00, 0000",
+     "font": "Bevan",
+     "tracks": [
+      "Track one",
+      "Track two",
+      "Track three",
+      "Track four",
+      "Track five",
+      "Track six",
+      "Track seven",
+      "Track eight"
+     ],
      "desc": "Short description goes here."
     },
     {
-     "title": "Album art 2",
-     "src": "",
+     "title": "Because the Best Is Yet to Come",
+     "kind": "album",
+     "src": "images/album-art/because-the-best-is-yet-to-come.webp",
+     "artist": "Artist name",
+     "date": "Month 00, 0000",
+     "font": "Special Elite",
+     "tracks": [
+      "Track one",
+      "Track two",
+      "Track three",
+      "Track four",
+      "Track five",
+      "Track six",
+      "Track seven",
+      "Track eight"
+     ],
      "desc": "Short description goes here."
     },
     {
-     "title": "Album art 3",
-     "src": "",
+     "title": "Beyond Endless Horizons",
+     "kind": "album",
+     "src": "images/album-art/beyond-endless-horizons.webp",
+     "artist": "Artist name",
+     "date": "Month 00, 0000",
+     "font": "Abril Fatface",
+     "tracks": [
+      "Track one",
+      "Track two",
+      "Track three",
+      "Track four",
+      "Track five",
+      "Track six",
+      "Track seven",
+      "Track eight"
+     ],
+     "desc": "Short description goes here."
+    },
+    {
+     "title": "Super Modernity",
+     "kind": "album",
+     "src": "images/album-art/super-modernity.webp",
+     "artist": "Artist name",
+     "date": "Month 00, 0000",
+     "font": "Permanent Marker",
+     "tracks": [
+      "Track one",
+      "Track two",
+      "Track three",
+      "Track four",
+      "Track five",
+      "Track six",
+      "Track seven",
+      "Track eight"
+     ],
+     "desc": "Short description goes here."
+    },
+    {
+     "title": "Dawg Gone Days & God Damn Nights",
+     "kind": "album",
+     "src": "images/album-art/dawg-gone-days-and-god-damn-nights.webp",
+     "artist": "Artist name",
+     "date": "Month 00, 0000",
+     "font": "Anton",
+     "tracks": [
+      "Track one",
+      "Track two",
+      "Track three",
+      "Track four",
+      "Track five",
+      "Track six",
+      "Track seven",
+      "Track eight"
+     ],
+     "desc": "Short description goes here."
+    },
+    {
+     "title": "Locked and Loaded",
+     "kind": "album",
+     "src": "images/album-art/locked-and-loaded.webp",
+     "artist": "Artist name",
+     "date": "Month 00, 0000",
+     "font": "Rye",
+     "tracks": [
+      "Track one",
+      "Track two",
+      "Track three",
+      "Track four",
+      "Track five",
+      "Track six",
+      "Track seven",
+      "Track eight"
+     ],
+     "desc": "Short description goes here."
+    },
+    {
+     "title": "Underground and Unbound",
+     "kind": "album",
+     "src": "images/album-art/underground-and-unbound.webp",
+     "artist": "Artist name",
+     "date": "Month 00, 0000",
+     "font": "Almendra",
+     "tracks": [
+      "Track one",
+      "Track two",
+      "Track three",
+      "Track four",
+      "Track five",
+      "Track six",
+      "Track seven",
+      "Track eight"
+     ],
      "desc": "Short description goes here."
     }
    ]

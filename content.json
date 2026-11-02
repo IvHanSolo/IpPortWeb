@@ -11,32 +11,32 @@
       {
         "title": "Samsara",
         "desc": "Short film, 2023. My first full-length thriller, rewritten from English into Hindi and then Marathi. Dialogues only.",
-        "pdf": "writing/samsara.pdf"
+        "pdf": "writing/samsara.pdf",
+        "tags": ["Scripts", "Completed"]
       },
       {
         "title": "Case 13",
         "desc": "Play, 2024. A 30-minute psycho-thriller. Writer and co-ideator, written with Om Patil.",
-        "pdf": "writing/case-13.pdf"
+        "pdf": "writing/case-13.pdf",
+        "tags": ["Scripts", "Completed"]
       },
       {
         "title": "Sapnae Mei",
         "desc": "Short script, 2024. Written alongside Case 13, and the winner of an inter-college competition.",
-        "pdf": "writing/sapnae-mei.pdf"
+        "pdf": "writing/sapnae-mei.pdf",
+        "tags": ["Scripts", "Completed"]
       },
       {
         "title": "12:47",
         "desc": "Romantic drama, 2024. Written for the same competition and not shortlisted, but I think it can grow into more.",
-        "pdf": "writing/1247.pdf"
+        "pdf": "writing/1247.pdf",
+        "tags": ["Scripts", "WIP"]
       },
       {
         "title": "Semitone",
         "desc": "One of my first scripts. I keep coming back to it, always finding more to add, never quite satisfied.",
-        "pdf": "writing/semitone.pdf"
-      },
-      {
-        "title": "Afterglow",
-        "desc": "One of my first scripts. I keep coming back to it, always finding more to add, never quite satisfied.",
-        "pdf": ""
+        "pdf": "writing/semitone.pdf",
+        "tags": ["Scripts", "WIP"]
       }
     ]
   },
@@ -686,22 +686,19 @@
         "desc": "Description goes here.",
         "items": [
           {
-            "title": "Ad 1",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
+            "title": "Financial Management",
+            "desc": "Ad made for a Financial Management course.",
+            "embed": "https://youtu.be/0vtCXiOGSjc"
           },
           {
-            "title": "Ad 2",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
+            "title": "Marketing",
+            "desc": "Ad made for a Marketing course.",
+            "embed": "https://youtu.be/qmDFOicfuGQ"
           },
           {
-            "title": "Ad 3",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
+            "title": "Media Law",
+            "desc": "Ad made for a Media Law course.",
+            "embed": "https://youtu.be/iAnrXJlXlOY"
           }
         ]
       },
@@ -710,22 +707,8 @@
         "desc": "Description goes here.",
         "items": [
           {
-            "title": "Short film 1",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
-          },
-          {
-            "title": "Short film 2",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
-          },
-          {
-            "title": "Short film 3",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
+            "title": "Moksh",
+            "embed": "https://youtu.be/OYFTG9ZYoCk"
           }
         ]
       },
@@ -734,22 +717,12 @@
         "desc": "Description goes here.",
         "items": [
           {
-            "title": "Shorter short film 1",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
+            "title": "Coffee",
+            "embed": "https://youtu.be/iJ8Af_n7kj0"
           },
           {
-            "title": "Shorter short film 2",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
-          },
-          {
-            "title": "Shorter short film 3",
-            "src": "",
-            "desc": "Short description goes here.",
-            "embed": ""
+            "title": "The Shortcut",
+            "embed": "https://youtu.be/6KpdkN5kAQ0"
           }
         ]
       }
@@ -820,7 +793,7 @@
           "title": "Under the Summer Skies",
           "kind": "album",
           "src": "images/album-art/under-the-summer-skies.webp",
-          "artist": "Artist name",
+          "artist": "Ivan Philips",
           "date": "Month 00, 0000",
           "font": "Bevan",
           "tracks": [
@@ -839,7 +812,7 @@
           "title": "Because the Best Is Yet to Come",
           "kind": "album",
           "src": "images/album-art/because-the-best-is-yet-to-come.webp",
-          "artist": "Artist name",
+          "artist": "Ivan Philips",
           "date": "Month 00, 0000",
           "font": "Special Elite",
           "tracks": [
@@ -858,7 +831,7 @@
           "title": "Beyond Endless Horizons",
           "kind": "album",
           "src": "images/album-art/beyond-endless-horizons.webp",
-          "artist": "Artist name",
+          "artist": "Ivan Philips",
           "date": "Month 00, 0000",
           "font": "Abril Fatface",
           "tracks": [
@@ -877,7 +850,7 @@
           "title": "Super Modernity",
           "kind": "album",
           "src": "images/album-art/super-modernity.webp",
-          "artist": "Artist name",
+          "artist": "Lil Pp",
           "date": "Month 00, 0000",
           "font": "Permanent Marker",
           "tracks": [
@@ -896,7 +869,7 @@
           "title": "Dawg Gone Days & God Damn Nights",
           "kind": "album",
           "src": "images/album-art/dawg-gone-days-and-god-damn-nights.webp",
-          "artist": "Artist name",
+          "artist": "Lil Pp",
           "date": "Month 00, 0000",
           "font": "Anton",
           "tracks": [
@@ -915,7 +888,7 @@
           "title": "Locked and Loaded",
           "kind": "album",
           "src": "images/album-art/locked-and-loaded.webp",
-          "artist": "Artist name",
+          "artist": "Lil Pp",
           "date": "Month 00, 0000",
           "font": "Rye",
           "tracks": [
@@ -934,7 +907,7 @@
           "title": "Underground and Unbound",
           "kind": "album",
           "src": "images/album-art/underground-and-unbound.webp",
-          "artist": "Artist name",
+          "artist": "Lil Pp",
           "date": "Month 00, 0000",
           "font": "Almendra",
           "tracks": [
@@ -962,13 +935,13 @@
       "g": 1
     },
     {
-      "n": "GrandParents",
-      "r": "For Loving and Believing in me unconditionally",
+      "n": "Grandparents",
+      "r": "For loving and believing in me unconditionally",
       "g": 1
     },
     {
       "n": "Aunts & Uncles and extended family",
-      "r": "For allowing me to be who I am and always supporting me in anyway ya'll can.",
+      "r": "For allowing me to be who I am and always supporting me in any way y'all can.",
       "g": 1
     },
     {
@@ -989,7 +962,7 @@
     },
     {
       "n": "Aaron",
-      "r": "For being down to hangout whenever asked to no matter what"
+      "r": "For being down to hang out whenever asked to no matter what"
     },
     {
       "n": "Alan, Akash, Rachel, Rahul",
@@ -1005,7 +978,7 @@
     },
     {
       "n": "Little Rhea, Little Rachel",
-      "r": "For having fun with me anytime and everytime"
+      "r": "For having fun with me anytime and every time"
     },
     {
       "h": "Friends"
@@ -1016,7 +989,7 @@
     },
     {
       "n": "Vibh",
-      "r": "For always being there to talk about nerdy shit and allowing me to enjoy it tenfolds"
+      "r": "For always being there to talk about nerdy shit and allowing me to enjoy it tenfold"
     },
     {
       "n": "Nick",
@@ -1028,7 +1001,7 @@
     },
     {
       "n": "Om, Jahir, Divye",
-      "r": "For having your door always open for me even when ya'll might not be there yourself at home"
+      "r": "For having your door always open for me even when y'all might not be there yourself at home"
     },
     {
       "n": "Kritika, Divya, Aleena, Daniel, Jiby",
@@ -1047,7 +1020,7 @@
     },
     {
       "n": "Perrie Ma'am",
-      "r": "For tolerating me when I did not deserve the kindness and give me more than ample chances to be a better version of myself without asking for anything in return"
+      "r": "For tolerating me when I did not deserve the kindness and giving me more than ample chances to be a better version of myself without asking for anything in return"
     },
     {
       "n": "Neelima Aunty",

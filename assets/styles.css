@@ -296,6 +296,7 @@ h1,h2,h3{letter-spacing:.02em}
 .vch{margin-top:1rem}.chip.on{background:var(--o);border-color:var(--o);color:#111}
 @media(hover:none){.bt .cap{opacity:1;transform:none;padding-top:1rem}.bt:hover{transform:none;rotate:var(--rt)}.bt:hover img{transform:none}}
 .board .bt:only-child{grid-column:span 6;grid-row:span 4}
+.board>p{grid-column:1/-1}
 
 /* ---- fullscreen detail views ---- */
 .vfs,.afs{position:fixed;inset:0;z-index:30;display:flex;background:rgba(6,6,6,.97);color:#F2F2EF;transition:opacity .22s}.vfs.out,.afs.out{opacity:0}
@@ -539,5 +540,35 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .tile.mp .pcv img{position:static;inset:auto;width:100%;height:auto}
 .grid:has(.tile.mp){grid-template-columns:repeat(auto-fill,minmax(190px,1fr));align-items:start}
 @media(max-width:900px){.poster{overflow-wrap:anywhere}.tile.mp{border-radius:3px}}
+/* ---- v20: video board press-and-hold reorder; album art 5 per row (3 on phones); poster fits a phone screen ---- */
+#vboard[data-kind=video] .bt{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+#vboard .bt.vph{opacity:.3;transform:none;box-shadow:none;border-style:dashed}
+.bt.vgh{position:fixed;z-index:60;margin:0;pointer-events:none;rotate:0deg;transform:scale(1.06);box-shadow:0 18px 40px rgba(0,0,0,.6);border-color:var(--o);transition:none}
+.bt.vgh .cap{opacity:1;transform:none}
+.lb{z-index:35}
+.poster .ptk li{font-size:inherit;margin:0;color:inherit}
+.poster{aspect-ratio:2/3;overflow:hidden}.pin{height:100%;display:flex;flex-direction:column}.pft{margin-top:auto;padding-top:2cqw}
+.grid:has(.tile.mp){grid-template-columns:repeat(5,minmax(0,1fr));gap:.8rem}
+@media(max-width:900px){
+ .grid:has(.tile.mp){grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+ .lb.po{grid-template-columns:1fr;padding:3.2rem .6rem 3.4rem}
+ .lb.po .wrap{grid-column:1;overflow:hidden}
+ .lb.po .p,.lb.po .n{position:absolute;bottom:.2rem}.lb.po .p{left:1rem}.lb.po .n{right:1rem}
+}
+/* ---- v22: writing tags + filter, translucent Read more layer on covers; other works folders 5 per row (3 on phones) ---- */
+.wk[hidden]{display:none}
+.wkt{display:flex;flex-wrap:wrap;gap:.25rem;margin:.1rem 0 .35rem}
+.wkt span{border:1px solid currentColor;border-radius:2rem;padding:0 .5rem;font:400 .72rem/1.5 var(--f-sub);letter-spacing:.02em;color:var(--mut)}
+.wkt span:last-child{color:var(--o)}
+.wk .cvr{position:relative}
+.wk .rmo{position:absolute;inset:auto 0 0;display:grid;place-items:center;height:34%;background:linear-gradient(transparent,rgba(10,10,10,.72) 55%);-webkit-backdrop-filter:blur(1.5px);backdrop-filter:blur(1.5px);color:#fff;font:italic 600 1rem var(--f-sub);letter-spacing:.03em;text-shadow:0 1px 3px rgba(0,0,0,.6);transition:height .3s,background .3s}
+.wk:hover .rmo,.wk .cvr:focus-visible .rmo{height:100%;background:rgba(10,10,10,.5)}
+.folders{grid-template-columns:repeat(5,minmax(0,1fr));gap:1.4rem .7rem;align-items:stretch}
+.folders>p{grid-column:1/-1}
+.folders .fold{padding:.6rem .55rem;min-width:0;container-type:inline-size}
+.folders .fold b{font-size:min(.92rem,14cqw);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.folders .fold span{font-size:.74rem;line-height:1.3;margin-top:.25rem;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.folders .fold small{display:block;font-size:.74rem;margin-top:.35rem}
+@media(max-width:900px){.folders{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.3rem .6rem}}
 /* ---- v6.3: album covers (Album Art project) preview as 1:1 ---- */
 .tile.sq{aspect-ratio:1/1}

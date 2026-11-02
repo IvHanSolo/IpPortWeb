@@ -97,7 +97,6 @@ Open it in any text editor. The parts you will touch most:
 
 ## V3 notes
 
-- **Fonts** now load from Google Fonts (Bebas Neue, Newsreader, Caveat). To change them, edit the three `--f-head`, `--f-body`, `--f-hand` lines near the top of `assets/styles.css` and the Google Fonts `<link>` in each page's `<head>`. The old `assets/fonts/` folder is no longer used and can be deleted.
 - **Sections** turn like pages in both directions with no reload. Tabs, Next/Previous, arrow keys, a mouse drag or trackpad swipe sideways on desktop, and a swipe up or down on phones all flip. The page addresses still work on their own.
 - **Phone**: the notepad starts at the top of the screen and scrolls. Swipe up at the bottom of a page to go forward, swipe down at the top to go back. Small arrow chips show it can flip.
 - **Video and Photography** use a collage board. Hover enlarges a piece; click opens it full screen with its details. Videos get their thumbnail from the YouTube link. For Vimeo or other links, add `"thumb": "images/name.jpg"` to that video in `content.json`.
@@ -124,4 +123,14 @@ Open it in any text editor. The parts you will touch most:
 - **Fonts**: Champagne & Limousines (headings, body, buttons) and Playfair Display (descriptions, subtexts, tabs, chips, titles) live in `assets/fonts/`. Special thanks keeps Newsreader (Google Fonts); only its group headings use Playfair. Change fonts in `assets/styles.css` (`--f-head`, `--f-body`, `--f-hand`, `--f-sub`, and the `@font-face` lines at the top).
 - **Writing** shows each PDF's first page as a cover on a dark card, with a Download button. Put the file name in `content.json` (`"pdf": "writing/essay.pdf"`). To use your own cover image instead, add `"cover": "writing/essay.jpg"`. Covers are drawn with pdf.js from cdnjs, only on the Writing page.
 - **Phone**: the board instructions (Tap any photo...) sit under the page heading, the art wall's instructions sit above the wall, and a long swipe down at the top of a page refreshes it.
-- After uploading new code, raise `?v=16` in every HTML file so browsers fetch the new files.
+- After uploading new code, raise the `?v=` number (currently `?v=22`) in every HTML file so browsers fetch the new files.
+
+## V7 notes
+
+- **Album art fonts**: each poster's `"font"` in `content.json` is loaded from Google Fonts automatically, on whichever page the visitor starts. Use any Google Fonts family name (for example `"font": "Bevan"`).
+- **Favicon**: `favicon.svg`, linked from every page.
+- `.nojekyll` (with a dot) tells GitHub Pages to serve the files as they are.
+- **Video board** is mixed into a new order every visit (no longer newest first). Press and hold a piece (mouse or finger) to pick it up and drag it to a new spot; a normal tap or click still plays it. The new order lasts until the page is reloaded.
+- **Writing tags**: give a piece `"tags": ["Scripts", "Completed"]` (or `"WIP"`) in `content.json`. Each tag becomes a *Show* chip that filters the cards, and shows as a small label on the card. Covers have a translucent *Read more* band that opens the piece.
+- **Other works** folders sit 5 per row on a computer, 3 per row on a phone.
+- **Album Art** posters are always 2:3 (like a printed poster), 5 per row on a computer and 3 per row on a phone. An opened poster shrinks to fit the phone screen without scrolling.

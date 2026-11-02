@@ -39,7 +39,7 @@ const norm=(x,b={})=>{const o=typeof x=='string'?{src:x}:{...x};if(o.src&&b.fold
 o.title=o.title||(o.src?o.src.split('/').pop().replace(/\.\w+$/,'').replace(/[-_]+/g,' '):'Untitled');return o};
 const sw=m=>`<div class="switch" role="group" aria-label="Collection">${['work','leisure'].map(k=>`<button data-mode="${k}" aria-selected="${k===m}">${cap(k)}</button>`).join('')}</div>`;
 const lab=o=>o.label||(isVid(o)?'Video':isDoc(o)?'Document':'Image');
-const tl=(o,r)=>`<button class="tile${o.kind==='album'?' mp':''}" data-r="${r}" aria-label="Open ${esc(o.title)}">${o.kind==='album'&&o.src?poster(o,1):o.cover&&isDoc(o)?`<img src="${esc(o.cover)}" alt="${esc(o.title)}" loading="lazy">`:o.src&&!isDoc(o)&&!isVid(o)?`<img src="${esc(o.src)}" alt="${esc(o.title)}" loading="lazy">`:`<span>${lab(o)}</span>`}</button>`;
+const tl=(o,r)=>`<button class="tile${o.kind==='album'?' mp':''}" data-r="${r}" aria-label="Open ${esc(o.title)}"${/\.pdf$/i.test(o.src||'')?` data-pdf="${esc(o.src)}"`:''}>${o.kind==='album'&&o.src?poster(o,1):o.cover&&isDoc(o)?`<img src="${esc(o.cover)}" alt="${esc(o.title)}" loading="lazy">`:o.src&&!isDoc(o)&&!isVid(o)?`<img src="${esc(o.src)}" alt="${esc(o.title)}" loading="lazy">`:`<span>${lab(o)}</span>`}</button>`;
 const note=(o,a,n,on)=>`<button class="note${on?' on':''}" ${a}><b>${esc(o.title)}${n?` <small>${esc(n)}</small>`:''}</b>${o.desc?`<em>${esc(o.desc)}</em>`:''}</button>`;
 const ytid=u=>{const m=String(u||'').match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);return m?m[1]:''};
 const thumb=o=>o.thumb||(o.embed&&ytid(o.embed)?'https://i.ytimg.com/vi/'+ytid(o.embed)+'/hqdefault.jpg':'');
@@ -170,13 +170,14 @@ document.addEventListener('click',e=>{
  if(ovEl&&!e.target.closest('.lb')){if(e.target.closest('[data-ovx]')){setTimeout(ovClose,0);return}if(e.target.matches('.x')||e.target===ovEl){ovClose();return}if(ovKind==='v'){if(e.target.closest('.p'))vShow(ovI-1);else if(e.target.closest('.n'))vShow(ovI+1)}}},true);
 document.addEventListener('keydown',e=>{if(!ovEl||open())return;e.stopPropagation();if(e.key==='Escape')ovClose();else if(ovKind==='v'&&e.key==='ArrowRight')vShow(ovI+1);else if(ovKind==='v'&&e.key==='ArrowLeft')vShow(ovI-1)},true);
 const vis=()=>$$('[data-r]',ovEl&&ovKind==='a'?ovEl:document).filter(t=>t.offsetParent),tileOf=n=>$('[data-r="'+n+'"]');
-function show(n){const l=vis();idx=(n+l.length)%l.length;const o=REG[+l[idx].dataset.r],w=o._v==='writing';let m='';
-if(w)m=o.pdf?`<div class="pdfv"><p class="pdfl">Loading the PDF...</p></div>`:'<div class="ph">PDF preview</div>';
+function show(n){const l=vis();idx=(n+l.length)%l.length;const o=REG[+l[idx].dataset.r],w=o._v==='writing',pv=w?o.pdf||'':/\.pdf$/i.test(o.src||'')?o.src:'';let m='';
+if(pv)m=`<div class="pdfv"><p class="pdfl">Loading the PDF...</p></div>`;
+else if(w)m='<div class="ph">PDF preview</div>';
 else if(o.embed)m=`<iframe src="${esc(emb(o.embed))}" title="${esc(o.title)}" allowfullscreen></iframe>`;
-else if(o.src)m=/\.(mp4|webm|mov)$/i.test(o.src)?`<video src="${esc(o.src)}" controls></video>`:/\.pdf$/i.test(o.src)?`<iframe class="pdf" src="${esc(o.src)}" title="${esc(o.title)}"></iframe>`:isDoc(o)?'<div class="ph">Export to PDF to preview</div>':`<img src="${esc(o.src)}" alt="${esc(o.title)}">`;
+else if(o.src)m=/\.(mp4|webm|mov)$/i.test(o.src)?`<video src="${esc(o.src)}" controls></video>`:isDoc(o)?'<div class="ph">Export to PDF to preview</div>':`<img src="${esc(o.src)}" alt="${esc(o.title)}">`;
 else m=`<div class="ph">${lab(o)} placeholder</div>`;
-if(o.kind==='album')m=poster(o);const st=$('.stage',lb);st.innerHTML=m;st.hidden=!m;lb.classList.toggle('po',o.kind==='album');if(o.kind==='album'){posterPal();posterFit()}lb.classList.toggle('wr',w);if(w&&o.pdf)pdfRead($('.pdfv',st),o.pdf);
-$('.panel',lb).innerHTML=`<h2>${esc(o.title)}</h2>`+(o.desc?`<p class="d">${esc(o.desc)}</p>`:'')+(o.text&&!(w&&o.pdf)?String(o.text).split(/\n\s*\n/).map(p=>`<p class="w">${esc(p)}</p>`).join(''):'')+(w&&o.pdf?'<p class="vn pgn"></p>':'')+(w?`<a class="btn" ${o.pdf?`href="${esc(o.pdf)}" download`:'aria-disabled="true"'}>Download PDF</a>`:'')+(o.url?`<p><a href="${esc(o.url)}" target="_blank" rel="noopener">Open original</a></p>`:'');$('.panel',lb).scrollTop=0}
+if(o.kind==='album')m=poster(o);const st=$('.stage',lb);st.onscroll=null;st.innerHTML=m;st.hidden=!m;st.scrollTop=0;lb.classList.toggle('po',o.kind==='album');if(o.kind==='album'){posterPal();posterFit()}lb.classList.toggle('wr',w||!!pv);
+$('.panel',lb).innerHTML=`<h2>${esc(o.title)}</h2>`+(o.desc?`<p class="d">${esc(o.desc)}</p>`:'')+(o.text&&!pv?String(o.text).split(/\n\s*\n/).map(p=>`<p class="w">${esc(p)}</p>`).join(''):'')+(pv?'<p class="vn pgn"></p>':'')+(w||pv?`<a class="btn" ${pv?`href="${esc(pv)}" download`:'aria-disabled="true"'}>Download PDF</a>`:'')+(pv?'<nav class="pnav" aria-label="Headings" hidden><h3>Contents</h3><ol></ol></nav>':'')+(o.url?`<p><a href="${esc(o.url)}" target="_blank" rel="noopener">Open original</a></p>`:'');$('.panel',lb).scrollTop=0;if(pv)pdfRead($('.pdfv',st),pv)}
 function close(){ssStop();fsOn(false);lb.hidden=true;$('.stage',lb).innerHTML='';last&&last.focus()}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('[role=button]'))e.target.click()});
 document.addEventListener('click',e=>{const t=e.target.closest('[data-r]');if(!t||moved)return;if(t.classList.contains('wi')){if(lw===t&&Date.now()-lc<380){clearTimeout(lt);lw=null;pick(t);return}lw=t;lc=Date.now();clearTimeout(lt);lt=setTimeout(()=>{lw=null},380);return}if(REG[+t.dataset.r]._v==='writing'){if(!e.isTrusted){t.classList.add('hl');t.scrollIntoView({block:'center'});setTimeout(()=>t.classList.remove('hl'),2400)}else if(!e.target.closest('[download]'))openAt(t);return}openAt(t)});
@@ -333,13 +334,30 @@ function rClose(){rd.hidden=true;document.body.classList.remove('rdo')}
 /* ---- writing: show the first page of each PDF as its cover (pdf.js, loaded only when needed) ---- */
 const PDFJS=window.PDFJS_BASE||'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';let pdfP=null;
 const pdfLib=()=>pdfP||(pdfP=new Promise((ok,no)=>{if(window.pdfjsLib)return ok(window.pdfjsLib);const q=document.createElement('script');q.src=PDFJS+'pdf.min.js';q.onload=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS+'pdf.worker.min.js';ok(pdfjsLib)};q.onerror=no;document.head.append(q)}));
-function pdfCovers(){$$('.cvr[data-pdf]').forEach(el=>{if(el.dataset.done)return;el.dataset.done=1;const u=el.dataset.pdf.split('#')[0];
- pdfLib().then(L=>L.getDocument(u).promise).then(d=>d.getPage(1)).then(pg=>{const v0=pg.getViewport({scale:1}),v=pg.getViewport({scale:Math.min(2.5,560/v0.width)}),c=document.createElement('canvas');c.width=v.width;c.height=v.height;return pg.render({canvasContext:c.getContext('2d'),viewport:v}).promise.then(()=>{[...el.children].forEach(x=>x.classList.contains('rmo')||x.remove());el.prepend(c);el.classList.add('ok')})}).catch(()=>{})})}
+function pdfCovers(){$$('.cvr[data-pdf],.tile[data-pdf]').forEach(el=>{if(el.dataset.done)return;el.dataset.done=1;const u=el.dataset.pdf.split('#')[0];
+ pdfLib().then(L=>L.getDocument(u).promise).then(d=>d.getPage(1)).then(pg=>{const v0=pg.getViewport({scale:1}),v=pg.getViewport({scale:Math.min(2.5,560/v0.width)}),c=document.createElement('canvas');c.width=v.width;c.height=v.height;return pg.render({canvasContext:c.getContext('2d'),viewport:v}).promise.then(()=>{[...el.children].forEach(x=>x.classList.contains('rmo')||x.remove());el.prepend(c);el.classList.add('ok');if(el.classList.contains('tile'))el.style.aspectRatio=v0.width+'/'+v0.height})}).catch(()=>{})})}
 document.addEventListener('click',e=>{const c=e.target.closest('[data-wfilter]');if(!c)return;const f=c.dataset.wfilter;$$('[data-wfilter]').forEach(x=>x.classList.toggle('on',x===c));$$('.wk[data-tags]').forEach(w=>w.hidden=!!f&&!w.dataset.tags.split('|').includes(f))});
 
 function pdfRead(el,u){if(!el||!u)return;pdfLib().then(L=>L.getDocument(u.split('#')[0]).promise).then(async d=>{if(!el.isConnected)return;el.innerHTML='';const W=Math.min(el.clientWidth||760,860),dpr=Math.min(2,devicePixelRatio||1),pn=$('.pgn',lb);if(pn)pn.textContent=d.numPages+' page'+(d.numPages==1?'':'s');
- for(let i=1;i<=d.numPages;i++){if(!el.isConnected)return;const pg=await d.getPage(i),v0=pg.getViewport({scale:1}),v=pg.getViewport({scale:W/v0.width*dpr}),c=document.createElement('canvas');c.width=v.width;c.height=v.height;c.className='pdfp';el.append(c);await pg.render({canvasContext:c.getContext('2d'),viewport:v}).promise}})
+ const v1=(await d.getPage(1)).getViewport({scale:1}),cs=[];for(let i=1;i<=d.numPages;i++){const c=document.createElement('canvas');c.className='pdfp';c.width=W;c.height=Math.round(W*v1.height/v1.width);el.append(c);cs.push(c)}
+ pdfNav(d,el,cs);
+ for(let i=1;i<=d.numPages;i++){if(!el.isConnected)return;const pg=await d.getPage(i),v0=pg.getViewport({scale:1}),v=pg.getViewport({scale:W/v0.width*dpr}),c=cs[i-1];c.width=v.width;c.height=v.height;await pg.render({canvasContext:c.getContext('2d'),viewport:v}).promise}})
  .catch(()=>{if(el.isConnected)el.innerHTML=`<iframe class="pdf" src="${esc(u)}" title="PDF"></iframe>`})}
+/* headings for an opened PDF: its own bookmarks when they have real names, else screenplay scene headings, else the biggest text on each page */
+async function pdfHeads(d){const ol=await d.getOutline().catch(()=>null)||[],hs=[];
+ for(const it of ol){try{const dest=typeof it.dest==='string'?await d.getDestination(it.dest):it.dest;hs.push({t:it.title.trim(),p:await d.getPageIndex(dest[0])+1,y:0})}catch(_){}}
+ if(!hs.length||hs.filter(h=>/^(slide|page)\s*\d+$/i.test(h.t)).length>hs.length/2){hs.length=0;const sl=[];
+  for(let i=1;i<=d.numPages;i++){const pg=await d.getPage(i),H=pg.getViewport({scale:1}).height,its=(await pg.getTextContent()).items.filter(t=>t.str.trim()),z=t=>Math.hypot(t.transform[2],t.transform[3]);
+   const ln={};its.forEach(t=>{const k=Math.round(t.transform[5]);(ln[k]=ln[k]||[]).push(t)});
+   Object.keys(ln).map(Number).sort((a,b)=>b-a).forEach(y=>{const s=ln[y].sort((a,b)=>a.transform[4]-b.transform[4]).map(t=>t.str).join(' ').replace(/\s+/g,' ').trim();if(/^(\d+[.)]?\s*)?(INT|EXT)[.\s\/]/.test(s))sl.push({t:s,p:i,y:Math.max(0,1-y/H-.03)})});
+   const zs=its.map(z).sort((a,b)=>a-b),md=zs[zs.length>>1]||0,mx=Math.max(0,...its.filter(t=>/[a-z]{3}/i.test(t.str)).map(z));if(mx&&mx>=md*1.2){const t=its.filter(t=>z(t)>=mx*.9).sort((a,b)=>b.transform[5]-a.transform[5]||a.transform[4]-b.transform[4]).map(t=>t.str.trim()).join(' ').replace(/\s+/g,' ').replace(/\s0\d$/,'');hs.push({t:t.length>70?t.slice(0,68)+'…':t,p:i,y:0})}}
+  if(sl.length)return sl}
+ const n={};hs.forEach(h=>n[h.t]=(n[h.t]||0)+1);return hs.filter((h,i)=>n[h.t]<3&&(!i||hs[i-1].t!==h.t))}
+async function pdfNav(d,el,cs){const nv=$('.pnav',lb);if(!nv)return;const hs=await pdfHeads(d).catch(()=>[]);if(!el.isConnected||!hs.length)return;const st=el.closest('.stage');
+ $('ol',nv).innerHTML=hs.map((h,i)=>`<li><button type="button" data-hp="${i}" title="${esc(h.t)}"><span>${esc(h.t)}</span><small>${h.p}</small></button></li>`).join('');nv.hidden=false;
+ const top=h=>{const c=cs[h.p-1];return st.scrollTop+c.getBoundingClientRect().top-st.getBoundingClientRect().top+h.y*c.clientHeight-8},bs=$$('[data-hp]',nv);
+ nv.onclick=e=>{const b=e.target.closest('[data-hp]');if(b)st.scrollTo({top:top(hs[+b.dataset.hp]),behavior:reduce?'auto':'smooth'})};
+ st.onscroll=()=>{let k=0;hs.forEach((h,i)=>{if(top(h)<=st.scrollTop+40)k=i});bs.forEach((b,i)=>b.classList.toggle('on',i===k))};st.onscroll()}
 
 /* poster title fonts come from Google Fonts, loaded on demand so they work whichever page the visitor started on */
 const GF=new Set();function gfont(f){if(!f||GF.has(f))return;GF.add(f);const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+encodeURIComponent(f).replace(/%20/g,'+')+'&display=swap';document.head.append(l)}

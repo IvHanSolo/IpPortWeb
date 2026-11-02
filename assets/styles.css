@@ -570,5 +570,21 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .folders .fold span{font-size:.74rem;line-height:1.3;margin-top:.25rem;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .folders .fold small{display:block;font-size:.74rem;margin-top:.35rem}
 @media(max-width:900px){.folders{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.3rem .6rem}}
+/* ---- v23: PDF previews at their own page shape; heading list beside opened PDFs; bigger About links; album art 3 per row everywhere ---- */
+.grid:has(.tile[data-pdf]){grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.tile[data-pdf]{padding:0}
+.tile[data-pdf].ok{background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.tile[data-pdf] canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pnav{margin-top:1.2rem;border-top:1px solid #333;padding-top:.8rem}
+.pnav h3{margin:0 0 .4rem;font:400 1rem var(--f-head);letter-spacing:.1em;color:#999}
+.pnav ol{list-style:none;margin:0;padding:0;max-height:52vh;overflow:auto}
+.pnav button{display:flex;gap:.6rem;align-items:baseline;width:100%;text-align:left;font:400 .92rem/1.3 var(--f-sub);color:#ccc;padding:.32rem .4rem;border-radius:6px;border-left:2px solid transparent}
+.pnav button span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pnav button small{color:#777;font-size:.75rem}
+.pnav button:hover{background:#1f1f1f;color:#fff}.pnav button.on{color:var(--o);border-left-color:var(--o);background:#1a1a1a}
+.lb.wr .panel{flex-basis:320px;max-width:320px;max-height:100%;overflow:auto}
+@media(max-width:900px){.pnav{display:none}}
+@media(min-width:901px){.abl .links{font-size:1.3em;gap:1.1em}.abl .links b{font-size:.72em}}
+.grid:has(.tile.mp){grid-template-columns:repeat(3,minmax(0,1fr))}
 /* ---- v6.3: album covers (Album Art project) preview as 1:1 ---- */
 .tile.sq{aspect-ratio:1/1}

@@ -123,7 +123,7 @@ Open it in any text editor. The parts you will touch most:
 - **Fonts**: Champagne & Limousines (headings, body, buttons) and Playfair Display (descriptions, subtexts, tabs, chips, titles) live in `assets/fonts/`. Special thanks keeps Newsreader (Google Fonts); only its group headings use Playfair. Change fonts in `assets/styles.css` (`--f-head`, `--f-body`, `--f-hand`, `--f-sub`, and the `@font-face` lines at the top).
 - **Writing** shows each PDF's first page as a cover on a dark card, with a Download button. Put the file name in `content.json` (`"pdf": "writing/essay.pdf"`). To use your own cover image instead, add `"cover": "writing/essay.jpg"`. Covers are drawn with pdf.js from cdnjs, only on the Writing page.
 - **Phone**: the board instructions (Tap any photo...) sit under the page heading, the art wall's instructions sit above the wall, and a long swipe down at the top of a page refreshes it.
-- After uploading new code, raise the `?v=` number (currently `?v=22`) in every HTML file so browsers fetch the new files.
+- After uploading new code, raise the `?v=` number (currently `?v=23`) in every HTML file so browsers fetch the new files.
 
 ## V7 notes
 
@@ -133,4 +133,6 @@ Open it in any text editor. The parts you will touch most:
 - **Video board** is mixed into a new order every visit (no longer newest first). Press and hold a piece (mouse or finger) to pick it up and drag it to a new spot; a normal tap or click still plays it. The new order lasts until the page is reloaded.
 - **Writing tags**: give a piece `"tags": ["Scripts", "Completed"]` (or `"WIP"`) in `content.json`. Each tag becomes a *Show* chip that filters the cards, and shows as a small label on the card. Covers have a translucent *Read more* band that opens the piece.
 - **Other works** folders sit 5 per row on a computer, 3 per row on a phone.
-- **Album Art** posters are always 2:3 (like a printed poster), 5 per row on a computer and 3 per row on a phone. An opened poster shrinks to fit the phone screen without scrolling.
+- **PDF previews** (for example Assignments) are drawn from each PDF's first page at its own shape: 16:9 decks stay landscape, a script stays a tall page.
+- **Opened PDFs** (Writing and Other works) show as scrolling pages. On a computer a *Contents* list sits beside them: the PDF's own bookmarks when they have real names, otherwise scene headings (INT. / EXT.) for scripts, otherwise each slide's title. Click one to jump there.
+- **Album Art** posters are always 2:3 (like a printed poster), 3 per row on a computer and on a phone. An opened poster shrinks to fit the phone screen without scrolling.

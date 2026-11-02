@@ -123,7 +123,7 @@ Open it in any text editor. The parts you will touch most:
 - **Fonts**: Champagne & Limousines (headings, body, buttons) and Playfair Display (descriptions, subtexts, tabs, chips, titles) live in `assets/fonts/`. Special thanks keeps Newsreader (Google Fonts); only its group headings use Playfair. Change fonts in `assets/styles.css` (`--f-head`, `--f-body`, `--f-hand`, `--f-sub`, and the `@font-face` lines at the top).
 - **Writing** shows each PDF's first page as a cover on a dark card, with a Download button. Put the file name in `content.json` (`"pdf": "writing/essay.pdf"`). To use your own cover image instead, add `"cover": "writing/essay.jpg"`. Covers are drawn with pdf.js from cdnjs, only on the Writing page.
 - **Phone**: the board instructions (Tap any photo...) sit under the page heading, the art wall's instructions sit above the wall, and a long swipe down at the top of a page refreshes it.
-- After uploading new code, raise the `?v=` number (currently `?v=23`) in every HTML file so browsers fetch the new files.
+- After uploading new code, raise the `?v=` number (currently `?v=24`) in every HTML file so browsers fetch the new files.
 
 ## V7 notes
 

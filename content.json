@@ -12,6 +12,7 @@
         "title": "Samsara",
         "desc": "Short film, 2023. My first full-length thriller, rewritten from English into Hindi and then Marathi. Dialogues only.",
         "pdf": "writing/samsara.pdf",
+        "watch": "https://youtu.be/810Uah4gohw",
         "tags": ["Scripts", "Completed"]
       },
       {
@@ -709,6 +710,12 @@
           {
             "title": "Moksh",
             "embed": "https://youtu.be/OYFTG9ZYoCk"
+          },
+          {
+            "title": "Samsara",
+            "desc": "Marathi thriller short film, St. Xavier's College, Mumbai (Vanava Production). I wrote it; the script is on the Writing page.",
+            "date": "2023",
+            "embed": "https://youtu.be/810Uah4gohw"
           }
         ]
       },

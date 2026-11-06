@@ -4,9 +4,24 @@
     "photo": "",
     "email": "Ivan913.ip@gmail.com",
     "phone": "+91 93172 91752",
-    "instagram": "pp_fr_2"
+    "instagram": "pp_fr_2",
+    "education": [
+      { "role": "MBA, Communications Management", "org": "FLAME University", "when": "2025 to 2027", "note": "Major in Film and Television, minor in Digital Marketing and Communication" },
+      { "role": "Bachelor of Mass Media and Communication (Advertising)", "org": "St. Xavier's College, Mumbai", "when": "2024" }
+    ],
+    "work": [
+      { "title": "Internships", "items": [
+        { "role": "Creative Strategy and Event Management", "org": "Entre Nous Experiences, Pune", "when": "May to July 2026", "points": ["Built 14 to 15 client and internal presentations from scratch.", "Developed destination proposals for Jordan, Lebanon, Doha and Phuket.", "Coordinated with 25 to 30 vendors and supported backstage production."] },
+        { "role": "Social Media", "org": "Caliac Studios, Thane", "when": "December 2024 to May 2025", "points": ["Created static and video content, managed publishing across Instagram, LinkedIn and YouTube.", "Assisted with scripting and worked on set during shoots."] },
+        { "role": "Creative and Production Assistant", "org": "Juggernaut Productions, Andheri", "when": "May to July 2022", "points": ["Post-production support on Shoorveer (2022) and Avrodh: The Siege Within 2 (2022)."] }
+      ] },
+      { "title": "Live events", "points": ["Stagehand volunteer, Lollapalooza India, February 2023.", "Production support, Eco Technology Leadership Summit, Jio World Centre."] },
+      { "title": "Leadership", "points": ["Design Co-Head, The Front Row, FLAME University.", "Social media team, FLAME Music Club and First Cut.", "Creative design and visual media for Zephyrus, Zeitgeist and Malhar, 2022 to 2024."] },
+      { "title": "Skills", "tags": ["Scripting", "On-set assistance", "Post-production", "Social media strategy", "Photography", "Videography", "Photoshop", "Lightroom"] }
+    ]
   },
   "writing": {
+    "filters": ["Scripts", "Thought Pieces", "Completed", "WIP"],
     "items": [
       {
         "title": "Samsara",
@@ -1054,7 +1069,7 @@
   },
   "pages": {
     "about": {
-      "body": "A 24-year-old creative professional with an interest in audio-visual mediums, a background in fine arts and a love of music. I play video games, read comics and manga, and try to consume movies and shows as humanly as possible. I can only do so much, but I want to do so much more creatively, and I am actively working on that."
+      "body": "A 24-year-old creative with a background in fine arts and a keen interest in audio-visual storytelling, music, and the many ways people experience media. An avid gamer, comic and manga reader, and film enthusiast, I enjoy exploring stories across different formats and mediums. There's always more to watch, read, listen to, learn, and create than time allows, but I'm constantly looking for ways to expand my creative horizons and turn that curiosity into meaningful work."
     }
   }
 }

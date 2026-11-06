@@ -1049,7 +1049,8 @@
   "coverWall": {
     "video": ["Financial Management", "Moksh", "Samsara", "Coffee"],
     "writing": ["12:47", "Semitone", "Case 13"],
-    "other": ["Assignments", "Album Art"]
+    "other": ["Assignments", "Album Art"],
+    "photography": "all"
   },
   "pages": {
     "about": {

@@ -588,26 +588,36 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 @media(max-width:430px){.tabs a,.tabs a:nth-child(n){font-size:10.5px!important;padding:.7rem .1rem!important}}
 @media(max-width:900px){.abl .links{font-size:clamp(17px,5vw,24px);gap:.85em}.abl .links b{font-size:.72em}.abx.abr{font-size:clamp(19px,5.2vw,24px)!important}}
 .grid:has(.tile.mp){grid-template-columns:repeat(3,minmax(0,1fr))}
-/* ---- v25: cover art wall (slots set in app.js: --x --y --w --h on a computer, --c --a on a phone) ---- */
-.cv.cvw{display:block;flex:1 1 auto;align-self:stretch;width:100%;height:100%;min-height:0;cursor:default}
-.cwall{position:relative;width:100%;height:100%}
-.cwall .bt.cw{position:absolute;left:calc(var(--x) + 5px);top:calc(var(--y) + 5px);width:calc(var(--w) - 10px);height:calc(var(--h) - 10px);border-width:3px}
-.cwall .bt.cL img{scale:1.14}
-.cwall .bt .cap{padding:1rem .5rem .35rem}.cwall .bt .cap b{font-size:.92rem}.cwall .bt .cap small{font-size:.7rem}
-.cwsc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4em;padding:.5rem;background:#f4f1e8;color:#161310;text-align:center}
-.cwsc b{font:700 clamp(.85rem,1.4vw,1.3rem)/1.15 "Courier New",Courier,monospace;text-transform:uppercase;overflow-wrap:anywhere}
+/* ---- v27: cover gallery wall: scrolls inside the border, columns of pieces at their own shapes ---- */
+.r[data-theme=cover] .dots{display:none}
+.book.solo:has(.r[data-theme=cover]) .sheet{height:100%}
+.book.solo .r[data-theme=cover]{display:flex;flex-direction:column;height:100%;min-height:0}
+.book.solo .r[data-theme=cover] .sc{display:block;flex:1 1 0;min-height:0;margin:14px;padding:0 1.1rem 1.1rem;overflow-x:hidden;overflow-y:auto!important;overscroll-behavior:contain;text-align:left;scrollbar-width:thin;scrollbar-color:#4a4038 transparent}
+.cv.cvw{display:block;width:100%;height:auto;cursor:default}
+.cwn{position:sticky;top:0;z-index:4;display:flex;align-items:center;gap:1.2rem;padding:.9rem 0;background:#151210}
+.cwn h1{font-size:clamp(1.7rem,2.6vw,2.5rem);line-height:1;margin:0;white-space:nowrap}
+.cwn h1,.cwn .lede{text-align:left}.cwn .lede{flex:1;min-width:0;margin:0;font-size:.95rem}.cwn .cvb{margin:0}
+.cwall{columns:4;column-gap:10px}
+.cw{display:block;position:relative;width:100%;margin:0 0 10px;padding:0;border:0;overflow:hidden;background:#211c18;color:#fff;font:inherit;text-align:left;cursor:pointer;break-inside:avoid}
+.cw img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.3,1)}
+.cw:has(.pl) img{scale:1.32}
+.cw:hover img{transform:scale(1.035)}
+.cw:focus-visible{outline:2px solid var(--o);outline-offset:2px}
+.cw .pl{position:absolute;left:50%;top:50%;width:38px;translate:-50% -50%;pointer-events:none}
+.cw .cap{position:absolute;inset:auto 0 0;display:flex;flex-direction:column;padding:1.6rem .7rem .55rem;background:linear-gradient(transparent,rgba(0,0,0,.72));opacity:0;transition:opacity .25s;pointer-events:none}
+.cw:hover .cap,.cw:focus-visible .cap{opacity:1}
+.cw .cap small{font:italic .72rem var(--f-sub);color:#ddd}.cw .cap b{font:700 .95rem/1.15 var(--f-sub)}
+.cwsc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4em;padding:.6rem;background:#f4f1e8;color:#161310;text-align:center}
+.cwsc b{font:700 clamp(.9rem,1.5vw,1.35rem)/1.15 "Courier New",Courier,monospace;text-transform:uppercase;overflow-wrap:anywhere}
 .cwsc small{font:italic .72rem var(--f-sub);color:#6b635a}
-.cwn{position:absolute;left:calc(400%/14);top:calc(200%/9);width:calc(600%/14);height:calc(500%/9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.55rem;text-align:center}
-.cwn h1{font-size:clamp(2.6rem,min(6vw,10vh),5.6rem);line-height:.98;margin:0}
-.cwn .lede{margin:0}.cwn .cvb{margin:.3rem 0 0}.cwn .cvh{display:block;margin:0;max-width:22em;font:italic .85rem/1.35 var(--f-sub);color:var(--mut)}
-@media(min-width:901px) and (orientation:landscape){.book.solo .r[data-theme=cover] .sc{padding:1.9rem;overflow:hidden}}
-@media(min-width:901px) and (orientation:portrait){.book.solo .r[data-theme=cover] .sc{overflow-y:auto}}
-@media(max-width:900px),(orientation:portrait){
- .book.solo .r[data-theme=cover] .sc{display:block;padding:1.5rem 1.7rem 2rem}
- .cv.cvw,.cwall{height:auto}
- .cwall{display:grid;grid-template-columns:repeat(42,minmax(0,1fr));gap:7px}
- .cwn{position:static;width:auto;height:auto;grid-column:1/-1;padding:1.1rem 0 1rem}
- .cwall .bt.cw:nth-child(n){position:relative;left:auto;top:auto;width:auto;height:auto;grid-column:span var(--c);grid-row:auto;aspect-ratio:var(--a);rotate:calc(var(--rt)*.4)}
+@media(hover:none){.cw .cap{opacity:1;padding:1rem .5rem .35rem}.cw .cap small{display:none}.cw .cap b{font-size:.76rem}}
+@media(min-width:1700px){.cwall{columns:5}}
+@media(max-width:1100px){.cwall{columns:3}}
+@media(max-width:640px){
+ .cwall{columns:2;column-gap:7px}.cw{margin-bottom:7px}
+ .book.solo .r[data-theme=cover] .sc{padding:0 .7rem .8rem}
+ .cwn{flex-wrap:wrap;gap:.2rem .8rem;padding:.75rem 0}.cwn h1{flex:1}.cwn .lede{order:3;flex:0 0 100%;font-size:.82rem}
+ .cwn .cvb{padding:.2rem .9rem;font-size:.95rem}
 }
 /* ---- v6.3: album covers (Album Art project) preview as 1:1 ---- */
 .tile.sq{aspect-ratio:1/1}

@@ -763,6 +763,7 @@
         {
           "title": "Bholaram Ka Jeev: Screenplay",
           "src": "other-works/bholaram-ka-jeev-screenplay.pdf",
+          "paper": true,
           "desc": "The script behind the docket. Writer, 2026.",
           "cover": "other-works/covers/bholaram-ka-jeev-screenplay.webp"
         }
@@ -800,6 +801,7 @@
           "title": "Under the Summer Skies",
           "kind": "album",
           "src": "images/album-art/under-the-summer-skies.webp",
+          "thumb": "images/album-art/thumbs/under-the-summer-skies.jpg",
           "artist": "Ivan Philips",
           "date": "Month 00, 0000",
           "font": "Bevan",
@@ -819,6 +821,7 @@
           "title": "Because the Best Is Yet to Come",
           "kind": "album",
           "src": "images/album-art/because-the-best-is-yet-to-come.webp",
+          "thumb": "images/album-art/thumbs/because-the-best-is-yet-to-come.jpg",
           "artist": "Ivan Philips",
           "date": "Month 00, 0000",
           "font": "Special Elite",
@@ -838,6 +841,7 @@
           "title": "Beyond Endless Horizons",
           "kind": "album",
           "src": "images/album-art/beyond-endless-horizons.webp",
+          "thumb": "images/album-art/thumbs/beyond-endless-horizons.jpg",
           "artist": "Ivan Philips",
           "date": "Month 00, 0000",
           "font": "Abril Fatface",
@@ -857,6 +861,7 @@
           "title": "Super Modernity",
           "kind": "album",
           "src": "images/album-art/super-modernity.webp",
+          "thumb": "images/album-art/thumbs/super-modernity.jpg",
           "artist": "Lil Pp",
           "date": "Month 00, 0000",
           "font": "Permanent Marker",
@@ -876,6 +881,7 @@
           "title": "Dawg Gone Days & God Damn Nights",
           "kind": "album",
           "src": "images/album-art/dawg-gone-days-and-god-damn-nights.webp",
+          "thumb": "images/album-art/thumbs/dawg-gone-days-and-god-damn-nights.jpg",
           "artist": "Lil Pp",
           "date": "Month 00, 0000",
           "font": "Anton",
@@ -895,6 +901,7 @@
           "title": "Locked and Loaded",
           "kind": "album",
           "src": "images/album-art/locked-and-loaded.webp",
+          "thumb": "images/album-art/thumbs/locked-and-loaded.jpg",
           "artist": "Lil Pp",
           "date": "Month 00, 0000",
           "font": "Rye",
@@ -914,6 +921,7 @@
           "title": "Underground and Unbound",
           "kind": "album",
           "src": "images/album-art/underground-and-unbound.webp",
+          "thumb": "images/album-art/thumbs/underground-and-unbound.jpg",
           "artist": "Lil Pp",
           "date": "Month 00, 0000",
           "font": "Almendra",
@@ -1038,5 +1046,14 @@
       "r": "For allowing me to appreciate myself through my art"
     }
   ],
-  "pages": {}
+  "coverWall": {
+    "video": ["Financial Management", "Moksh", "Samsara", "Coffee"],
+    "writing": ["12:47", "Semitone", "Case 13"],
+    "other": ["Assignments", "Album Art"]
+  },
+  "pages": {
+    "about": {
+      "body": "A 24-year-old creative professional with an interest in audio-visual mediums, a background in fine arts and a love of music. I play video games, read comics and manga, and try to consume movies and shows as humanly as possible. I can only do so much, but I want to do so much more creatively, and I am actively working on that."
+    }
+  }
 }

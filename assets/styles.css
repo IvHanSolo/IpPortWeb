@@ -584,7 +584,30 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .pnav button:hover{background:#1f1f1f;color:#fff}.pnav button.on{color:var(--o);border-left-color:var(--o);background:#1a1a1a}
 .lb.wr .panel{flex-basis:320px;max-width:320px;max-height:100%;overflow:auto}
 @media(max-width:900px){.pnav{display:none}}
-@media(min-width:901px){.abl .links{font-size:1.3em;gap:1.1em}.abl .links b{font-size:.72em}}
+@media(min-width:901px){.abl .links{font-size:clamp(20px,2.2vw,32px);gap:1em}.abl .links b{font-size:.68em}}
+@media(max-width:430px){.tabs a,.tabs a:nth-child(n){font-size:10.5px!important;padding:.7rem .1rem!important}}
+@media(max-width:900px){.abl .links{font-size:clamp(17px,5vw,24px);gap:.85em}.abl .links b{font-size:.72em}.abx.abr{font-size:clamp(19px,5.2vw,24px)!important}}
 .grid:has(.tile.mp){grid-template-columns:repeat(3,minmax(0,1fr))}
+/* ---- v25: cover art wall (slots set in app.js: --x --y --w --h on a computer, --c --a on a phone) ---- */
+.cv.cvw{display:block;flex:1 1 auto;align-self:stretch;width:100%;height:100%;min-height:0;cursor:default}
+.cwall{position:relative;width:100%;height:100%}
+.cwall .bt.cw{position:absolute;left:calc(var(--x) + 5px);top:calc(var(--y) + 5px);width:calc(var(--w) - 10px);height:calc(var(--h) - 10px);border-width:3px}
+.cwall .bt.cL img{scale:1.14}
+.cwall .bt .cap{padding:1rem .5rem .35rem}.cwall .bt .cap b{font-size:.92rem}.cwall .bt .cap small{font-size:.7rem}
+.cwsc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4em;padding:.5rem;background:#f4f1e8;color:#161310;text-align:center}
+.cwsc b{font:700 clamp(.85rem,1.4vw,1.3rem)/1.15 "Courier New",Courier,monospace;text-transform:uppercase;overflow-wrap:anywhere}
+.cwsc small{font:italic .72rem var(--f-sub);color:#6b635a}
+.cwn{position:absolute;left:calc(400%/14);top:calc(200%/9);width:calc(600%/14);height:calc(500%/9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.55rem;text-align:center}
+.cwn h1{font-size:clamp(2.6rem,min(6vw,10vh),5.6rem);line-height:.98;margin:0}
+.cwn .lede{margin:0}.cwn .cvb{margin:.3rem 0 0}.cwn .cvh{display:block;margin:0;max-width:22em;font:italic .85rem/1.35 var(--f-sub);color:var(--mut)}
+@media(min-width:901px) and (orientation:landscape){.book.solo .r[data-theme=cover] .sc{padding:1.9rem;overflow:hidden}}
+@media(min-width:901px) and (orientation:portrait){.book.solo .r[data-theme=cover] .sc{overflow-y:auto}}
+@media(max-width:900px),(orientation:portrait){
+ .book.solo .r[data-theme=cover] .sc{display:block;padding:1.5rem 1.7rem 2rem}
+ .cv.cvw,.cwall{height:auto}
+ .cwall{display:grid;grid-template-columns:repeat(42,minmax(0,1fr));gap:7px}
+ .cwn{position:static;width:auto;height:auto;grid-column:1/-1;padding:1.1rem 0 1rem}
+ .cwall .bt.cw:nth-child(n){position:relative;left:auto;top:auto;width:auto;height:auto;grid-column:span var(--c);grid-row:auto;aspect-ratio:var(--a);rotate:calc(var(--rt)*.4)}
+}
 /* ---- v6.3: album covers (Album Art project) preview as 1:1 ---- */
 .tile.sq{aspect-ratio:1/1}

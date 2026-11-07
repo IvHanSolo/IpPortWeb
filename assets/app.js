@@ -343,13 +343,21 @@ const B = {
     const grp = st =>
       A.filter(a => a.al.status === st)
         .map(a => {
-          const firstImg = a.its.find(o => o.cover || (o.src && !isDoc(o) && !isVid(o)));
-          const peekSrc = firstImg ? (firstImg.cover || firstImg.src) : '';
-          return `<button class="fold" data-sv="other" data-sp="${a.i + 1}">
-            ${peekSrc ? `<img class="fcv" src="${esc(peekSrc)}" alt="" draggable="false">` : ''}
-            <b>${esc(a.al.title)}</b>
-            <span>${esc(a.al.desc)}</span>
-            <small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small>
+          const previewImgs = a.its
+            .map(o => o.cover || (o.src && !isDoc(o) && !isVid(o) ? o.src : ''))
+            .filter(Boolean)
+            .slice(0, 4);
+
+          return `<button class="fold fold-rich" data-sv="other" data-sp="${a.i + 1}">
+            <div class="fold-bg">
+              ${previewImgs.map(src => `<img src="${esc(src)}" alt="" draggable="false">`).join('')}
+            </div>
+            <div class="fold-scrim"></div>
+            <div class="fold-body">
+              <b>${esc(a.al.title)}</b>
+              <span>${esc(a.al.desc)}</span>
+              <small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small>
+            </div>
           </button>`.trim();
         })
         .join('') || '<p>Nothing here yet.</p>';
@@ -1213,7 +1221,7 @@ function aOpen(t) {
 
   ovOpen(
     'a',
-    `<div class="ah">${al.group ? `<small>${esc(al.group)}</small>` : ''}<h2>${esc(al.title)}</h2><p>${esc(al.desc || '')}</p><span class="vn">${n} photo${n === 1 ? '' : 's'}</span><div class="ab"><button type="button" class="btn" data-sv="photography" data-sp="${t.dataset.sp}" data-ovx>Open in the book</button><button type="button" class="btn" data-towall="${i}" data-ovx>Show on photo wall</button></div></div><div class="boardw"><div class="board" data-kind="photos">${tiles}</div></div>`,
+    `<div class="ah">${al.group ? `<small>${esc(al.group)}</small>` : ''}<h2>${esc(al.title)}</h2><p>${esc(al.desc || '')}</p><span class="vn">${n} photo${n === 1 ? '' : 's'}</span><div class="ab"><button type="button" class="btn" data-towall="${i}" data-ovx>Show on photo wall</button><button type="button" class="btn" data-ovx>Close</button></div></div><div class="boardw"><div class="board" data-kind="photos">${tiles}</div></div>`,
     t
   );
 }
@@ -1225,7 +1233,7 @@ document.addEventListener('click', e => {
     vOpen(vt);
     return;
   }
-  const at = e.target.closest('.bt[data-album]');
+  const at = e.target.closest('[data-album]');
   if (at && !ovEl && !e.target.closest('[data-towall]')) {
     e.stopPropagation();
     aOpen(at);

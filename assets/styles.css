@@ -197,7 +197,7 @@ body{padding-right:clamp(9.5rem,13vw,12.5rem)}
 .fold .fcv{position:absolute;right:.8rem;top:50%;translate:0 -50%;width:4.6rem;height:3.4rem;object-fit:cover;border:3px solid #f4f4f0;rotate:3deg;box-shadow:2px 3px 8px rgba(0,0,0,.35)}.fold:has(.fcv){padding-right:6.4rem}
 .alb{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:.7rem}.alb span{font:italic .95rem var(--f-body);color:var(--mut)}
 .chip{border:2px solid var(--ink);border-radius:2rem;background:none;color:var(--ink);padding:.12rem .8rem;font:400 .95rem var(--f-head);letter-spacing:.05em;cursor:pointer;transition:background .2s,color .2s}.chip:hover{background:var(--o);border-color:var(--o);color:#111}
-.sc:has(.tk){overflow:hidden;padding-bottom:1.2rem}
+.sc:has(.tk),.r[data-theme=thanks] .sc{overflow-y:auto!important;overflow-x:hidden!important;height:100%!important;max-height:100%!important;padding:2rem 2.4rem 5rem!important;box-sizing:border-box!important}
 .tk{max-width:none;padding:.2rem 0;line-height:1.35}
 .tk .ty{font-size:3.3em;line-height:1}.tk .tq{font-size:1.15em;margin:.3em 0 .5em}
 .tk .th2{font-size:.8em;letter-spacing:.32em;margin:1.1em 0 .45em;gap:.8em}
@@ -215,8 +215,8 @@ h1{font-size:clamp(1.7rem,8.2vw,2.6rem)}
 
 /* --- About Layout & Fullscreen Viewport --- */
 body.nt{padding-right:2.5vw!important}
-.tkn{position:absolute;left:0;right:0;bottom:1rem;display:flex;justify-content:center;gap:.8rem;z-index:5}.tkn .btn{margin:0;padding:.3rem 1rem;font-size:.95rem}
-.sc:has(.tk){padding-bottom:4rem}
+.tkn{position:sticky;bottom:0;left:0;right:0;display:flex;justify-content:center;gap:.8rem;padding:.8rem 0 calc(.8rem + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,rgba(0,0,0,.92) 40%);z-index:10;margin-top:1.5rem}.tkn .btn{margin:0;padding:.4rem 1.2rem;font-size:1rem;background:rgba(20,20,20,.85);color:#fff;border-color:var(--o)}.tkn .btn:hover{background:var(--o);color:#111}
+/* .sc:has(.tk) padding handled */
 .cvb{justify-self:center;margin-top:1.2rem}
 .sc:has(.abx){overflow:hidden;padding-bottom:1.4rem}
 .abx{line-height:1.4}.abx h2{font:400 1.45em var(--f-head);margin:.1em 0 .35em}.abx h2.s{margin-top:.9em;padding-top:.7em}
@@ -328,7 +328,7 @@ body,body.nt{padding:env(safe-area-inset-top,0px) 0 calc(38px + env(safe-area-in
 .book.solo>.spiral{display:none}
 .spiral i{width:22px;height:34px;background:var(--sph) center/contain no-repeat;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
 .sheet>.pg,.pg{display:block;flex:none;overflow:visible;min-height:0;grid-column:auto!important;grid-row:auto!important}
-.sc,.sc.ns,.sc:has(.tk),.sc:has(.abx),.book.hd .l .sc,.book.hd .r .sc.ns{overflow:visible!important;height:auto!important;max-height:none!important}
+.sc,.sc.ns,.sc:has(.abx),.book.hd .l .sc,.book.hd .r .sc.ns{overflow:visible!important;height:auto!important;max-height:none!important}
 .l{border-radius:0 0 16px 16px;box-shadow:none}.l .sc{padding:2.2rem 1.2rem 1.2rem}
 .r,
 .r[data-theme=cover],.r[data-theme=thanks]{margin:0;min-height:100%;border-radius:0}
@@ -563,7 +563,9 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .wk .cvr{position:relative}
 .wk .rmo{position:absolute;inset:auto 0 0;display:grid;place-items:center;height:34%;background:linear-gradient(transparent,rgba(10,10,10,.72) 55%);-webkit-backdrop-filter:blur(1.5px);backdrop-filter:blur(1.5px);color:#fff;font:italic 600 1rem var(--f-sub);letter-spacing:.03em;text-shadow:0 1px 3px rgba(0,0,0,.6);transition:height .3s,background .3s}
 .wk:hover .rmo,.wk .cvr:focus-visible .rmo{height:100%;background:rgba(10,10,10,.5)}
-.folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.6rem 1.1rem;align-items:stretch;margin-top:1.2rem}
+.folders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.6rem 1.1rem;align-items:stretch;margin-top:1.2rem}
+@media(max-width:900px){.folders{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem .8rem}}
+@media(max-width:560px){.folders{grid-template-columns:1fr;gap:1.1rem}}
 .folders>p{grid-column:1/-1}
 .folders .fold{position:relative;text-align:left;border:2px solid var(--ink);border-radius:2px 14px 14px 14px;background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink);padding:1rem 1rem;padding-right:6.4rem;min-height:5.6rem;cursor:pointer;margin-top:.7rem;transition:transform .3s,border-color .3s,box-shadow .3s;display:flex;flex-direction:column;justify-content:center}
 .folders .fold::before{content:"";position:absolute;left:-2px;top:-.72rem;width:42%;height:.72rem;border:2px solid var(--ink);border-bottom:0;border-radius:8px 8px 0 0;background:inherit;transition:border-color .3s}
@@ -683,3 +685,15 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .alb-hdr{display:flex;justify-content:space-between;align-items:baseline;padding:0 .2rem .45rem;margin-bottom:.6rem;border-bottom:1px solid var(--line)}
 .alb-hdr h3{margin:0;font:700 1.25rem/1.2 var(--f-head);letter-spacing:.02em;color:var(--ink)}
 .alb-hdr .alb-cnt{font:italic .88rem var(--f-sub);color:var(--mut)}
+
+/* Rich folder background & scrim for Other Works */
+.fold.fold-rich{position:relative;overflow:hidden;padding:1.1rem 1.1rem;background:#151210;border-color:var(--ink);min-height:6.2rem}
+.fold.fold-rich .fold-bg{position:absolute;inset:0;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:2px;opacity:.46;transition:opacity .35s ease,transform .35s ease;pointer-events:none;z-index:0}
+.fold.fold-rich .fold-bg:has(img:only-child){grid-template-columns:1fr;grid-template-rows:1fr}
+.fold.fold-rich .fold-bg:has(img:nth-child(2):last-child){grid-template-columns:1fr 1fr;grid-template-rows:1fr}
+.fold.fold-rich .fold-bg img{width:100%;height:100%;object-fit:cover;display:block}
+.fold.fold-rich .fold-scrim{position:absolute;inset:0;background:rgba(14,12,10,.78);backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);transition:background .35s ease;pointer-events:none;z-index:1}
+.fold.fold-rich:hover .fold-bg{opacity:.75;transform:scale(1.04)}
+.fold.fold-rich:hover .fold-scrim{background:rgba(14,12,10,.55)}
+.fold.fold-rich .fold-body{position:relative;z-index:2}
+.fold.fold-rich .fold-body b,.fold.fold-rich .fold-body span,.fold.fold-rich .fold-body small{position:relative;z-index:2;text-shadow:0 1px 4px rgba(0,0,0,.85)}

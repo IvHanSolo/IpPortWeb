@@ -599,7 +599,9 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .book.solo .r[data-theme=cover]{display:flex;flex-direction:column;height:100%;min-height:0}
 .book.solo .r[data-theme=cover] .sc{display:block;flex:1 1 0;min-height:0;position:relative;z-index:1;margin:14px;padding:1.1rem;overflow-x:hidden;overflow-y:auto!important;overscroll-behavior:contain;text-align:left;scrollbar-width:thin;scrollbar-color:#4a4038 transparent}
 .cv.cvw{display:block;width:100%;height:auto;cursor:default}
-.cwn{position:fixed;left:50%;top:50%;translate:-50% -50%;z-index:6;display:flex;flex-direction:column;align-items:center;gap:.5rem;width:max-content;max-width:min(86vw,34rem);padding:1.5rem 2.6rem;text-align:center}
+.cwn{position:fixed;left:50%;top:50%;translate:-50% -50%;z-index:6;display:flex;flex-direction:column;align-items:center;gap:.5rem;width:max-content;max-width:min(86vw,34rem);padding:1.5rem 2.6rem;text-align:center;transition:opacity .38s cubic-bezier(.2,.8,.3,1),transform .38s cubic-bezier(.2,.8,.3,1),visibility .38s ease;will-change:opacity,transform}
+.cwn.faded-out{opacity:0;pointer-events:none!important;visibility:hidden;transform:translateY(-12px)}
+.cwn.faded-out *{pointer-events:none!important}
 .cwn h1,.cwn .lede,.cwn .cvh,.cwn .cvb{color:#fff}
 .cwn{pointer-events:none}.cwn .cvb{pointer-events:auto;background:rgba(0,0,0,.6)}
 .cwn h1{font-size:clamp(2.3rem,5.4vw,5rem);font-weight:700;line-height:1;margin:0;white-space:nowrap}

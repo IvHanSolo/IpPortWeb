@@ -686,6 +686,7 @@ function render(v, s = 0) {
   wallFs(false);
   vidFx(null, false);
   cur = v;
+  if (v === 'cover') lastCoverY = 0;
   sp = s;
   let [l, r] = sets()[s];
   const i = order.indexOf(v);
@@ -970,6 +971,7 @@ addEventListener('touchstart', e => {
     return;
   }
   const t = e.touches[0];
+  lastTouchY = t.clientY;
   const sc = (cur === 'cover' && $('#R .sc')) || BK;
   g = {
     x: t.clientX,
@@ -981,6 +983,22 @@ addEventListener('touchstart', e => {
 }, { passive: true });
 
 addEventListener('touchmove', e => {
+  if (cur === 'cover' && e.touches && e.touches[0]) {
+    const cy = e.touches[0].clientY;
+    const deltaTouch = cy - lastTouchY;
+    lastTouchY = cy;
+    const n = $('.cwn');
+    if (n) {
+      if (deltaTouch > 4) {
+        n.classList.remove('faded-out');
+      } else if (deltaTouch < -4) {
+        const sc = $('#R .sc');
+        if (sc && sc.scrollTop > 60) {
+          n.classList.add('faded-out');
+        }
+      }
+    }
+  }
   if (!g || !g.m || busy) return;
   const dy = e.touches[0].clientY - g.y;
   ptr.classList.toggle('on', dy >= REF && g.top);
@@ -1944,7 +1962,11 @@ addEventListener('resize', () => {
 function cwStk() {
   const n = $('.cwn');
   if (!n) return;
-  const ts = $$('.cw')
+  if (n.classList.contains('faded-out')) {
+    $('.cw').forEach(t => t.classList.remove('cwu'));
+    return;
+  }
+  const ts = $('.cw')
     .filter(t => t.dataset.lt || t.matches(':hover'))
     .map(t => t.getBoundingClientRect());
   [...n.children].forEach(x => {
@@ -1953,16 +1975,36 @@ function cwStk() {
   });
 
   const ks = [...n.children].filter(x => x.offsetParent).map(x => x.getBoundingClientRect());
-  $$('.cw').forEach(t => {
+  $('.cw').forEach(t => {
     const r = t.getBoundingClientRect();
     t.classList.toggle('cwu', ks.some(b => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
   });
+}
+
+let lastCoverY = 0;
+let lastTouchY = 0;
+
+function updateCoverFade() {
+  const n = $('.cwn');
+  if (!n) return;
+  const sc = $('#R .sc');
+  const y = sc ? sc.scrollTop : (window.scrollY || 0);
+
+  if (y <= 30) {
+    n.classList.remove('faded-out');
+  } else if (y > 60 && y > lastCoverY + 2) {
+    n.classList.add('faded-out');
+  } else if (y < lastCoverY - 4) {
+    n.classList.remove('faded-out');
+  }
+  lastCoverY = y;
 }
 
 let cwR = 0;
 const cwQ = () => {
   cwR = cwR || requestAnimationFrame(() => {
     cwR = 0;
+    updateCoverFade();
     cwStk();
   });
 };
@@ -1970,6 +2012,20 @@ const cwQ = () => {
 document.addEventListener('scroll', cwQ, true);
 document.addEventListener('mouseover', cwQ);
 addEventListener('resize', cwQ);
+
+addEventListener('wheel', e => {
+  if (cur !== 'cover') return;
+  const n = $('.cwn');
+  if (!n) return;
+  if (e.deltaY < -3) {
+    n.classList.remove('faded-out');
+  } else if (e.deltaY > 3) {
+    const sc = $('#R .sc');
+    if (sc && sc.scrollTop > 60) {
+      n.classList.add('faded-out');
+    }
+  }
+}, { passive: true });
 
 document.addEventListener('load', e => {
   const i = e.target;

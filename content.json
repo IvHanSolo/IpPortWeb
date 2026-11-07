@@ -6,53 +6,134 @@
     "phone": "+91 93172 91752",
     "instagram": "pp_fr_2",
     "education": [
-      { "role": "MBA, Communications Management", "org": "FLAME University", "when": "2025 to 2027", "note": "Major in Film and Television, minor in Digital Marketing and Communication" },
-      { "role": "Bachelor of Mass Media and Communication (Advertising)", "org": "St. Xavier's College, Mumbai", "when": "2024" }
+      {
+        "role": "MBA, Communications Management",
+        "org": "FLAME University",
+        "when": "2025 to 2027",
+        "note": "Major in Film and Television, minor in Digital Marketing and Communication"
+      },
+      {
+        "role": "Bachelor of Mass Media and Communication (Advertising)",
+        "org": "St. Xavier's College, Mumbai",
+        "when": "2024"
+      }
     ],
     "work": [
-      { "title": "Internships", "items": [
-        { "role": "Creative Strategy and Event Management", "org": "Entre Nous Experiences, Pune", "when": "May to July 2026", "points": ["Built 14 to 15 client and internal presentations from scratch.", "Developed destination proposals for Jordan, Lebanon, Doha and Phuket.", "Coordinated with 25 to 30 vendors and supported backstage production."] },
-        { "role": "Social Media", "org": "Caliac Studios, Thane", "when": "December 2024 to May 2025", "points": ["Created static and video content, managed publishing across Instagram, LinkedIn and YouTube.", "Assisted with scripting and worked on set during shoots."] },
-        { "role": "Creative and Production Assistant", "org": "Juggernaut Productions, Andheri", "when": "May to July 2022", "points": ["Post-production support on Shoorveer (2022) and Avrodh: The Siege Within 2 (2022)."] }
-      ] },
-      { "title": "Live events", "points": ["Stagehand volunteer, Lollapalooza India, February 2023.", "Production support, Eco Technology Leadership Summit, Jio World Centre."] },
-      { "title": "Leadership", "points": ["Design Co-Head, The Front Row, FLAME University.", "Social media team, FLAME Music Club and First Cut.", "Creative design and visual media for Zephyrus, Zeitgeist and Malhar, 2022 to 2024."] },
-      { "title": "Skills", "tags": ["Scripting", "On-set assistance", "Post-production", "Social media strategy", "Photography", "Videography", "Photoshop", "Lightroom"] }
+      {
+        "title": "Internships",
+        "items": [
+          {
+            "role": "Creative Strategy and Event Management",
+            "org": "Entre Nous Experiences, Pune",
+            "when": "May to July 2026",
+            "points": [
+              "Built 14 to 15 client and internal presentations from scratch.",
+              "Developed destination proposals for Jordan, Lebanon, Doha and Phuket.",
+              "Coordinated with 25 to 30 vendors and supported backstage production."
+            ]
+          },
+          {
+            "role": "Social Media",
+            "org": "Caliac Studios, Thane",
+            "when": "December 2024 to May 2025",
+            "points": [
+              "Created static and video content, managed publishing across Instagram, LinkedIn and YouTube.",
+              "Assisted with scripting and worked on set during shoots."
+            ]
+          },
+          {
+            "role": "Creative and Production Assistant",
+            "org": "Juggernaut Productions, Andheri",
+            "when": "May to July 2022",
+            "points": [
+              "Post-production support on Shoorveer (2022) and Avrodh: The Siege Within 2 (2022)."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Live events",
+        "points": [
+          "Stagehand volunteer, Lollapalooza India, February 2023.",
+          "Production support, Eco Technology Leadership Summit, Jio World Centre."
+        ]
+      },
+      {
+        "title": "Leadership",
+        "points": [
+          "Design Co-Head, The Front Row, FLAME University.",
+          "Social media team, FLAME Music Club and First Cut.",
+          "Creative design and visual media for Zephyrus, Zeitgeist and Malhar, 2022 to 2024."
+        ]
+      },
+      {
+        "title": "Skills",
+        "tags": [
+          "Scripting",
+          "On-set assistance",
+          "Post-production",
+          "Social media strategy",
+          "Photography",
+          "Videography",
+          "Photoshop",
+          "Lightroom"
+        ]
+      }
     ]
   },
   "writing": {
-    "filters": ["Scripts", "Thought Pieces", "Completed", "WIP"],
+    "filters": [
+      "Scripts",
+      "Thought Pieces",
+      "Completed",
+      "WIP"
+    ],
     "items": [
       {
         "title": "Samsara",
         "desc": "Short film, 2023. My first full-length thriller, rewritten from English into Hindi and then Marathi. Dialogues only.",
         "pdf": "writing/samsara.pdf",
         "watch": "https://youtu.be/810Uah4gohw",
-        "tags": ["Scripts", "Completed"]
+        "tags": [
+          "Scripts",
+          "Completed"
+        ]
       },
       {
         "title": "Case 13",
-        "desc": "Play, 2024. A 30-minute psycho-thriller. Writer and co-ideator, written with Om Patil.",
+        "desc": "Play, 2024. A 30-minute stage psycho-thriller following Detective Singh and Officer Khurana investigating Mr. Patel's murder. Written with Om Patil.",
         "pdf": "writing/case-13.pdf",
-        "tags": ["Scripts", "Completed"]
+        "tags": [
+          "Scripts",
+          "Completed"
+        ]
       },
       {
         "title": "Sapnae Mei",
-        "desc": "Short script, 2024. Written alongside Case 13, and the winner of an inter-college competition.",
+        "desc": "Short script, 2024. A family drama following Simran as she confronts her mother to pursue a career in music over engineering. Winner of an inter-college competition.",
         "pdf": "writing/sapnae-mei.pdf",
-        "tags": ["Scripts", "Completed"]
+        "tags": [
+          "Scripts",
+          "Completed"
+        ]
       },
       {
         "title": "12:47",
-        "desc": "Romantic drama, 2024. Written for the same competition and not shortlisted, but I think it can grow into more.",
+        "desc": "Romantic drama, 2024. Set in a cafe where two former companions reunite after eight years while contrasting couples mirror their shifting dynamic.",
         "pdf": "writing/1247.pdf",
-        "tags": ["Scripts", "WIP"]
+        "tags": [
+          "Scripts",
+          "WIP"
+        ]
       },
       {
         "title": "Semitone",
         "desc": "One of my first scripts. I keep coming back to it, always finding more to add, never quite satisfied.",
         "pdf": "writing/semitone.pdf",
-        "tags": ["Scripts", "WIP"]
+        "tags": [
+          "Scripts",
+          "WIP"
+        ]
       }
     ]
   },
@@ -61,645 +142,647 @@
       {
         "group": "Travel",
         "title": "Himachal",
-        "desc": "Description goes here.",
+        "desc": "Mountain landscapes, quiet valleys, and high-altitude frames from Himachal Pradesh.",
         "items": [
           {
             "title": "Himachal 1",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 2",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 3",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 4",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 5",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 6",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 7",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 8",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 9",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 10",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 11",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 12",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 13",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Himachal 14",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           }
         ]
       },
       {
         "group": "Travel",
         "title": "Lonavala",
-        "desc": "Description goes here.",
+        "desc": "Monsoon mist, Western Ghats ridgelines, and weekend road studies around Lonavala.",
         "items": [
           {
             "title": "Lonavala 1",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 2",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 3",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 4",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 5",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 6",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 7",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 8",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 9",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 10",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 11",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 12",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 13",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Lonavala 14",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           }
         ]
       },
       {
         "group": "Travel",
         "title": "Goa",
-        "desc": "Description goes here.",
+        "desc": "Coastal light, late-afternoon horizons, and street textures across Goa.",
         "items": [
           {
             "title": "Goa 1",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 2",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 3",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 4",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 5",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 6",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 7",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 8",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 9",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 10",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 11",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 12",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 13",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Goa 14",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           }
         ]
       },
       {
         "group": "Travel",
         "title": "Singapore",
-        "desc": "Description goes here.",
+        "desc": "Urban geometry, night skyline reflections, and architectural studies from Singapore.",
         "items": [
           {
             "title": "Singapore 1",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 2",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 3",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 4",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 5",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 6",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 7",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 8",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 9",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 10",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 11",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 12",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 13",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Singapore 14",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           }
         ]
       },
       {
         "group": "Travel",
         "title": "Andaman",
-        "desc": "Description goes here.",
+        "desc": "Island shorelines, open water, and tropical light from the Andaman Islands.",
         "items": [
           {
             "title": "Andaman 1",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 2",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 3",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 4",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 5",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 6",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 7",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 8",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 9",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 10",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 11",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 12",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 13",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Andaman 14",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           }
         ]
-      },
+      }
+    ],
+    "otherSections": [
       {
         "title": "Animals",
-        "desc": "Description goes here.",
+        "desc": "Candid wildlife and street animal observations.",
         "items": [
           {
             "title": "Animal 1",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Animal 2",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Animal 3",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Animal 4",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Animal 5",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Animal 6",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Animal 7",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Animal 8",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Animal 9",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           }
         ]
       },
       {
         "title": "People",
-        "desc": "Description goes here.",
+        "desc": "Natural-light portraiture and candid character studies.",
         "items": [
           {
             "title": "Portrait 1",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 2",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 3",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 4",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 5",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 6",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 7",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 8",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 9",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 10",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 11",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 12",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 13",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Portrait 14",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           }
         ]
       },
       {
         "title": "Misc",
-        "desc": "Description goes here.",
+        "desc": "Cloudscapes, urban architecture, and everyday visual studies.",
         "items": [
           {
             "title": "Photo 1",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 2",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 3",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 4",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 5",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 6",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 7",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 8",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 9",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 10",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 11",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 12",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 13",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           },
           {
             "title": "Photo 14",
             "src": "",
-            "desc": "Short description goes here."
+            "desc": ""
           }
         ]
       }
-    ],
-    "wall": [
-      {
-        "title": "Art piece 1",
-        "src": "",
-        "desc": "Short description goes here."
-      },
-      {
-        "title": "Art piece 2",
-        "src": "",
-        "desc": "Short description goes here."
-      },
-      {
-        "title": "Art piece 3",
-        "src": "",
-        "desc": "Short description goes here."
-      },
-      {
-        "title": "Art piece 4",
-        "src": "",
-        "desc": "Short description goes here."
-      },
-      {
-        "title": "Art piece 5",
-        "src": "",
-        "desc": "Short description goes here."
-      },
-      {
-        "title": "Art piece 6",
-        "src": "",
-        "desc": "Short description goes here."
-      },
-      {
-        "title": "Art piece 7",
-        "src": "",
-        "desc": "Short description goes here."
-      },
-      {
-        "title": "Art piece 8",
-        "src": "",
-        "desc": "Short description goes here."
-      }
     ]
   },
+  "wall": [
+    {
+      "title": "Art piece 1",
+      "src": "",
+      "desc": ""
+    },
+    {
+      "title": "Art piece 2",
+      "src": "",
+      "desc": ""
+    },
+    {
+      "title": "Art piece 3",
+      "src": "",
+      "desc": ""
+    },
+    {
+      "title": "Art piece 4",
+      "src": "",
+      "desc": ""
+    },
+    {
+      "title": "Art piece 5",
+      "src": "",
+      "desc": ""
+    },
+    {
+      "title": "Art piece 6",
+      "src": "",
+      "desc": ""
+    },
+    {
+      "title": "Art piece 7",
+      "src": "",
+      "desc": ""
+    },
+    {
+      "title": "Art piece 8",
+      "src": "",
+      "desc": ""
+    }
+  ],
   "video": {
     "showreel": {
       "title": "Showreel",
-      "desc": "A short cut of recent work. One line about it goes here.",
+      "desc": "Selected highlights across narrative short films, commercial specs, and visual storytelling.",
       "embed": ""
     },
     "folders": [
       {
         "title": "Ads for classwork",
-        "desc": "Description goes here.",
+        "desc": "Spec commercials conceived, written, shot, and edited for MBA coursework at FLAME University.",
         "items": [
           {
             "title": "Financial Management",
@@ -714,16 +797,17 @@
           {
             "title": "Media Law",
             "desc": "Ad made for a Media Law course.",
-            "embed": "https://youtu.be/iAnrXJlXlOY"
+            "embed": "https://youtu.be/iAnrXJlXl0Y"
           }
         ]
       },
       {
         "title": "Short Films",
-        "desc": "Description goes here.",
+        "desc": "Narrative short films exploring tension, atmosphere, and regional storytelling.",
         "items": [
           {
             "title": "Moksh",
+            "desc": "Narrative short film exploring redemption and inner conflict.",
             "embed": "https://youtu.be/OYFTG9ZYoCk"
           },
           {
@@ -736,14 +820,16 @@
       },
       {
         "title": "Shorter Short Films",
-        "desc": "Description goes here.",
+        "desc": "Compact visual vignettes, pacing exercises, and micro-narratives.",
         "items": [
           {
             "title": "Coffee",
+            "desc": "A short visual study centered on everyday ritual and mood.",
             "embed": "https://youtu.be/iJ8Af_n7kj0"
           },
           {
             "title": "The Shortcut",
+            "desc": "A compact thriller vignette built around a single fateful detour.",
             "embed": "https://youtu.be/6KpdkN5kAQ0"
           }
         ]
@@ -766,7 +852,7 @@
         {
           "title": "La Chimera: Film Analysis",
           "src": "other-works/la-chimera-film-analysis.pdf",
-          "desc": "Props, texture and architecture, on top of colour.",
+          "desc": "Visual and narrative production design critique across seven lenses: colour, texture, architecture, location, costume, props, and narrative tools.",
           "cover": "other-works/covers/la-chimera-film-analysis.webp"
         },
         {
@@ -793,24 +879,24 @@
         {
           "title": "CSM 1",
           "src": "",
-          "desc": "Short description goes here."
+          "desc": ""
         },
         {
           "title": "CSM 2",
           "src": "",
-          "desc": "Short description goes here."
+          "desc": ""
         },
         {
           "title": "CSM 3",
           "src": "",
-          "desc": "Short description goes here."
+          "desc": ""
         }
       ]
     },
     {
       "title": "Album Art",
       "status": "WIP",
-      "desc": "An ongoing process.",
+      "desc": "Concept album sleeves, typography pairings, and visual identity explorations.",
       "items": [
         {
           "title": "Under the Summer Skies",
@@ -818,19 +904,19 @@
           "src": "images/album-art/under-the-summer-skies.webp",
           "thumb": "images/album-art/thumbs/under-the-summer-skies.jpg",
           "artist": "Ivan Philips",
-          "date": "Month 00, 0000",
+          "date": "2025",
           "font": "Bevan",
           "tracks": [
-            "Track one",
-            "Track two",
-            "Track three",
-            "Track four",
-            "Track five",
-            "Track six",
-            "Track seven",
-            "Track eight"
+            "Sunlit Overture",
+            "Golden Hour Drift",
+            "Warm Pavement",
+            "Sea Breeze Interlude",
+            "August Haze",
+            "Paper Lanterns",
+            "Last Train Home",
+            "Afterglow"
           ],
-          "desc": "Short description goes here."
+          "desc": "Warm vintage-toned cover study pairing bold Bevan display type with summer horizon imagery."
         },
         {
           "title": "Because the Best Is Yet to Come",
@@ -838,19 +924,19 @@
           "src": "images/album-art/because-the-best-is-yet-to-come.webp",
           "thumb": "images/album-art/thumbs/because-the-best-is-yet-to-come.jpg",
           "artist": "Ivan Philips",
-          "date": "Month 00, 0000",
+          "date": "2025",
           "font": "Special Elite",
           "tracks": [
-            "Track one",
-            "Track two",
-            "Track three",
-            "Track four",
-            "Track five",
-            "Track six",
-            "Track seven",
-            "Track eight"
+            "Prologue in Type",
+            "Turn the Page",
+            "Silver Lining",
+            "Open Road",
+            "Midway Station",
+            "Unwritten",
+            "Forward Motion",
+            "The Best Is Yet to Come"
           ],
-          "desc": "Short description goes here."
+          "desc": "Typewriter-inspired sleeve design using Special Elite to evoke personal letters and forward momentum."
         },
         {
           "title": "Beyond Endless Horizons",
@@ -858,19 +944,19 @@
           "src": "images/album-art/beyond-endless-horizons.webp",
           "thumb": "images/album-art/thumbs/beyond-endless-horizons.jpg",
           "artist": "Ivan Philips",
-          "date": "Month 00, 0000",
+          "date": "2025",
           "font": "Abril Fatface",
           "tracks": [
-            "Track one",
-            "Track two",
-            "Track three",
-            "Track four",
-            "Track five",
-            "Track six",
-            "Track seven",
-            "Track eight"
+            "First Light",
+            "Distant Ridge",
+            "Cloudline",
+            "Driftwood",
+            "Wide Open",
+            "Star Compass",
+            "Far Shore",
+            "Beyond the Horizon"
           ],
-          "desc": "Short description goes here."
+          "desc": "High-contrast editorial sleeve pairing Abril Fatface serifs with expansive landscape composition."
         },
         {
           "title": "Super Modernity",
@@ -878,19 +964,19 @@
           "src": "images/album-art/super-modernity.webp",
           "thumb": "images/album-art/thumbs/super-modernity.jpg",
           "artist": "Lil Pp",
-          "date": "Month 00, 0000",
+          "date": "2025",
           "font": "Permanent Marker",
           "tracks": [
-            "Track one",
-            "Track two",
-            "Track three",
-            "Track four",
-            "Track five",
-            "Track six",
-            "Track seven",
-            "Track eight"
+            "Neon Concrete",
+            "Fast Lane",
+            "Digital Static",
+            "24/7",
+            "Chrome & Glass",
+            "Overclocked",
+            "Night Shift",
+            "Super Modernity"
           ],
-          "desc": "Short description goes here."
+          "desc": "Raw street-art aesthetic combining Permanent Marker lettering with contemporary urban textures."
         },
         {
           "title": "Dawg Gone Days & God Damn Nights",
@@ -898,19 +984,19 @@
           "src": "images/album-art/dawg-gone-days-and-god-damn-nights.webp",
           "thumb": "images/album-art/thumbs/dawg-gone-days-and-god-damn-nights.jpg",
           "artist": "Lil Pp",
-          "date": "Month 00, 0000",
+          "date": "2025",
           "font": "Anton",
           "tracks": [
-            "Track one",
-            "Track two",
-            "Track three",
-            "Track four",
-            "Track five",
-            "Track six",
-            "Track seven",
-            "Track eight"
+            "Noon Heat",
+            "Long Shadows",
+            "Neon Sign",
+            "2 AM Drive",
+            "Empty Diner",
+            "Streetlight Blues",
+            "Last Call",
+            "Daybreak"
           ],
-          "desc": "Short description goes here."
+          "desc": "Punchy condensed Anton typography framing a gritty late-night narrative concept album."
         },
         {
           "title": "Locked and Loaded",
@@ -918,19 +1004,19 @@
           "src": "images/album-art/locked-and-loaded.webp",
           "thumb": "images/album-art/thumbs/locked-and-loaded.jpg",
           "artist": "Lil Pp",
-          "date": "Month 00, 0000",
+          "date": "2025",
           "font": "Rye",
           "tracks": [
-            "Track one",
-            "Track two",
-            "Track three",
-            "Track four",
-            "Track five",
-            "Track six",
-            "Track seven",
-            "Track eight"
+            "Draw",
+            "High Noon",
+            "Dust Devil",
+            "Iron & Smoke",
+            "Standstill",
+            "Ricochet",
+            "Outlaw Trail",
+            "Last Stand"
           ],
-          "desc": "Short description goes here."
+          "desc": "Western woodblock-inspired Rye lettering paired with bold poster framing."
         },
         {
           "title": "Underground and Unbound",
@@ -938,19 +1024,19 @@
           "src": "images/album-art/underground-and-unbound.webp",
           "thumb": "images/album-art/thumbs/underground-and-unbound.jpg",
           "artist": "Lil Pp",
-          "date": "Month 00, 0000",
+          "date": "2025",
           "font": "Almendra",
           "tracks": [
-            "Track one",
-            "Track two",
-            "Track three",
-            "Track four",
-            "Track five",
-            "Track six",
-            "Track seven",
-            "Track eight"
+            "Subterranean",
+            "Basement Tape",
+            "Echo Chamber",
+            "No Ceiling",
+            "Raw Cut",
+            "Break the Lock",
+            "Night Train",
+            "Unbound"
           ],
-          "desc": "Short description goes here."
+          "desc": "Calligraphic Almendra display typography contrasted against an indie underground sleeve layout."
         }
       ]
     }
@@ -1062,9 +1148,21 @@
     }
   ],
   "coverWall": {
-    "video": ["Financial Management", "Moksh", "Samsara", "Coffee"],
-    "writing": ["12:47", "Semitone", "Case 13"],
-    "other": ["Assignments", "Album Art"],
+    "video": [
+      "Financial Management",
+      "Moksh",
+      "Samsara",
+      "Coffee"
+    ],
+    "writing": [
+      "12:47",
+      "Semitone",
+      "Case 13"
+    ],
+    "other": [
+      "Assignments",
+      "Album Art"
+    ],
     "photography": "all"
   },
   "pages": {

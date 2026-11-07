@@ -990,6 +990,59 @@
               "bird"
             ],
             "exif": {}
+          },
+          {
+            "title": "Corner Slumber",
+            "src": "dog-sleeping-monochrome.webp",
+            "desc": "A dog stretched out asleep against the rough base of a wall, rendered in monochrome.",
+            "tags": [
+              "animals",
+              "dog",
+              "noir"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "The Gas Tank Sentry",
+            "src": "cat-tucked-gas-cylinder.webp",
+            "desc": "A tabby cat crouched in an alley doorway next to a weathered red cylinder.",
+            "tags": [
+              "animals",
+              "cat",
+              "street"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Prowl in the Dust",
+            "src": "kitten-stalking-ground.webp",
+            "desc": "A young striped kitten creeping forward with focused golden eyes.",
+            "tags": [
+              "animals",
+              "cat"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Amber Alley",
+            "src": "ginger-cat-roadside.webp",
+            "desc": "A slender ginger cat resting alertly on tarmac under open light.",
+            "tags": [
+              "animals",
+              "cat",
+              "street"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Ears to the Wind",
+            "src": "cat-ears-back-profile.webp",
+            "desc": "Back-of-head study of a tabby cat's pointed ears and striped nape against asphalt.",
+            "tags": [
+              "animals",
+              "cat"
+            ],
+            "exif": {}
           }
         ]
       }

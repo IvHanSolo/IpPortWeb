@@ -254,10 +254,8 @@ const B = {
 
     const albumFolders = als.map((al, i) => {
       const items = (al.items || []).filter(x => norm(x, al).src);
-      const firstImg = items[0] ? norm(items[0], al).src : '';
       return `
 <button class="fold" type="button" data-album="${i}">
-  ${firstImg ? `<img class="fcv" src="${esc(firstImg)}" alt="" draggable="false">` : ''}
   <b>${esc(al.title)}</b>
   <span>${esc(al.desc || (al.group ? al.group : ''))}</span>
   <small>${items.length} photo${items.length === 1 ? '' : 's'}</small>
@@ -342,24 +340,7 @@ const B = {
 
     const grp = st =>
       A.filter(a => a.al.status === st)
-        .map(a => {
-          const previewImgs = a.its
-            .map(o => o.cover || (o.src && !isDoc(o) && !isVid(o) ? o.src : ''))
-            .filter(Boolean)
-            .slice(0, 4);
-
-          return `<button class="fold fold-rich" data-sv="other" data-sp="${a.i + 1}">
-            <div class="fold-bg">
-              ${previewImgs.map(src => `<img src="${esc(src)}" alt="" draggable="false">`).join('')}
-            </div>
-            <div class="fold-scrim"></div>
-            <div class="fold-body">
-              <b>${esc(a.al.title)}</b>
-              <span>${esc(a.al.desc)}</span>
-              <small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small>
-            </div>
-          </button>`.trim();
-        })
+        .map(a => `<button class="fold" data-sv="other" data-sp="${a.i + 1}"><b>${esc(a.al.title)}</b><span>${esc(a.al.desc)}</span><small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small></button>`)
         .join('') || '<p>Nothing here yet.</p>';
 
     const out = [

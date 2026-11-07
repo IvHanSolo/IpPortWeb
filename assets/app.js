@@ -1364,6 +1364,14 @@ function close() {
 }
 
 document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && lb && !lb.hidden) {
+    if (lb.classList.contains('fs')) {
+      fsOn(false);
+    } else {
+      close();
+    }
+    return;
+  }
   if (e.key === 'Enter' && e.target.matches('[role=button]')) e.target.click();
 });
 
@@ -1417,7 +1425,12 @@ function openAt(t) {
         }
         return;
       }
-      if (ev.target.matches('.x,.lb')) close();
+      if (ev.target.matches('.stage img')) {
+        ssStop();
+        fsOn(!lb.classList.contains('fs'));
+        return;
+      }
+      if ((ev.target.matches('.x,.lb') || (ev.target.matches('.wrap') && lb.classList.contains('fs'))) && !ev.target.closest('.panel')) close();
       if (ev.target.matches('.p')) show(idx - 1);
       if (ev.target.matches('.n')) show(idx + 1);
     };
@@ -1808,11 +1821,13 @@ let ssT = null;
 function fsOn(on) {
   if (!lb) return;
   lb.classList.toggle('fs', on);
+  const fsBtn = $('[data-fs]', lb);
+  if (fsBtn) fsBtn.textContent = on ? 'Exit full screen' : 'Full screen';
   try {
     if (on && !document.fullscreenElement && lb.requestFullscreen) {
       lb.requestFullscreen().catch(() => {});
     } else if (!on && document.fullscreenElement) {
-      document.exitFullscreen();
+      document.exitFullscreen().catch(() => {});
     }
   } catch (_) {}
 }
@@ -1834,6 +1849,8 @@ document.addEventListener('fullscreenchange', () => {
   if (!document.fullscreenElement && lb && lb.classList.contains('fs')) {
     ssStop();
     lb.classList.remove('fs');
+    const fsBtn = $('[data-fs]', lb);
+    if (fsBtn) fsBtn.textContent = 'Full screen';
   }
 });
 

@@ -1043,6 +1043,16 @@
               "cat"
             ],
             "exif": {}
+          },
+          {
+            "title": "Roost in the Canopy",
+            "src": "pigeon-branch-canopy.webp",
+            "desc": "A wild pigeon resting on a thick bough, framed by dappled green leaves.",
+            "tags": [
+              "animals",
+              "bird"
+            ],
+            "exif": {}
           }
         ]
       }

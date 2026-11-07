@@ -731,39 +731,47 @@ function nav() {
 
   busy = true;
   const mob = isM();
-  const T = mob ? SH : R;
   const fx = mob ? 'rotateX' : 'rotateY';
-  const ang = (mob ? 90 : -90) + 'deg';
+
+  // Desktop:
+  // Forward: R lifts towards spine (0deg -> -90deg), then L unfolds on other side (90deg -> 0deg)
+  // Backward: L lifts towards spine (0deg -> 90deg), then R unfolds on other side (-90deg -> 0deg)
+  // Mobile:
+  // Forward: R lifts towards spiral (0deg -> 90deg), then L unfolds on other side (-90deg -> 0deg)
+  // Backward: L lifts towards spiral (0deg -> -90deg), then R unfolds on other side (90deg -> 0deg)
+  const liftPage = fwd ? R : L;
+  const dropPage = fwd ? L : R;
+
+  const liftAng = (mob ? (fwd ? 90 : -90) : (fwd ? -90 : 90)) + 'deg';
+  const dropStartAng = (mob ? (fwd ? -90 : 90) : (fwd ? 90 : -90)) + 'deg';
+
+  const liftOpts = { duration: 280, easing: 'cubic-bezier(0.4, 0, 0.6, 0.2)', fill: 'forwards' };
+  const dropOpts = { duration: 320, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)', fill: 'forwards' };
+
   const fin = () => {
     busy = false;
     nav();
   };
 
-  if (mob) T.style.transformOrigin = '50% ' + BK.scrollTop + 'px';
-  const out = { duration: 480, easing: 'cubic-bezier(.55,0,.75,.45)', fill: 'forwards' };
-  const inn = { duration: 560, easing: 'cubic-bezier(.2,.7,.2,1)' };
   const done = () => {
-    T.getAnimations({ subtree: true }).forEach(a => a.cancel());
-    if (mob) T.style.transformOrigin = '';
+    [L, R, SH].forEach(el => el && el.getAnimations({ subtree: true }).forEach(a => a.cancel()));
+    L.style.transform = '';
+    R.style.transform = '';
     fin();
   };
 
-  if (fwd) {
-    shade(T, 0, 0.5, out);
-    T.animate([{ transform: fx + '(0)' }, { transform: fx + '(' + ang + ')' }], out).finished.then(() => {
-      render(v, s);
-      BK.scrollTop = 0;
-      T.getAnimations({ subtree: true }).forEach(a => a.cancel());
-      const k = T.animate([{ opacity: 0.0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'ease-out' });
-      if (mob) T.style.transformOrigin = '';
-      k.finished.then(fin, fin);
-    });
-  } else {
+  // Phase 1: lift active page towards the center spine
+  shade(liftPage, 0, 0.45, liftOpts);
+  liftPage.animate([{ transform: fx + '(0deg)' }, { transform: fx + '(' + liftAng + ')' }], liftOpts).finished.then(() => {
+    // Content swap seamlessly at the midway vertical point
     render(v, s);
     BK.scrollTop = 0;
-    shade(T, 0.5, 0, inn);
-    T.animate([{ transform: fx + '(' + ang + ')' }, { transform: fx + '(0)' }], inn).finished.then(done, done);
-  }
+    [L, R, SH].forEach(el => el && el.getAnimations({ subtree: true }).forEach(a => a.cancel()));
+
+    // Phase 2: continue flowing smoothly down to the other side
+    shade(dropPage, 0.45, 0, dropOpts);
+    dropPage.animate([{ transform: fx + '(' + dropStartAng + ')' }, { transform: fx + '(0deg)' }], dropOpts).finished.then(done, done);
+  }).catch(done);
 }
 
 const TT = v => (v === 'cover' ? '' : names[v] + ' · ') + 'Ivan Philips';

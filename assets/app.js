@@ -236,7 +236,7 @@ const B = {
       });
     });
 
-    const tabs = on => `<div class="switch" role="tablist" aria-label="Photography"><button data-sv="photography" data-sp="0" aria-selected="${on === 0}">Albums</button><button data-sv="photography" data-sp="1" aria-selected="${on === 1}">Art wall</button></div>`;
+    const tabs = on => `<div class="switch" role="tablist" aria-label="Photography"><button data-sv="photography" data-sp="0" aria-selected="${on === 0}">Albums</button><button data-sv="photography" data-sp="1" aria-selected="${on === 1}">Photo wall</button></div>`;
     const tiles = all.filter(t => t.o.src).map((t, i) => `
 <button type="button" class="bt" data-r="${t.id}" data-o="${i}" data-vf="${esc(t.al)}" style="--rt:${RT[i % 8]}deg">
   ${t.o.src ? `<img src="${esc(t.o.src)}" alt="${esc(t.o.title)}" loading="lazy" draggable="false">` : '<span class="nop"></span>'}
@@ -256,7 +256,7 @@ const B = {
         `<div class="boardw"><div class="board" id="vboard" data-kind="photos">${tiles || '<p>Photos will appear here once they are added.</p>'}</div></div>`
       ],
       [
-        PT('wall', 'Art wall', 'A new mix of your photos every visit. Drag the pieces to arrange them.') + tabs(1) + wch,
+        PT('wall', 'Photo wall', 'A new mix of your photos every visit. Drag the pieces to arrange them.') + tabs(1) + wch,
         WALL
       ]
     ];
@@ -423,33 +423,40 @@ let WALL = '';
 const mkWall = () => {
   const wallItems = (CONTENT.photography?.wall?.length ? CONTENT.photography.wall : (CONTENT.wall?.length ? CONTENT.wall : P(8, 'Art piece')));
   return `
-<div class="phead">Art wall</div>
+<div class="phead">Photo wall</div>
 <div class="wallw">
   <div class="wall">
     ${wallItems.map((x, i) => {
       const o = norm(x);
-      const id = reg(o, { _v: 'photography', _al: 'Art wall', _sp: 1 });
+      const id = reg(o, { _v: 'photography', _al: 'Photo wall', _sp: 1 });
       const p = WP[i % 8];
       const q = WPM[i % 8];
       return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}</button>`;
     }).join('')}
   </div>
-  <button class="wfs" data-wfs type="button" aria-label="Expand art wall to full screen" title="Full screen">${EXP}</button>
+  <button class="wfs" data-wfs type="button" aria-label="Expand photo wall to full screen" title="Full screen">${EXP}</button>
 </div>
 <div class="wh">
   <p>A new mix of photos every visit. Drag to arrange inside the board. Double-tap a piece to swap its image. Use Show only above to see just one album.</p>
-  <button class="btn" data-reset>Reset</button>
+  <div class="wh-actions">
+    <button type="button" class="btn" data-reset title="Reset positions of current pictures">Reset</button>
+    <button type="button" class="btn" data-mix title="Get a new mix of pictures">Mix</button>
+  </div>
 </div>`.trim();
 };
 
 function applyWall() {
   let sv = {};
   let im = {};
+  let locked = {};
   try {
     sv = JSON.parse(localStorage.getItem(WK()) || '{}');
     im = JSON.parse(localStorage.getItem('ipwallimg') || '{}');
+    locked = JSON.parse(localStorage.getItem('ipwalllocked') || '{}');
   } catch (_) {}
-  $$('.wi').forEach(w => {
+  $('.wi').forEach(w => {
+    const isLocked = !!locked[w.dataset.i];
+    w.classList.toggle('is-locked', isLocked);
     const p = sv[w.dataset.i];
     if (p) {
       w.style.left = p[0];
@@ -478,7 +485,13 @@ function setImg(t, u, sv = true) {
 function pick(t) {
   const m = document.createElement('div');
   m.className = 'lb pk';
-  const ph = REG.filter(o => o._v === 'photography' && o._al !== 'Art wall' && o.src && !isDoc(o) && !isVid(o));
+  const ph = REG.filter(o => o._v === 'photography' && o._al !== 'Photo wall' && o.src && !isDoc(o) && !isVid(o));
+
+  let locked = {};
+  try {
+    locked = JSON.parse(localStorage.getItem('ipwalllocked') || '{}');
+  } catch (_) {}
+  const isLocked = !!locked[t.dataset.i];
 
   m.innerHTML = `
 <button class="x" aria-label="Close">×</button>
@@ -486,16 +499,47 @@ function pick(t) {
   <h2>Swap this piece</h2>
   <ol class="steps">
     <li>Pick a photo from the portfolio below,</li>
-    <li>or upload one from your device.</li>
+    <li>or upload one from your device <span class="priv-note">(This does not take your image it only shows it to you for you)</span>.</li>
   </ol>
-  <p class="d">This only changes your own wall, on this device. Press Reset under the wall to bring the originals back.</p>
-  <label class="btn">Upload from my device<input type="file" accept="image/*" hidden></label>
+  <p class="d">This only changes your own wall, on this device. Press Mix under the wall for a new mix, or Reset to restore positions.</p>
+  <div class="pk-actions">
+    <label class="btn">Upload from my device<input type="file" accept="image/*" hidden></label>
+    <button type="button" class="btn btn-lock${isLocked ? ' is-locked' : ''}" data-lock="${t.dataset.i}">${isLocked ? '🔒 Locked' : '🔓 Lock picture'}</button>
+  </div>
   <div class="grid">
     ${ph.map(o => `<button class="tile" data-u="${esc(o.src)}"><img src="${esc(o.src)}" alt="${esc(o.title)}"></button>`).join('') || '<p class="d">Portfolio photos will appear here once they are added.</p>'}
   </div>
 </div>`;
 
   m.onclick = ev => {
+    const lk = ev.target.closest('[data-lock]');
+    if (lk) {
+      let lState = {};
+      try {
+        lState = JSON.parse(localStorage.getItem('ipwalllocked') || '{}');
+      } catch (_) {}
+      const idx = lk.dataset.lock;
+      const willLock = !lState[idx];
+      if (willLock) {
+        lState[idx] = true;
+        const curImg = t.querySelector('img')?.getAttribute('src') || (REG[+t.dataset.r] && REG[+t.dataset.r].src);
+        if (curImg) {
+          let mIm = {};
+          try { mIm = JSON.parse(localStorage.getItem('ipwallimg') || '{}'); } catch (_) {}
+          mIm[idx] = curImg;
+          try { localStorage.setItem('ipwallimg', JSON.stringify(mIm)); } catch (_) {}
+        }
+      } else {
+        delete lState[idx];
+      }
+      try {
+        localStorage.setItem('ipwalllocked', JSON.stringify(lState));
+      } catch (_) {}
+      lk.textContent = willLock ? '🔒 Locked' : '🔓 Lock picture';
+      lk.classList.toggle('is-locked', willLock);
+      t.classList.toggle('is-locked', willLock);
+      return;
+    }
     const u = ev.target.closest('[data-u]');
     if (u) {
       setImg(t, u.dataset.u);
@@ -1120,7 +1164,7 @@ function aOpen(t) {
 
   ovOpen(
     'a',
-    `<div class="ah">${al.group ? `<small>${esc(al.group)}</small>` : ''}<h2>${esc(al.title)}</h2><p>${esc(al.desc || '')}</p><span class="vn">${n} photo${n === 1 ? '' : 's'}</span><div class="ab"><button type="button" class="btn" data-sv="photography" data-sp="${t.dataset.sp}" data-ovx>Open in the book</button><button type="button" class="btn" data-towall="${i}" data-ovx>Show on art wall</button></div></div><div class="boardw"><div class="board" data-kind="photos">${tiles}</div></div>`,
+    `<div class="ah">${al.group ? `<small>${esc(al.group)}</small>` : ''}<h2>${esc(al.title)}</h2><p>${esc(al.desc || '')}</p><span class="vn">${n} photo${n === 1 ? '' : 's'}</span><div class="ab"><button type="button" class="btn" data-sv="photography" data-sp="${t.dataset.sp}" data-ovx>Open in the book</button><button type="button" class="btn" data-towall="${i}" data-ovx>Show on photo wall</button></div></div><div class="boardw"><div class="board" data-kind="photos">${tiles}</div></div>`,
     t
   );
 }
@@ -1334,10 +1378,29 @@ document.addEventListener('click', e => {
     try {
       localStorage.removeItem('ipwall');
       localStorage.removeItem('ipwallm');
-      localStorage.removeItem('ipwallimg');
+    } catch (_) {}
+    $('.wi').forEach(w => {
+      w.style.left = '';
+      w.style.top = '';
+    });
+    return;
+  }
+  if (e.target.closest('[data-mix]')) {
+    let locked = {};
+    let im = {};
+    try {
+      locked = JSON.parse(localStorage.getItem('ipwalllocked') || '{}');
+      im = JSON.parse(localStorage.getItem('ipwallimg') || '{}');
+    } catch (_) {}
+    const nextIm = {};
+    for (const k of Object.keys(im)) {
+      if (locked[k]) nextIm[k] = im[k];
+    }
+    try {
+      localStorage.setItem('ipwallimg', JSON.stringify(nextIm));
     } catch (_) {}
     wallAlbum = null;
-    render(cur, sp);
+    mixWall(true);
     return;
   }
   const CC = e.target.closest('[data-cr]');
@@ -1490,7 +1553,7 @@ function studio() {
   <select id="s-t">
     <option value="writing">Writing</option>
     <option value="photo">Photo (into a folder)</option>
-    <option value="wall">Art wall piece</option>
+    <option value="wall">Photo wall piece</option>
     <option value="video">Video (into a video folder)</option>
     <option value="showreel">Showreel (YouTube link)</option>
     <option value="other">Other work</option>
@@ -1504,7 +1567,7 @@ function studio() {
     <option value="index">Index</option>
     <option value="writing">Writing</option>
     <option value="photography">Photography</option>
-    <option value="wall">Art wall</option>
+    <option value="wall">Photo wall</option>
     <option value="video">Video</option>
     <option value="other">Other works</option>
     <option value="about">About</option>
@@ -1765,7 +1828,7 @@ function cwall() {
     } else if (o._v === 'writing') {
       if (has(W.writing, o.title)) its.push({ o, k: 'Script', r: '4/5' });
     } else if (o._v === 'photography') {
-      if (o.src && o._al !== 'Art wall' && has(W.photography, o._al)) its.push({ o, k: o._al, im: o.src, r: '3/2', nat: 1 });
+      if (o.src && o._al !== 'Photo wall' && has(W.photography, o._al)) its.push({ o, k: o._al, im: o.src, r: '3/2', nat: 1 });
     } else if (o._v === 'other' && o.src && has(W.other, o._al)) {
       its.push(
         o.kind === 'album'
@@ -1966,7 +2029,7 @@ function crumbs(v, l, s) {
   if (v !== 'index') {
     P.push({ t: names[v], g: v + '|0' });
     let al = '';
-    if (v === 'photography' && s > 0) al = 'Art wall';
+    if (v === 'photography' && s > 0) al = 'Photo wall';
     else if ((v === 'other' || v === 'video') && s > 0) {
       const m = String(l).match(/<h1>(.*?)<\/h1>/);
       al = m ? m[1] : '';
@@ -1991,12 +2054,14 @@ function crumbs(v, l, s) {
   };
 })();
 
-function mixWall() {
-  const ws = $$('.wi');
+function mixWall(force = false) {
+  const ws = $('.wi');
   if (!ws.length) return;
   let im = {};
+  let locked = {};
   try {
     im = JSON.parse(localStorage.getItem('ipwallimg') || '{}');
+    locked = JSON.parse(localStorage.getItem('ipwalllocked') || '{}');
   } catch (_) {}
 
   const seen = new Set();
@@ -2006,7 +2071,7 @@ function mixWall() {
     pool = wallAlbum.photos.slice();
   } else {
     REG.forEach(o => {
-      if (o._v === 'photography' && o._al !== 'Art wall' && o.src && !isDoc(o) && !isVid(o) && !seen.has(o.src)) {
+      if (o._v === 'photography' && o._al !== 'Photo wall' && o.src && !isDoc(o) && !isVid(o) && !seen.has(o.src)) {
         seen.add(o.src);
         pool.push({ src: o.src, title: o.title });
       }
@@ -2022,7 +2087,7 @@ function mixWall() {
   const hp = $('.wh p');
   if (hp) {
     hp.dataset.t = hp.dataset.t || hp.textContent;
-    hp.textContent = wallAlbum ? 'Showing ' + wallAlbum.name + '. Press Reset for a mix of everything.' : hp.dataset.t;
+    hp.textContent = wallAlbum ? 'Showing ' + wallAlbum.name + '. Press Mix for a new mix of pictures.' : hp.dataset.t;
   }
 
   if (!pool.length) return;
@@ -2033,7 +2098,8 @@ function mixWall() {
 
   let k = 0;
   ws.forEach(w => {
-    if (!wallAlbum && im[w.dataset.i] && w.querySelector('img')) return;
+    if (locked[w.dataset.i]) return;
+    if (!force && !wallAlbum && im[w.dataset.i] && w.querySelector('img')) return;
     const p = pool[k++ % pool.length];
     const o = REG[+w.dataset.r];
     if (o) {

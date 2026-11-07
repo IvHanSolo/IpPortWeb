@@ -157,7 +157,7 @@ body{padding-right:clamp(9.5rem,13vw,12.5rem)}
 .cf{display:flex;justify-content:space-between;font-style:italic;font-size:.75rem}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* --- Art Wall & Edge Controls --- */
+/* --- Photo Wall & Edge Controls --- */
 .edge{height:2.7rem;padding:0 .85rem;font-size:.95rem}.edge span{font-family:var(--f-body);font-style:italic;letter-spacing:.02em}
 .edge:hover span,.edge:focus-visible span{max-width:5.5rem}
 .hh{background:color-mix(in srgb,var(--o) 35%,transparent);outline:3px solid var(--o);outline-offset:4px;transition:background .4s}
@@ -621,10 +621,14 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 @media(max-width:640px){
  .cwall{gap:7px}.cw{margin-bottom:7px}
  .book.solo .r[data-theme=cover] .sc{padding:.7rem}
- .cwn{padding:1.1rem 1.3rem}.cwn .lede{font-size:.9rem}
- .cwn .cvb{padding:.2rem .9rem;font-size:.95rem}
 }
-@media(max-width:900px){.cwn .cvh{display:block;margin:.3rem 0 0;max-width:17em;font:italic .8rem/1.35 var(--f-sub);color:#fff}}
+@media(max-width:900px){
+ .cwn{gap:1.25rem;padding:1.6rem 1.2rem;max-width:min(92vw,28rem)}
+ .cwn h1{font-size:clamp(2.7rem,9.5vw,4rem);line-height:1.06;white-space:normal}
+ .cwn .lede{font-size:clamp(1.15rem,4.2vw,1.38rem);letter-spacing:.02em}
+ .cwn .cvb{padding:.7rem 2.2rem;font-size:1.25rem;font-weight:700;margin-top:.5rem;border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.45)}
+ .cwn .cvh{display:block;margin:.9rem auto 0;max-width:21em;font:italic clamp(.92rem,3.4vw,1.05rem)/1.45 var(--f-sub);color:#f2f2ef}
+}
 /* --- Breadcrumb Search & Profile Overlays --- */
 @media(min-width:901px){.cwn .lede{font-size:1.4rem;font-weight:600}.cwn .cvb{font-size:1.25rem}}
 .crw{display:flex;align-items:center;justify-content:space-between;gap:.7rem;min-height:2rem;margin:0 0 .9rem;position:relative;z-index:6}
@@ -656,3 +660,12 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .lb .exif{display:grid;grid-template-columns:max-content 1fr;gap:.4rem 1.4rem;margin:1rem 0 1.2rem;font-size:1.08rem;line-height:1.35}.lb .exif dt{color:#b5b5b0}.lb .exif dd{margin:0;overflow-wrap:anywhere}
 
 
+
+/* Photo Wall Controls, Lock Button & Privacy Note */
+.wh-actions{display:flex;gap:.5rem;align-items:center;flex-shrink:0}
+.pk-actions{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;margin:.6rem 0}
+.pk-actions label.btn{display:inline-block;margin:0}
+.pk-actions .btn-lock{margin:0}
+.pk-actions .btn-lock.is-locked{border-color:var(--o);color:var(--o);background:color-mix(in srgb,var(--o) 18%,transparent)}
+.priv-note{display:inline-block;margin-left:.35rem;padding:.15rem .6rem;border-radius:6px;background:color-mix(in srgb,var(--o) 25%,transparent);color:#ff9d6c;font-style:italic;font-weight:600;font-size:.88em;border:1px solid color-mix(in srgb,var(--o) 50%,transparent)}
+.wi.is-locked::after{content:'🔒';position:absolute;top:6px;right:6px;font-size:.95rem;line-height:1;padding:3px 5px;background:rgba(0,0,0,.68);border-radius:4px;pointer-events:none;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.4)}

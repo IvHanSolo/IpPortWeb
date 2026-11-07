@@ -714,7 +714,8 @@
             "desc": "A cap, round glasses and a tail light glowing in the reflection, at dusk.",
             "tags": [
               "people",
-              "portrait"
+              "portrait",
+              "F&F"
             ],
             "exif": {}
           },
@@ -724,10 +725,11 @@
             "desc": "A man and a child in a knitted sweater, grinning, with terraced fields behind them.",
             "tags": [
               "people",
-              "himachal",
+              "Himachal",
               "portrait"
             ],
-            "exif": {}
+            "exif": {},
+            "location": "Himachal"
           },
           {
             "title": "Edge of the Forest",
@@ -735,9 +737,10 @@
             "desc": "Four people resting on a grassy ridge above a sea of Himalayan forest.",
             "tags": [
               "people",
-              "himachal"
+              "Himachal"
             ],
-            "exif": {}
+            "exif": {},
+            "location": "Himachal"
           },
           {
             "title": "Waiting Out the Afternoon",
@@ -755,7 +758,8 @@
             "desc": "Two friends going through pages on a rooftop ledge late at night.",
             "tags": [
               "people",
-              "night"
+              "night",
+              "F&F"
             ],
             "exif": {
               "date": "19 March 2024"
@@ -789,7 +793,8 @@
             "desc": "Two men looking off-frame, a wide tidal flat behind them.",
             "tags": [
               "people",
-              "portrait"
+              "portrait",
+              "F&F"
             ],
             "exif": {}
           },
@@ -809,7 +814,8 @@
             "desc": "A close portrait in warm lamplight, a pink pen against her lip.",
             "tags": [
               "people",
-              "portrait"
+              "portrait",
+              "F&F"
             ],
             "exif": {}
           },
@@ -819,7 +825,8 @@
             "desc": "Studying late beside a desk lamp, a painted guitar on the wall behind.",
             "tags": [
               "people",
-              "portrait"
+              "portrait",
+              "F&F"
             ],
             "exif": {}
           },
@@ -828,7 +835,8 @@
             "src": "mini-dirt-bike.webp",
             "desc": "A rider perched on a child-sized dirt bike in a cluttered corner.",
             "tags": [
-              "people"
+              "people",
+              "F&F"
             ],
             "exif": {}
           },
@@ -839,7 +847,8 @@
             "tags": [
               "people",
               "portrait",
-              "street"
+              "street",
+              "F&F"
             ],
             "exif": {}
           },
@@ -875,7 +884,8 @@
             "desc": "A passenger resting her chin on her arm, watching the light go by.",
             "tags": [
               "people",
-              "portrait"
+              "portrait",
+              "F&F"
             ],
             "exif": {}
           }

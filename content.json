@@ -880,61 +880,68 @@
             "exif": {}
           }
         ]
-      }
-    ],
-    "otherSections": [
+      },
       {
         "title": "Animals",
         "desc": "Candid wildlife and street animal observations.",
+        "folder": "images/animals/",
         "items": [
           {
-            "title": "Animal 1",
-            "src": "",
-            "desc": ""
+            "title": "Under the Red Box",
+            "src": "dog-red-fire-box.webp",
+            "desc": "A street dog resting in thick green hedges under an old red fire hydrant box.",
+            "tags": [
+              "animals",
+              "dog",
+              "street"
+            ],
+            "exif": {}
           },
           {
-            "title": "Animal 2",
-            "src": "",
-            "desc": ""
+            "title": "On the Scent",
+            "src": "beagle-morning-walk.webp",
+            "desc": "A beagle nose-down on the kerb during a morning walk on the leash.",
+            "tags": [
+              "animals",
+              "dog"
+            ],
+            "exif": {}
           },
           {
-            "title": "Animal 3",
-            "src": "",
-            "desc": ""
+            "title": "Tidal Sentinel",
+            "src": "shore-crab-tidal-rock.webp",
+            "desc": "A mottled green shore crab clinging to textured tidal rocks by the water's edge.",
+            "tags": [
+              "animals",
+              "crab",
+              "ocean"
+            ],
+            "exif": {}
           },
           {
-            "title": "Animal 4",
-            "src": "",
-            "desc": ""
+            "title": "The Yard Keeper",
+            "src": "rooster-morning-patrol.webp",
+            "desc": "A rooster with a bright scarlet comb and deep blue-black plumage pausing near the water trough.",
+            "tags": [
+              "animals",
+              "bird"
+            ],
+            "exif": {}
           },
           {
-            "title": "Animal 5",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Animal 6",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Animal 7",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Animal 8",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Animal 9",
-            "src": "",
-            "desc": ""
+            "title": "Golden Hour Forager",
+            "src": "crow-perched-dustbin.webp",
+            "desc": "A crow balancing on the rim of a stainless steel bin, caught in late afternoon rim light.",
+            "tags": [
+              "animals",
+              "bird"
+            ],
+            "exif": {}
           }
         ]
       }
     ],
+    "otherSections": [],
     "wall": [
       {
         "title": "Art piece 1",

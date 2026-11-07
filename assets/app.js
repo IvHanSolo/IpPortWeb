@@ -218,7 +218,13 @@ const B = {
         all.push({
           o,
           al: al.title,
-          id: reg(o, { _v: 'photography', _al: al.title, _sp: 0, tags: al.group ? [al.group] : [] })
+          id: reg(o, {
+            _v: 'photography',
+            _al: al.title,
+            _sp: 0,
+            _it: o.tags || [],
+            tags: [...(al.group ? [al.group] : []), ...(o.tags || []), ...(o.location ? [o.location] : [])]
+          })
         });
       });
     });
@@ -1149,6 +1155,26 @@ document.addEventListener('keydown', e => {
 const vis = () => $$('[data-r]', ovEl && ovKind === 'a' ? ovEl : document).filter(t => t.offsetParent);
 const tileOf = n => $('[data-r="' + n + '"]');
 
+/* EXIF & photo detail formatting */
+const EXL = [
+  ['camera', 'Camera'],
+  ['lens', 'Lens'],
+  ['aperture', 'Aperture'],
+  ['shutter', 'Shutter'],
+  ['iso', 'ISO'],
+  ['focal', 'Focal length'],
+  ['date', 'Taken'],
+  ['location', 'Location']
+];
+
+const exifHtml = o => {
+  if (o._v !== 'photography' || !o.src) return '';
+  const ex = Object.assign({ location: o.location }, o.exif || {});
+  const rows = EXL.filter(([k]) => ex[k]).map(([k, l]) => `<dt>${l}</dt><dd>${esc(ex[k])}</dd>`).join('');
+  const tg = (o._it || []).map(t => `<span>${esc(t)}</span>`).join('');
+  return (tg ? `<div class="facts">${tg}</div>` : '') + (rows ? `<dl class="exif">${rows}</dl>` : '');
+};
+
 function show(n) {
   const l = vis();
   idx = (n + l.length) % l.length;
@@ -1194,6 +1220,7 @@ function show(n) {
   $('.panel', lb).innerHTML =
     `<h2>${esc(o.title)}</h2>` +
     (o.desc ? `<p class="d">${esc(o.desc)}</p>` : '') +
+    exifHtml(o) +
     textParagraphs +
     (pv ? '<p class="vn pgn"></p>' : '') +
     (w || pv ? `<a class="btn" ${pv ? `href="${esc(pv)}" download` : 'aria-disabled="true"'}>Download PDF</a>` : '') +

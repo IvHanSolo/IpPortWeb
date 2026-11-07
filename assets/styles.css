@@ -654,7 +654,6 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 
 /* ==========================================================================
    IpPortWeb: Mobile Cover Horizontal Scroll, Collision & Stroke Fix
-   Append this block to the bottom of assets/styles.css
    ========================================================================== */
 
 /* 1. Tame Cover Text Stroke to 1st Level (Clean 2px/1px outline) */
@@ -790,3 +789,6 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
     -webkit-text-stroke: 0;
   }
 }
+/* Photo details in the viewer (camera, lens, settings) */
+.lb .exif{display:grid;grid-template-columns:max-content 1fr;gap:.4rem 1.4rem;margin:1rem 0 1.2rem;font-size:1.08rem;line-height:1.35}.lb .exif dt{color:#b5b5b0}.lb .exif dd{margin:0;overflow-wrap:anywhere}
+

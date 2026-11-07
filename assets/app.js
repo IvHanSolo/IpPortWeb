@@ -236,8 +236,8 @@ const B = {
       });
     });
 
-    const tabs = on => `<div class="switch" role="tablist" aria-label="Photography"><button data-sv="photography" data-sp="0" aria-selected="${on === 0}">Albums</button><button data-sv="photography" data-sp="1" aria-selected="${on === 1}">Photo wall</button></div>`;
-    const tiles = all.filter(t => t.o.src).map((t, i) => `
+    const tabs = on => `<div class="switch" role="tablist" aria-label="Photography"><button data-sv="photography" data-sp="0" aria-selected="${on === 0}">All Images</button><button data-sv="photography" data-sp="1" aria-selected="${on === 1}">Albums</button><button data-sv="photography" data-sp="2" aria-selected="${on === 2}">Photo wall</button></div>`;
+    const tilesAll = all.filter(t => t.o.src).map((t, i) => `
 <button type="button" class="bt" data-r="${t.id}" data-o="${i}" data-vf="${esc(t.al)}" style="--rt:${RT[i % 8]}deg">
   ${t.o.src ? `<img src="${esc(t.o.src)}" alt="${esc(t.o.title)}" loading="lazy" draggable="false">` : '<span class="nop"></span>'}
   <span class="cap"><small>${esc(t.al)}</small><b>${esc(t.o.title)}</b></span>
@@ -246,17 +246,48 @@ const B = {
     const chips = als.length
       ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-vfilter="">All</button>${als.map(a => `<button type="button" class="chip" data-vfilter="${esc(a.title)}">${esc(a.title)}</button>`).join('')}</div>`
       : '';
+
+    const albChips = als.length
+      ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-afilter="">All</button>${als.map(a => `<button type="button" class="chip" data-afilter="${esc(a.title)}">${esc(a.title)}</button>`).join('')}</div>`
+      : '';
+
+    const byAlbum = als.map((al, ai) => {
+      const its = all.filter(item => item.al === al.title && item.o.src);
+      return { al, ai, its };
+    }).filter(g => g.its.length > 0);
+
+    const albumSections = byAlbum.map(({ al, ai, its }) => {
+      const albumTiles = its.map((t, j) => `
+<button type="button" class="bt" data-r="${t.id}" data-vf="${esc(t.al)}" style="--rt:${RT[(ai * 3 + j) % 8]}deg">
+  <img src="${esc(t.o.src)}" alt="${esc(t.o.title)}" loading="lazy" draggable="false">
+  <span class="cap"><small>${esc(t.al)}</small><b>${esc(t.o.title)}</b></span>
+</button>`.trim()).join('');
+
+      return `
+<section class="alb-sec" data-alb="${esc(al.title)}">
+  <div class="alb-hdr">
+    <h3>${esc(al.title)}</h3>
+    <span class="alb-cnt">${its.length} photo${its.length === 1 ? '' : 's'}</span>
+  </div>
+  <div class="board" data-kind="photos">${albumTiles}</div>
+</section>`.trim();
+    }).join('');
+
     const wch = als.length
       ? `<div class="alb"><span>Show only</span>${als.map((a, i) => `<button type="button" class="chip" data-towall="${i}">${esc(a.title)}</button>`).join('')}</div>`
       : '';
 
     return [
       [
-        PT('photography', 'Photography', 'A glimpse through my lens') + tabs(0) + chips + '<p class="bh">Hover to peek. Click any photo to see it full screen.</p>',
-        `<div class="boardw"><div class="board" id="vboard" data-kind="photos">${tiles || '<p>Photos will appear here once they are added.</p>'}</div></div>`
+        PT('photography', 'All Images', 'A glimpse through my lens across all collections') + tabs(0) + chips + '<p class="bh">Hover to peek. Click any photo to see it full screen.</p>',
+        `<div class="boardw"><div class="board" id="vboard" data-kind="photos">${tilesAll || '<p>Photos will appear here once they are added.</p>'}</div></div>`
       ],
       [
-        PT('wall', 'Photo wall', 'A new mix of your photos every visit. Drag the pieces to arrange them.') + tabs(1) + wch,
+        PT('albums', 'Albums', 'Photographs organized by collection and destination') + tabs(1) + albChips + '<p class="bh">Sorted by albums. Click any photo to see it full screen.</p>',
+        `<div class="boardw alb-boardw">${albumSections || '<p>Albums will appear here once they are added.</p>'}</div>`
+      ],
+      [
+        PT('wall', 'Photo wall', 'A new mix of your photos every visit. Drag the pieces to arrange them.') + tabs(2) + wch,
         WALL
       ]
     ];
@@ -428,7 +459,7 @@ const mkWall = () => {
   <div class="wall">
     ${wallItems.map((x, i) => {
       const o = norm(x);
-      const id = reg(o, { _v: 'photography', _al: 'Photo wall', _sp: 1 });
+      const id = reg(o, { _v: 'photography', _al: 'Photo wall', _sp: 2 });
       const p = WP[i % 8];
       const q = WPM[i % 8];
       return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}</button>`;
@@ -679,9 +710,9 @@ function render(v, s = 0) {
 
   const CR = crumbs(v, l, s);
   BK.classList.toggle('solo', SO);
-  R.dataset.theme = v === 'thanks' ? 'thanks' : v === 'cover' ? 'cover' : (v === 'writing' || (v === 'photography' && s === 1)) ? 'dark' : 'light';
+  R.dataset.theme = v === 'thanks' ? 'thanks' : v === 'cover' ? 'cover' : (v === 'writing' || (v === 'photography' && s === 2)) ? 'dark' : 'light';
 
-  const nsR = (v === 'photography' && s === 1) ? ' ns' : '';
+  const nsR = (v === 'photography' && s === 2) ? ' ns' : '';
   L.innerHTML = '<div class="dots"></div><div class="sc"><div class="crw">' + CR + sbar() + '</div>' + l + `</div>${!SO && (i || s) ? EG(-1) : ''}`;
   R.innerHTML = (v === 'cover' ? '<div class="dots"></div>' : '') + '<div class="sc' + nsR + '">' + (SO && v === 'thanks' ? CR : '') + (r === '@toc' ? toc() : r.replace('@wall', cwall)) + `</div>${v === 'thanks' ? TKN : ''}${SO ? '' : (i < order.length - 1 || s < n - 1) ? EG(1) : ''}`;
 
@@ -1185,9 +1216,18 @@ document.addEventListener('click', e => {
   const vf = e.target.closest('[data-vfilter]');
   if (vf) {
     const f = vf.dataset.vfilter;
-    $$('[data-vfilter]').forEach(c => c.classList.toggle('on', c === vf));
-    $$('#vboard .bt').forEach(t => (t.hidden = Boolean(f && t.dataset.vf !== f)));
+    $('[data-vfilter]').forEach(c => c.classList.toggle('on', c === vf));
+    $('#vboard .bt').forEach(t => (t.hidden = Boolean(f && t.dataset.vf !== f)));
     ordBoard();
+    return;
+  }
+  const af = e.target.closest('[data-afilter]');
+  if (af) {
+    const f = af.dataset.afilter;
+    $('[data-afilter]').forEach(c => c.classList.toggle('on', c === af));
+    $('.alb-sec').forEach(sec => {
+      sec.hidden = Boolean(f && sec.dataset.alb !== f);
+    });
     return;
   }
   if (ovEl && !e.target.closest('.lb')) {
@@ -2029,7 +2069,10 @@ function crumbs(v, l, s) {
   if (v !== 'index') {
     P.push({ t: names[v], g: v + '|0' });
     let al = '';
-    if (v === 'photography' && s > 0) al = 'Photo wall';
+    if (v === 'photography') {
+      if (s === 1) al = 'Albums';
+      else if (s === 2) al = 'Photo wall';
+    }
     else if ((v === 'other' || v === 'video') && s > 0) {
       const m = String(l).match(/<h1>(.*?)<\/h1>/);
       al = m ? m[1] : '';
@@ -2237,8 +2280,8 @@ function albumToWall(i) {
     return;
   }
   wallAlbum = { name: al.title, photos: ph };
-  if (PAGE !== 'photography' || sp !== 1) {
-    go('photography', 1);
+  if (PAGE !== 'photography' || sp !== 2) {
+    go('photography', 2);
   } else {
     mixWall();
   }

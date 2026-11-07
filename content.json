@@ -937,6 +937,59 @@
               "bird"
             ],
             "exif": {}
+          },
+          {
+            "title": "Night Watch",
+            "src": "dog-silhouette-monochrome.webp",
+            "desc": "A seated dog in high-contrast monochrome, alert against the dark.",
+            "tags": [
+              "animals",
+              "dog",
+              "noir"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Shoreline Pair",
+            "src": "beach-horses-harness.webp",
+            "desc": "Two chestnut horses in rope bridles standing side by side along the coastal tide.",
+            "tags": [
+              "animals",
+              "horse",
+              "beach"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Pavement Slumber",
+            "src": "cat-sleeping-pavement.webp",
+            "desc": "A white and ginger stray curled up asleep across warm stone slabs.",
+            "tags": [
+              "animals",
+              "cat"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Shopkeeper's Gaze",
+            "src": "shop-cat-amber-eyes.webp",
+            "desc": "A white cat with sharp amber eyes watching the street from inside a corner store.",
+            "tags": [
+              "animals",
+              "cat",
+              "portrait"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Under the Spoke",
+            "src": "birds-shelter-cart-wheels.webp",
+            "desc": "Quail seeking shade and rest beneath the chained wheels of a handcart.",
+            "tags": [
+              "animals",
+              "bird"
+            ],
+            "exif": {}
           }
         ]
       }

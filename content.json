@@ -453,74 +453,112 @@
         "desc": "Island shorelines, open water, and tropical light from the Andaman Islands.",
         "items": [
           {
-            "title": "Andaman 1",
-            "src": "",
-            "desc": ""
+            "title": "Palms and Open Sky",
+            "src": "andaman-palms-open-sky.webp",
+            "desc": "Leaning palms in silhouette against a deep blue Andaman sky.",
+            "tags": [
+              "andaman",
+              "beach",
+              "palm trees"
+            ],
+            "exif": {}
           },
           {
-            "title": "Andaman 2",
-            "src": "",
-            "desc": ""
+            "title": "Jetty Over Turquoise",
+            "src": "andaman-jetty-turquoise.webp",
+            "desc": "Concrete jetty stepping out over clear turquoise water.",
+            "tags": [
+              "andaman",
+              "jetty",
+              "structure"
+            ],
+            "exif": {}
           },
           {
-            "title": "Andaman 3",
-            "src": "",
-            "desc": ""
+            "title": "Rust and Water",
+            "src": "andaman-jetty-pillar-rust.webp",
+            "desc": "A single rusted pillar holding up the jetty, sun glinting off the surface.",
+            "tags": [
+              "andaman",
+              "jetty",
+              "structure"
+            ],
+            "exif": {}
           },
           {
-            "title": "Andaman 4",
-            "src": "",
-            "desc": ""
+            "title": "Three Boats at Anchor",
+            "src": "andaman-three-boats.webp",
+            "desc": "Glass-bottom style tour boats moored side by side on open water.",
+            "tags": [
+              "andaman",
+              "boats"
+            ],
+            "exif": {}
           },
           {
-            "title": "Andaman 5",
-            "src": "",
-            "desc": ""
+            "title": "The Red Beacon",
+            "src": "andaman-red-beacon.webp",
+            "desc": "A red navigation beacon on rusted pillars, with a forested island behind.",
+            "tags": [
+              "andaman",
+              "structure",
+              "beacon",
+              "boats"
+            ],
+            "exif": {}
           },
           {
-            "title": "Andaman 6",
-            "src": "",
-            "desc": ""
+            "title": "Ferry on the Horizon",
+            "src": "andaman-ferry-horizon.webp",
+            "desc": "A ferry crossing far out where shallow turquoise turns to deep blue.",
+            "tags": [
+              "andaman",
+              "boats",
+              "ferry"
+            ],
+            "exif": {}
           },
           {
-            "title": "Andaman 7",
-            "src": "",
-            "desc": ""
+            "title": "Oceanica",
+            "src": "andaman-oceanica-boat.webp",
+            "desc": "A speedboat pulled into the surf while a parasail drifts above the bay.",
+            "tags": [
+              "andaman",
+              "boats",
+              "water sports"
+            ],
+            "exif": {}
+          }
+        ],
+        "folder": "images/andaman/"
+      },
+      {
+        "title": "Seascapes",
+        "desc": "Harbours, skylines, and working boats on open water.",
+        "folder": "images/seascapes/",
+        "items": [
+          {
+            "title": "Bulk Carrier at Anchor",
+            "src": "bulk-carrier-harbour.webp",
+            "desc": "A bulk carrier with its cranes raised, a pilot boat passing in the foreground.",
+            "tags": [
+              "ship",
+              "boats",
+              "harbour"
+            ],
+            "exif": {}
           },
           {
-            "title": "Andaman 8",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Andaman 9",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Andaman 10",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Andaman 11",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Andaman 12",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Andaman 13",
-            "src": "",
-            "desc": ""
-          },
-          {
-            "title": "Andaman 14",
-            "src": "",
-            "desc": ""
+            "title": "Endless Horizon",
+            "src": "endless-horizon.webp",
+            "desc": "Two fishermen working their nets in a yellow boat, with the Mumbai skyline across the water.",
+            "tags": [
+              "boats",
+              "skyline",
+              "mumbai"
+            ],
+            "location": "Mumbai",
+            "exif": {}
           }
         ]
       }

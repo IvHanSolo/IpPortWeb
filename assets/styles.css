@@ -651,3 +651,6 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .wkw>.wke{grid-column:1/-1;margin:1rem 0;color:var(--mut);font:italic 1.05rem var(--f-sub)}
 /* ---- v6.3: album covers (Album Art project) preview as 1:1 ---- */
 .tile.sq{aspect-ratio:1/1}
+
+/* Photo details in the viewer (camera, lens, settings) */
+.lb .exif{display:grid;grid-template-columns:max-content 1fr;gap:.4rem 1.4rem;margin:1rem 0 1.2rem;font-size:1.08rem;line-height:1.35}.lb .exif dt{color:#b5b5b0}.lb .exif dd{margin:0;overflow-wrap:anywhere}

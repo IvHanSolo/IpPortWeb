@@ -139,3 +139,12 @@ Open it in any text editor. The parts you will touch most:
 - **PDF previews** (for example Assignments) are drawn from each PDF's first page at its own shape: 16:9 decks stay landscape, a script stays a tall page.
 - **Opened PDFs** (Writing and Other works) show as scrolling pages. On a computer a *Contents* list sits beside them: the PDF's own bookmarks when they have real names, otherwise scene headings (INT. / EXT.) for scripts, otherwise each slide's title. Click one to jump there.
 - **Album Art** posters are always 2:3 (like a printed poster), 3 per row on a computer and on a phone. An opened poster shrinks to fit the phone screen without scrolling.
+
+## V8 notes: photo tags and shot details
+
+- Each photo in `content.json` can carry `"tags": ["andaman", "boats"]`, an optional `"location": "Port Blair"` and an `"exif"` block:
+  `{ "camera": "Sony A7 III", "lens": "24-70mm f/2.8", "aperture": "f/5.6", "shutter": "1/250 s", "iso": "200", "focal": "50 mm", "date": "12 March 2026" }`.
+  Tags and details show under the description when a photo is opened full screen. Empty fields are simply left out. Tags and location are also searchable.
+- `optimize-images.py` now reads the details from your originals and fills `exif` for you:
+  `python optimize-images.py "My Edits/Andaman" images/andaman --content content.json --album Andaman`
+  It never overwrites titles or tags you wrote, skips photos that are already there, and the WebP copies it writes carry no GPS or other metadata.

@@ -1254,24 +1254,15 @@
     {
       "title": "CSM",
       "status": "WIP",
-      "desc": "An ongoing process.",
+      "desc": "Coming soon...",
       "items": [
         {
-          "title": "CSM 1",
-          "src": "",
-          "desc": ""
-        },
-        {
-          "title": "CSM 2",
-          "src": "",
-          "desc": ""
-        },
-        {
-          "title": "CSM 3",
-          "src": "",
-          "desc": ""
+          "title": "CSM",
+          "src": "images/csm/csm-teaser.jpg",
+          "desc": "Coming soon..."
         }
-      ]
+      ],
+      "note": "Coming soon... brief to follow."
     },
     {
       "title": "Album Art",

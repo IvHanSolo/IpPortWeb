@@ -219,27 +219,32 @@ const B = {
   photography: () => {
     const als = getPhotoAlbums();
     const all = [];
-    als.forEach(al => {
+    ALB.length = 0;
+
+    als.forEach((al, i) => {
+      const ids = [];
       (al.items || []).forEach(x => {
         const o = norm(x, al);
-        all.push({
-          o,
-          al: al.title,
-          id: reg(o, {
-            _v: 'photography',
-            _al: al.title,
-            _sp: 0,
-            _it: o.tags || [],
-            tags: [...(al.group ? [al.group] : []), ...(o.tags || []), ...(o.location ? [o.location] : [])]
-          })
+        const id = reg(o, {
+          _v: 'photography',
+          _al: al.title,
+          _sp: 0,
+          _it: o.tags || [],
+          tags: [...(al.group ? [al.group] : []), ...(o.tags || []), ...(o.location ? [o.location] : [])]
         });
+        ids.push(id);
+        all.push({ o, al: al.title, id });
       });
+      ALB.push({ al, ids, i });
     });
 
     const tabs = on => `<div class="switch" role="tablist" aria-label="Photography"><button data-sv="photography" data-sp="0" aria-selected="${on === 0}">All Images</button><button data-sv="photography" data-sp="1" aria-selected="${on === 1}">Albums</button><button data-sv="photography" data-sp="2" aria-selected="${on === 2}">Photo wall</button></div>`;
-    const tilesAll = all.filter(t => t.o.src).map((t, i) => `
+
+    const photoItems = all.filter(t => t.o.src);
+    const mixedItems = shuf(photoItems.slice());
+    const tilesAll = mixedItems.map((t, i) => `
 <button type="button" class="bt" data-r="${t.id}" data-o="${i}" data-vf="${esc(t.al)}" style="--rt:${RT[i % 8]}deg">
-  ${t.o.src ? `<img src="${esc(t.o.src)}" alt="${esc(t.o.title)}" loading="lazy" draggable="false">` : '<span class="nop"></span>'}
+  <img src="${esc(t.o.src)}" alt="${esc(t.o.title)}" loading="lazy" draggable="false">
   <span class="cap"><small>${esc(t.al)}</small><b>${esc(t.o.title)}</b></span>
 </button>`.trim()).join('');
 
@@ -247,30 +252,16 @@ const B = {
       ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-vfilter="">All</button>${als.map(a => `<button type="button" class="chip" data-vfilter="${esc(a.title)}">${esc(a.title)}</button>`).join('')}</div>`
       : '';
 
-    const albChips = als.length
-      ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-afilter="">All</button>${als.map(a => `<button type="button" class="chip" data-afilter="${esc(a.title)}">${esc(a.title)}</button>`).join('')}</div>`
-      : '';
-
-    const byAlbum = als.map((al, ai) => {
-      const its = all.filter(item => item.al === al.title && item.o.src);
-      return { al, ai, its };
-    }).filter(g => g.its.length > 0);
-
-    const albumSections = byAlbum.map(({ al, ai, its }) => {
-      const albumTiles = its.map((t, j) => `
-<button type="button" class="bt" data-r="${t.id}" data-vf="${esc(t.al)}" style="--rt:${RT[(ai * 3 + j) % 8]}deg">
-  <img src="${esc(t.o.src)}" alt="${esc(t.o.title)}" loading="lazy" draggable="false">
-  <span class="cap"><small>${esc(t.al)}</small><b>${esc(t.o.title)}</b></span>
-</button>`.trim()).join('');
-
+    const albumFolders = als.map((al, i) => {
+      const items = (al.items || []).filter(x => norm(x, al).src);
+      const firstImg = items[0] ? norm(items[0], al).src : '';
       return `
-<section class="alb-sec" data-alb="${esc(al.title)}">
-  <div class="alb-hdr">
-    <h3>${esc(al.title)}</h3>
-    <span class="alb-cnt">${its.length} photo${its.length === 1 ? '' : 's'}</span>
-  </div>
-  <div class="board" data-kind="photos">${albumTiles}</div>
-</section>`.trim();
+<button class="fold" type="button" data-album="${i}">
+  ${firstImg ? `<img class="fcv" src="${esc(firstImg)}" alt="" draggable="false">` : ''}
+  <b>${esc(al.title)}</b>
+  <span>${esc(al.desc || (al.group ? al.group : ''))}</span>
+  <small>${items.length} photo${items.length === 1 ? '' : 's'}</small>
+</button>`.trim();
     }).join('');
 
     const wch = als.length
@@ -283,8 +274,8 @@ const B = {
         `<div class="boardw"><div class="board" id="vboard" data-kind="photos">${tilesAll || '<p>Photos will appear here once they are added.</p>'}</div></div>`
       ],
       [
-        PT('albums', 'Albums', 'Photographs organized by collection and destination') + tabs(1) + albChips + '<p class="bh">Sorted by albums. Click any photo to see it full screen.</p>',
-        `<div class="boardw alb-boardw">${albumSections || '<p>Albums will appear here once they are added.</p>'}</div>`
+        PT('albums', 'Albums', 'Photographs organized by collection and destination') + tabs(1) + '<p class="bh">Click any album folder to view its collection.</p>',
+        `<div class="folders">${albumFolders || '<p>Albums will appear here once they are added.</p>'}</div>`
       ],
       [
         PT('wall', 'Photo wall', 'A new mix of your photos every visit. Drag the pieces to arrange them.') + tabs(2) + wch,
@@ -351,7 +342,16 @@ const B = {
 
     const grp = st =>
       A.filter(a => a.al.status === st)
-        .map(a => `<button class="fold" data-sv="other" data-sp="${a.i + 1}"><b>${esc(a.al.title)}</b><span>${esc(a.al.desc)}</span><small>${a.its.length} items</small></button>`)
+        .map(a => {
+          const firstImg = a.its.find(o => o.cover || (o.src && !isDoc(o) && !isVid(o)));
+          const peekSrc = firstImg ? (firstImg.cover || firstImg.src) : '';
+          return `<button class="fold" data-sv="other" data-sp="${a.i + 1}">
+            ${peekSrc ? `<img class="fcv" src="${esc(peekSrc)}" alt="" draggable="false">` : ''}
+            <b>${esc(a.al.title)}</b>
+            <span>${esc(a.al.desc)}</span>
+            <small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small>
+          </button>`.trim();
+        })
         .join('') || '<p>Nothing here yet.</p>';
 
     const out = [

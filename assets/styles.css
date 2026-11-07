@@ -563,13 +563,18 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .wk .cvr{position:relative}
 .wk .rmo{position:absolute;inset:auto 0 0;display:grid;place-items:center;height:34%;background:linear-gradient(transparent,rgba(10,10,10,.72) 55%);-webkit-backdrop-filter:blur(1.5px);backdrop-filter:blur(1.5px);color:#fff;font:italic 600 1rem var(--f-sub);letter-spacing:.03em;text-shadow:0 1px 3px rgba(0,0,0,.6);transition:height .3s,background .3s}
 .wk:hover .rmo,.wk .cvr:focus-visible .rmo{height:100%;background:rgba(10,10,10,.5)}
-.folders{grid-template-columns:repeat(5,minmax(0,1fr));gap:1.4rem .7rem;align-items:stretch}
+.folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.6rem 1.1rem;align-items:stretch;margin-top:1.2rem}
 .folders>p{grid-column:1/-1}
-.folders .fold{padding:.6rem .55rem;min-width:0;container-type:inline-size}
-.folders .fold b{font-size:min(.92rem,14cqw);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.folders .fold span{font-size:.74rem;line-height:1.3;margin-top:.25rem;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.folders .fold small{display:block;font-size:.74rem;margin-top:.35rem}
-@media(max-width:900px){.folders{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.3rem .6rem}}
+.folders .fold{position:relative;text-align:left;border:2px solid var(--ink);border-radius:2px 14px 14px 14px;background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink);padding:1rem 1rem;padding-right:6.4rem;min-height:5.6rem;cursor:pointer;margin-top:.7rem;transition:transform .3s,border-color .3s,box-shadow .3s;display:flex;flex-direction:column;justify-content:center}
+.folders .fold::before{content:"";position:absolute;left:-2px;top:-.72rem;width:42%;height:.72rem;border:2px solid var(--ink);border-bottom:0;border-radius:8px 8px 0 0;background:inherit;transition:border-color .3s}
+.folders .fold:hover{transform:translateY(-3px) rotate(-.6deg);border-color:var(--o);box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.folders .fold:hover::before{border-color:var(--o)}
+.folders .fold b{display:block;font:700 1.15rem/1.2 var(--f-head);letter-spacing:.02em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.folders .fold span{display:block;color:var(--mut);font:italic .82rem/1.3 var(--f-sub);margin-top:.25rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.folders .fold small{display:block;color:var(--o);font:600 .84rem var(--f-sub);margin-top:.35rem}
+.folders .fold .fcv{position:absolute;right:.75rem;top:50%;translate:0 -50%;width:4.8rem;height:3.6rem;object-fit:cover;border:3px solid #f4f4f0;border-radius:3px;rotate:4deg;box-shadow:2px 4px 10px rgba(0,0,0,.35);transition:transform .3s ease;pointer-events:none}
+.folders .fold:hover .fcv{transform:scale(1.08) rotate(1deg) translateY(-2px)}
+@media(max-width:600px){.folders{grid-template-columns:1fr;gap:1.4rem}}
 /* --- PDF Viewer Navigation & Previews --- */
 .grid:has(.tile[data-pdf]){grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
 .tile[data-pdf]{padding:0}

@@ -528,6 +528,18 @@
               "water sports"
             ],
             "exif": {}
+          },
+          {
+            "title": "The Long Walk Out",
+            "src": "andaman-jetty-walkway.webp",
+            "desc": "Travellers walking the brick-paved jetty under a heavy, towering sky.",
+            "tags": [
+              "andaman",
+              "jetty",
+              "structure",
+              "clouds"
+            ],
+            "exif": {}
           }
         ],
         "folder": "images/andaman/"
@@ -558,6 +570,326 @@
               "mumbai"
             ],
             "location": "Mumbai",
+            "exif": {}
+          }
+        ]
+      },
+      {
+        "title": "Misc",
+        "desc": "Cloudscapes, urban architecture, and everyday visual studies.",
+        "folder": "images/misc/",
+        "items": [
+          {
+            "title": "Floodlight at Dusk",
+            "src": "floodlight-dusk.webp",
+            "desc": "A stadium floodlight burning bright against a bruised evening sky.",
+            "tags": [
+              "clouds",
+              "floodlight",
+              "structure"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Pink Tower",
+            "src": "tower-antennas-palm.webp",
+            "desc": "A pink residential tower rising behind bamboo scaffolding and a rooftop of antennas, framed by a palm.",
+            "tags": [
+              "architecture",
+              "building",
+              "palm trees"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Dusk Over the Roof",
+            "src": "dusk-clouds-roof.webp",
+            "desc": "Pink and violet clouds piling up over a corrugated roof and two lamp poles.",
+            "tags": [
+              "clouds",
+              "dusk"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Beams and Sky",
+            "src": "concrete-beams-sky.webp",
+            "desc": "Looking straight up between concrete beams at a pale teal sky.",
+            "tags": [
+              "architecture",
+              "structure",
+              "clouds"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Storm Light on the Ridge",
+            "src": "mountain-storm-light.webp",
+            "desc": "Sunlit folds of a mountain face under heavy cloud, snow peaks in the distance.",
+            "tags": [
+              "clouds",
+              "mountains",
+              "landscape"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Open Flame",
+            "src": "open-flame.webp",
+            "desc": "A small fire burning in a dark, concrete-framed corner.",
+            "tags": [
+              "fire"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Bougainvillea",
+            "src": "bougainvillea-bloom.webp",
+            "desc": "Pink bougainvillea bracts in soft focus against a green, blurred background.",
+            "tags": [
+              "flowers"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Stacked Blocks, Hard Light",
+            "src": "stacked-blocks-light.webp",
+            "desc": "A stack of concrete blocks catching a sliver of sun against deep shadow.",
+            "tags": [
+              "construction",
+              "structure"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Miniature Fisherman",
+            "src": "miniature-fisherman.webp",
+            "desc": "A tiny ceramic fisherman and hut on a rocky bonsai landscape.",
+            "tags": [
+              "miniature",
+              "bonsai"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Mannequin Under Fluorescents",
+            "src": "mannequin-profile.webp",
+            "desc": "A glossy mannequin in profile beneath a warm, striped ceiling of lights.",
+            "tags": [
+              "mannequin"
+            ],
+            "exif": {}
+          }
+        ]
+      },
+      {
+        "title": "People",
+        "desc": "Natural-light portraiture and candid character studies.",
+        "folder": "images/people/",
+        "items": [
+          {
+            "title": "Noir Stairwell",
+            "src": "noir-fedora-stairwell.webp",
+            "desc": "A fedora-wearing figure turned away from the camera under a warm, tilted stairwell.",
+            "tags": [
+              "people",
+              "portrait",
+              "noir"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Hands in the Dark",
+            "src": "noir-hands-in-the-dark.webp",
+            "desc": "Two hands emerging from a black suit, one holding a rolled-up newspaper.",
+            "tags": [
+              "people",
+              "noir"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Orange Light, Round Glasses",
+            "src": "round-glasses-dusk.webp",
+            "desc": "A cap, round glasses and a tail light glowing in the reflection, at dusk.",
+            "tags": [
+              "people",
+              "portrait"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Smiles in the Valley",
+            "src": "himachal-father-and-child.webp",
+            "desc": "A man and a child in a knitted sweater, grinning, with terraced fields behind them.",
+            "tags": [
+              "people",
+              "himachal",
+              "portrait"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Edge of the Forest",
+            "src": "himachal-ridge-viewpoint.webp",
+            "desc": "Four people resting on a grassy ridge above a sea of Himalayan forest.",
+            "tags": [
+              "people",
+              "himachal"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Waiting Out the Afternoon",
+            "src": "street-two-men-shutters.webp",
+            "desc": "Two men seated on a kerb in front of rolled-down shutters.",
+            "tags": [
+              "people",
+              "street"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Rooftop Reading",
+            "src": "rooftop-night-reading.webp",
+            "desc": "Two friends going through pages on a rooftop ledge late at night.",
+            "tags": [
+              "people",
+              "night"
+            ],
+            "exif": {
+              "date": "19 March 2024"
+            }
+          },
+          {
+            "title": "Wading Out",
+            "src": "andaman-wading-storm-clouds.webp",
+            "desc": "A man in a cowboy hat wading through clear shallows as a storm gathers overhead.",
+            "tags": [
+              "people",
+              "andaman",
+              "clouds"
+            ],
+            "exif": {
+              "date": "3 January 2025"
+            }
+          },
+          {
+            "title": "Kitten Kiss",
+            "src": "girl-and-kitten.webp",
+            "desc": "A child nose to nose with a kitten in hard afternoon light.",
+            "tags": [
+              "people",
+              "cat"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Fedora in Black and White",
+            "src": "noir-fedora-black-and-white.webp",
+            "desc": "A face lost in the shadow of a fedora against a concrete wall.",
+            "tags": [
+              "people",
+              "portrait",
+              "black and white",
+              "noir"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Two Men at Low Tide",
+            "src": "low-tide-two-men.webp",
+            "desc": "Two men looking off-frame, a wide tidal flat behind them.",
+            "tags": [
+              "people",
+              "portrait"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "The Repair Stall",
+            "src": "repair-stall.webp",
+            "desc": "A repairman at work in a tiny stall crammed floor to ceiling with parts.",
+            "tags": [
+              "people",
+              "street"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Lost in Thought",
+            "src": "pink-pen-portrait.webp",
+            "desc": "A close portrait in warm lamplight, a pink pen against her lip.",
+            "tags": [
+              "people",
+              "portrait"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Desk Light",
+            "src": "desk-light-portrait.webp",
+            "desc": "Studying late beside a desk lamp, a painted guitar on the wall behind.",
+            "tags": [
+              "people",
+              "portrait"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Mini Dirt Bike",
+            "src": "mini-dirt-bike.webp",
+            "desc": "A rider perched on a child-sized dirt bike in a cluttered corner.",
+            "tags": [
+              "people"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Trying On Shades",
+            "src": "sunglasses-mirror.webp",
+            "desc": "Red round lenses in a street-stall mirror, surrounded by racks of sunglasses.",
+            "tags": [
+              "people",
+              "portrait",
+              "street"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Platform 6",
+            "src": "platform-six-commuters.webp",
+            "desc": "Commuters stream along a railway platform as an officer watches.",
+            "tags": [
+              "people",
+              "street",
+              "railway"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "The Umbrella Holder",
+            "src": "umbrella-holder-cafe.webp",
+            "desc": "A woman at a cafe table while a man stands patiently holding a pink umbrella.",
+            "tags": [
+              "people"
+            ],
+            "exif": {
+              "camera": "FUJIFILM X-T200",
+              "shutter": "1/250 s",
+              "iso": "200",
+              "focal": "21 mm (32 mm equiv.)",
+              "date": "1 May 2025"
+            }
+          },
+          {
+            "title": "Golden Hour Window Seat",
+            "src": "golden-hour-window.webp",
+            "desc": "A passenger resting her chin on her arm, watching the light go by.",
+            "tags": [
+              "people",
+              "portrait"
+            ],
             "exif": {}
           }
         ]

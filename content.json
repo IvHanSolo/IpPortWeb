@@ -528,6 +528,18 @@
               "water sports"
             ],
             "exif": {}
+          },
+          {
+            "title": "The Long Walk Out",
+            "src": "andaman-jetty-walkway.webp",
+            "desc": "Travellers walking the brick-paved jetty under a heavy, towering sky.",
+            "tags": [
+              "andaman",
+              "jetty",
+              "structure",
+              "clouds"
+            ],
+            "exif": {}
           }
         ],
         "folder": "images/andaman/"
@@ -558,6 +570,56 @@
               "mumbai"
             ],
             "location": "Mumbai",
+            "exif": {}
+          }
+        ]
+      },
+      {
+        "title": "Misc",
+        "desc": "Cloudscapes, urban architecture, and everyday visual studies.",
+        "folder": "images/misc/",
+        "items": [
+          {
+            "title": "Floodlight at Dusk",
+            "src": "floodlight-dusk.webp",
+            "desc": "A stadium floodlight burning bright against a bruised evening sky.",
+            "tags": [
+              "clouds",
+              "floodlight",
+              "structure"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Pink Tower",
+            "src": "tower-antennas-palm.webp",
+            "desc": "A pink residential tower rising behind bamboo scaffolding and a rooftop of antennas, framed by a palm.",
+            "tags": [
+              "architecture",
+              "building",
+              "palm trees"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Dusk Over the Roof",
+            "src": "dusk-clouds-roof.webp",
+            "desc": "Pink and violet clouds piling up over a corrugated roof and two lamp poles.",
+            "tags": [
+              "clouds",
+              "dusk"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Beams and Sky",
+            "src": "concrete-beams-sky.webp",
+            "desc": "Looking straight up between concrete beams at a pale teal sky.",
+            "tags": [
+              "architecture",
+              "structure",
+              "clouds"
+            ],
             "exif": {}
           }
         ]

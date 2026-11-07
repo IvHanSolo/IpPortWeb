@@ -22,7 +22,7 @@ a{color:inherit}:focus-visible{outline:2px solid var(--o);outline-offset:3px}[hi
 .l{--paper:#0d0d0d;--ink:#F2F2EF;--mut:#a5a5a0;--line:#383838;background:var(--paper);color:var(--ink);border-radius:6px 0 0 6px;box-shadow:inset -40px 0 50px -40px #000}
 .r{--paper:#F3F3F0;--ink:#111;--mut:#55554f;--line:#cdcdc8;background:var(--paper);color:var(--ink);border-radius:0 12px 12px 0;transform-origin:left center;box-shadow:inset 40px 0 50px -40px rgba(0,0,0,.45);transition:background .6s,color .6s;will-change:transform}
 .r[data-theme=dark]{--paper:#0d0d0d;--ink:#F2F2EF;--mut:#a8a8a3;--line:#383838}
-.r[data-theme=orange]{--paper:var(--o);--ink:#120a05;--mut:#3a1d0e;--line:#120a05;border-radius:12px;box-shadow:none}
+
 h1{font:400 clamp(3rem,6.2vw,6rem)/.9 var(--f-head);margin:0 0 1.2rem;position:relative}
 h2{font:400 2rem/1.1 var(--f-head);margin:0 0 .6rem}h3{font:400 1.4rem var(--f-head);margin:0}
 .lede{font-size:1.2rem;font-style:italic;max-width:27em;color:var(--mut);position:relative;margin:0}.l .lede{color:#b8b8b3}
@@ -44,7 +44,7 @@ h2{font:400 2rem/1.1 var(--f-head);margin:0 0 .6rem}h3{font:400 1.4rem var(--f-h
 .nb button{transition:transform .25s,color .2s}.nb .pv:hover{transform:translateX(-5px)}.nb [data-t="1"]:hover{transform:translateX(5px)}
 .sc{scrollbar-width:auto;scrollbar-color:var(--o) color-mix(in srgb,var(--ink) 16%,transparent)}.sc::-webkit-scrollbar{width:12px}.sc::-webkit-scrollbar-track{background:color-mix(in srgb,var(--ink) 14%,transparent);border-radius:8px}.sc::-webkit-scrollbar-thumb{background:var(--o);border-radius:8px;border:2px solid var(--paper)}
 .r[data-theme=cover]{--paper:#151210;--ink:#F2F2EF;--mut:#b5aca2;--line:#4a4038;border-radius:12px;box-shadow:inset 0 0 0 12px #151210,inset 0 0 0 14px var(--o)}.r[data-theme=cover] .flip{display:none}
-.cv{height:100%;display:grid;place-content:center;text-align:center;gap:1rem;cursor:pointer}.cv h1{font-size:clamp(3.4rem,9vw,7.5rem);margin:0}.cv .lede{margin:0 auto}.hintc{font:400 1.3rem var(--f-hand);color:var(--o);animation:pl 2s ease-in-out infinite}@keyframes pl{50%{opacity:.35;transform:translateY(4px)}}
+.cv{height:100%;display:grid;place-content:center;text-align:center;gap:1rem;cursor:pointer}.cv h1{font-size:clamp(3.4rem,9vw,7.5rem);margin:0}.cv .lede{margin:0 auto}
 .lb button{transition:transform .2s,color .2s}.lb .p:hover{transform:translateX(-5px)}.lb .n:hover{transform:translateX(5px)}
 .pk{grid-template-columns:1fr}.pk .panel{margin:auto;max-width:760px;width:100%;max-height:90vh;overflow:auto}.pk .grid{margin-top:1rem}.pk label.btn{display:inline-block}
 .studio{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:#111;color:#eee;--ink:#eee;border-left:3px solid var(--o);z-index:40;padding:1.2rem;overflow:auto;display:grid;gap:.7rem;align-content:start}.studio label{display:grid;gap:.2rem;font-size:.95rem}.studio input,.studio select,.studio textarea{background:#1c1c1c;color:#eee;border:2px solid #333;padding:.4rem .6rem;font:inherit;border-radius:6px}.studio .btn{margin:0;font-size:1rem}.studio .x{position:absolute;right:.8rem;top:.4rem;background:none;border:0;color:#eee;font-size:2rem;cursor:pointer}.sbtn{position:fixed;left:1rem;bottom:1rem;z-index:30;background:#000;margin:0}.studio .d{color:#aaa;margin:0}
@@ -116,7 +116,7 @@ body{padding:calc(3.5rem + env(safe-area-inset-top,0px)) 0 calc(3.4rem + env(saf
 .book{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) 34px minmax(0,1fr);padding:.5rem .7rem;perspective:1600px}.book.solo{grid-template-rows:minmax(0,1fr)}
 .spiral{flex-direction:row;padding:0 2.5rem}.spiral i{width:24px;height:38px;background:var(--sph) center/contain no-repeat}
 .sc{padding:1.1rem 1.2rem 1.4rem}.l{border-radius:18px 18px 6px 6px;box-shadow:inset 0 -30px 40px -35px #000}
-.r{border-radius:6px 6px 18px 18px;transform-origin:center top;box-shadow:inset 0 30px 40px -35px rgba(0,0,0,.45)}.r[data-theme=orange]{border-radius:18px}
+.r{border-radius:6px 6px 18px 18px;transform-origin:center top;box-shadow:inset 0 30px 40px -35px rgba(0,0,0,.45)}
 .l .folio{display:none}.r .folio{right:1.2rem;bottom:.4rem}h1{font-size:clamp(2.2rem,11vw,3.4rem);margin-bottom:.6rem}.lede{font-size:1.05rem}.switch{margin-top:.9rem}
 .tile,.fold,.item{border-radius:12px}.lay{height:min(66vw,250px)}.wall{height:min(75vw,300px)}.notes{margin-top:1.1rem}
 .tabs{position:fixed;top:auto;bottom:0;left:0;right:0;transform:none;margin:0;flex-direction:row;gap:0;background:#000;overflow-x:auto;border-top:2px solid var(--o);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -124,7 +124,7 @@ body{padding:calc(3.5rem + env(safe-area-inset-top,0px)) 0 calc(3.4rem + env(saf
 .lb{grid-template-columns:2.5rem 1fr 2.5rem;padding:.5rem}.lb .wrap{flex-direction:column;align-items:stretch;overflow:auto;gap:1rem}.lb .stage{flex:none}.lb .panel{max-height:none;overflow:visible;padding:0}}
 .toc span,.folio{font-family:var(--f-body);font-size:1.05rem}.top .nb em{font-family:var(--f-body)!important;font-style:italic;letter-spacing:.02em}
 
-/* ---- V5 ---- */
+/* --- Responsive Layout & Popups --- */
 .pn{font-family:var(--f-body);font-style:italic;letter-spacing:.02em}
 @media(min-width:901px){
 body{padding-right:clamp(9.5rem,13vw,12.5rem)}
@@ -157,7 +157,7 @@ body{padding-right:clamp(9.5rem,13vw,12.5rem)}
 .cf{display:flex;justify-content:space-between;font-style:italic;font-size:.75rem}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* ---- V6 ---- */
+/* --- Art Wall & Edge Controls --- */
 .edge{height:2.7rem;padding:0 .85rem;font-size:.95rem}.edge span{font-family:var(--f-body);font-style:italic;letter-spacing:.02em}
 .edge:hover span,.edge:focus-visible span{max-width:5.5rem}
 .hh{background:color-mix(in srgb,var(--o) 35%,transparent);outline:3px solid var(--o);outline-offset:4px;transition:background .4s}
@@ -167,7 +167,7 @@ body{padding-right:clamp(9.5rem,13vw,12.5rem)}
 .wallw.fs{position:fixed;inset:0;z-index:15;background:#0d0d0d;--ink:#F2F2EF;--line:#383838;--mut:#a5a5a0}
 .wallw.fs .wall{height:100%;border-radius:0;border:0;overflow:hidden}
 
-/* ---- V7 ---- */
+/* --- Special Thanks Theme & Layout --- */
 .wall{overflow:hidden}
 .r[data-theme=thanks]{--paper:#000;--ink:#FF5A1F;--mut:#FF5A1F;--line:#FF5A1F;border-radius:12px;box-shadow:none}
 .r[data-theme=thanks],.r[data-theme=thanks] *{font-family:var(--f-body)!important}
@@ -190,7 +190,7 @@ body{padding-right:clamp(9.5rem,13vw,12.5rem)}
 .tk .ty{font-size:clamp(3rem,16vw,4.5rem)}.th2{letter-spacing:.2em;font-size:.95rem}
 }
 
-/* ---- V8 ---- */
+/* --- Breadcrumbs, Chips & Typography --- */
 .crumb{display:flex;flex-wrap:wrap;align-items:center;gap:.15rem .5rem;font:italic .88rem var(--f-body);color:var(--mut);margin:0 0 .9rem;position:relative;z-index:2}
 .crumb a{color:var(--ink);text-decoration:none;border-bottom:1px dotted currentColor;cursor:pointer}.crumb a:hover{color:var(--o)}
 .crumb .sep{opacity:.6}.crumb b{font-weight:700;font-style:normal;color:var(--ink)}
@@ -213,7 +213,7 @@ h1{font-size:clamp(1.7rem,8.2vw,2.6rem)}
 .tk .ty{font-size:3em}
 }
 
-/* ---- V10 ---- */
+/* --- About Layout & Fullscreen Viewport --- */
 body.nt{padding-right:2.5vw!important}
 .tkn{position:absolute;left:0;right:0;bottom:1rem;display:flex;justify-content:center;gap:.8rem;z-index:5}.tkn .btn{margin:0;padding:.3rem 1rem;font-size:.95rem}
 .sc:has(.tk){padding-bottom:4rem}
@@ -230,7 +230,7 @@ body.nt{padding-right:2.5vw!important}
 @media(max-width:900px){body.nt{padding:calc(1rem + env(safe-area-inset-top,0px)) 0 calc(1rem + env(safe-area-inset-bottom,0px))!important}body.nt .top{display:none}
 .abx:has(.portrait){display:flex;align-items:center;gap:.9rem;margin-top:.6rem}.abx .portrait{max-width:76px;margin:0;flex:none}.abx .links{margin:0}.sc:has(.tk){padding-bottom:3.6rem}}
 
-/* ---- V12 ---- */
+/* --- Interactive Items & Album Grid --- */
 .item{overflow:hidden;padding-bottom:1.2rem}
 .item::after{content:"";position:absolute;inset:0;border-radius:12px;background:linear-gradient(to top,color-mix(in srgb,var(--o) 16%,transparent),transparent 70%);opacity:.55;pointer-events:none;transition:opacity .3s}
 .item:hover::after{opacity:1}
@@ -270,7 +270,7 @@ html{background:var(--bg)}
 @media(prefers-reduced-motion:reduce){.r::after{display:none}}
 
 
-/* ================= V13 ================= */
+/* ================= Component Overhauls ================= */
 /* fonts live in :root (--f-head, --f-body, --f-hand): change them there. Loaded from Google Fonts in each page's <head>. */
 .book>.spiral{grid-column:2;grid-row:1}
 .sheet{display:contents}.sheet>.l{grid-column:1;grid-row:1}.sheet>.r{grid-column:3;grid-row:1}.book.solo .r{grid-column:1}
@@ -330,7 +330,7 @@ body,body.nt{padding:env(safe-area-inset-top,0px) 0 calc(38px + env(safe-area-in
 .sheet>.pg,.pg{display:block;flex:none;overflow:visible;min-height:0;grid-column:auto!important;grid-row:auto!important}
 .sc,.sc.ns,.sc:has(.tk),.sc:has(.abx),.book.hd .l .sc,.book.hd .r .sc.ns{overflow:visible!important;height:auto!important;max-height:none!important}
 .l{border-radius:0 0 16px 16px;box-shadow:none}.l .sc{padding:2.2rem 1.2rem 1.2rem}
-.r,.r[data-theme=orange]{border-radius:16px;margin:8px 6px 6px;box-shadow:none;flex:1 0 auto;min-height:60vh}
+.r,
 .r[data-theme=cover],.r[data-theme=thanks]{margin:0;min-height:100%;border-radius:0}
 .book.solo .sheet{min-height:100%}.book.solo .r{flex:1}
 .r .sc{padding:1.2rem 1.2rem 3.4rem}
@@ -353,11 +353,11 @@ body.nt #fh .fd{top:calc(env(safe-area-inset-top,0px) + 8px)}
 @media(max-width:900px){.afs .board{grid-template-columns:repeat(6,1fr)}.vi h2,.ah h2{font-size:2rem}}
 @media(prefers-reduced-motion:reduce){#fh .fu{animation:none}}
 
-/* ---- v4: arrow chips removed ---- */
+/* --- Arrow Chips Disabled --- */
 #fh{display:none!important}
 .vt.sr{margin:.8rem 0}
 
-/* ===== Mobile declutter: paste at the very END of assets/styles.css ===== */
+/* ===== Mobile Layout Declutter ===== */
 @media(max-width:900px){
 .top .nb em{display:none}
 .top{padding-top:calc(.45rem + env(safe-area-inset-top,0px));padding-bottom:.45rem}
@@ -370,7 +370,7 @@ body.nt #fh .fd{top:calc(env(safe-area-inset-top,0px) + 8px)}
 .lede{margin:.25rem 0 .6rem}
 }
 
-/* ---- v5 ---- */
+/* --- Reader Modal --- */
 .wfs{left:.7rem;top:.7rem;right:auto;bottom:auto}
 .alb.vch{gap:.3rem;margin-top:.45rem}.vch span{font-size:.85rem}.vch .chip{font-size:.78rem;padding:.02rem .6rem;line-height:1.5}
 .vt.sr{margin:.5rem 0}.bh{font-size:.85rem}
@@ -385,7 +385,7 @@ body.nt #fh .fd{top:calc(env(safe-area-inset-top,0px) + 8px)}
 body.rdo{overflow:hidden}
 @media(max-width:900px){.rd{font-size:1.05rem}.tabs a,.tabs a:nth-child(n){font-size:12px!important;padding:.7rem .2rem!important;line-height:1.15}}
 
-/* ================= V14 ================= */
+/* ================= Layout & Device Tuning ================= */
 /* shared */
 .sc{--ix:1}
 .toc a{font-size:calc(1.9rem*var(--ix));padding:calc(.7rem*var(--ix)) 0}
@@ -448,7 +448,7 @@ body.nt{padding-left:2.5vw}
 }
 
 
-/* ================= V15 : fonts ================= */
+/* ================= Typography System ================= */
 /* Champagne & Limousines = headings, buttons, body.  Playfair Display = descriptions and subtexts.
    Special thanks keeps Newsreader; only the group headings there use Playfair. */
 .lede,.item p,.fold span,.note em,.note small,.crumb,.bh,.alb>span,.wh,.pnote p,.bt .cap small,.vi small,.vi p,.ah small,.ah p,.rdd,.cvh,.org,.ptr{font-family:var(--f-sub)}
@@ -464,7 +464,7 @@ body.nt{padding-left:2.5vw}
 /* ---- tabs (side tags / phone bottom bar) in Playfair ---- */
 .tabs a{font-family:var(--f-sub);letter-spacing:.01em}
 
-/* ================= V16 ================= */
+/* ================= Card Enhancements ================= */
 /* more Playfair: titles, album + video names, chips and album labels */
 .chip,.alb>span,.fold small,.badge,.al .ag,.al .ad,.al small,.bt .cap small{font-family:var(--f-sub)}
 .chip{font-size:.85rem;letter-spacing:.01em}.vch .chip{font-size:.74rem}
@@ -500,7 +500,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 }
 .wk p{font-family:var(--f-sub)}
 
-/* ---- v16: writing - Read + Download, on-site PDF reader ---- */
+/* --- Writing Card Actions & In-Book Reader --- */
 .wk .wkb{display:flex;gap:.4rem;margin-top:auto;padding-top:.7rem}
 .wk .wkb .btn{flex:1;margin:0;padding:.25rem .3rem;font-size:.9rem;text-align:center;white-space:nowrap}
 .btn.off,.btn[disabled]{opacity:.4;pointer-events:none}
@@ -517,7 +517,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .lb.fs.wr .stage{border-radius:0;padding:0;height:100vh}
 @media(max-width:900px){.lb.wr .stage{flex:none;height:auto;max-height:none;overflow:visible}.lb.wr .panel{flex:none;max-width:none;align-self:stretch}.wk .wkb .btn{font-size:.8rem}}
 
-/* ---- v18: album art poster card (expanded card + mini preview) ---- */
+/* --- Album Art Poster Card & Mini Preview --- */
 .lb.po [data-ss],.lb.po .panel{display:none}
 .lb.po .wrap{justify-content:center;align-items:center;overflow:hidden}
 .lb.po .stage{flex:none;display:block;width:min(94vw,540px);height:auto;max-height:none;overflow:visible;padding:0}
@@ -540,7 +540,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .tile.mp .pcv img{position:static;inset:auto;width:100%;height:auto}
 .grid:has(.tile.mp){grid-template-columns:repeat(auto-fill,minmax(190px,1fr));align-items:start}
 @media(max-width:900px){.poster{overflow-wrap:anywhere}.tile.mp{border-radius:3px}}
-/* ---- v20: video board press-and-hold reorder; album art 5 per row (3 on phones); poster fits a phone screen ---- */
+/* --- Video Drag-and-Drop & Poster Sizing --- */
 #vboard[data-kind=video] .bt{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 #vboard .bt.vph{opacity:.3;transform:none;box-shadow:none;border-style:dashed}
 .bt.vgh{position:fixed;z-index:60;margin:0;pointer-events:none;rotate:0deg;transform:scale(1.06);box-shadow:0 18px 40px rgba(0,0,0,.6);border-color:var(--o);transition:none}
@@ -555,7 +555,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
  .lb.po .wrap{grid-column:1;overflow:hidden}
  .lb.po .p,.lb.po .n{position:absolute;bottom:.2rem}.lb.po .p{left:1rem}.lb.po .n{right:1rem}
 }
-/* ---- v22: writing tags + filter, translucent Read more layer on covers; other works folders 5 per row (3 on phones) ---- */
+/* --- Writing Tags & Folder Grid --- */
 .wk[hidden]{display:none}
 .wkt{display:flex;flex-wrap:wrap;gap:.25rem;margin:.1rem 0 .35rem}
 .wkt span{border:1px solid currentColor;border-radius:2rem;padding:0 .5rem;font:400 .72rem/1.5 var(--f-sub);letter-spacing:.02em;color:var(--mut)}
@@ -570,7 +570,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .folders .fold span{font-size:.74rem;line-height:1.3;margin-top:.25rem;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .folders .fold small{display:block;font-size:.74rem;margin-top:.35rem}
 @media(max-width:900px){.folders{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.3rem .6rem}}
-/* ---- v23: PDF previews at their own page shape; heading list beside opened PDFs; bigger About links; album art 3 per row everywhere ---- */
+/* --- PDF Viewer Navigation & Previews --- */
 .grid:has(.tile[data-pdf]){grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
 .tile[data-pdf]{padding:0}
 .tile[data-pdf].ok{background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35)}
@@ -588,7 +588,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 @media(max-width:430px){.tabs a,.tabs a:nth-child(n){font-size:10.5px!important;padding:.7rem .1rem!important}}
 @media(max-width:900px){.abl .links{font-size:clamp(17px,5vw,24px);gap:.85em}.abl .links b{font-size:.72em}.abx.abr{font-size:clamp(19px,5.2vw,24px)!important}}
 .grid:has(.tile.mp){grid-template-columns:repeat(3,minmax(0,1fr))}
-/* ---- v27: cover gallery wall: scrolls inside the border, columns of pieces at their own shapes ---- */
+/* --- Cover Gallery Wall --- */
 .r[data-theme=cover] .dots{z-index:0}
 .book.solo:has(.r[data-theme=cover]) .sheet{height:100%}
 .book.solo .r[data-theme=cover]{display:flex;flex-direction:column;height:100%;min-height:0}
@@ -625,7 +625,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
  .cwn .cvb{padding:.2rem .9rem;font-size:.95rem}
 }
 @media(max-width:900px){.cwn .cvh{display:block;margin:.3rem 0 0;max-width:17em;font:italic .8rem/1.35 var(--f-sub);color:#fff}}
-/* ---- v34: search on the breadcrumb line; same folder shape everywhere; About pop-ups; cover text; landing highlight ---- */
+/* --- Breadcrumb Search & Profile Overlays --- */
 @media(min-width:901px){.cwn .lede{font-size:1.4rem;font-weight:600}.cwn .cvb{font-size:1.25rem}}
 .crw{display:flex;align-items:center;justify-content:space-between;gap:.7rem;min-height:2rem;margin:0 0 .9rem;position:relative;z-index:6}
 .crw .crumb{flex:0 1 auto;min-width:0;margin:0}
@@ -649,5 +649,5 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .cwn>*{paint-order:stroke fill}
 .cwn h1.stk{-webkit-text-stroke:7px #000}.cwn .lede.stk,.cwn .cvb.stk{-webkit-text-stroke:5px #000}.cwn .cvh.stk{-webkit-text-stroke:4px #000}
 .wkw>.wke{grid-column:1/-1;margin:1rem 0;color:var(--mut);font:italic 1.05rem var(--f-sub)}
-/* ---- v6.3: album covers (Album Art project) preview as 1:1 ---- */
+/* --- Album Art Aspect Ratio --- */
 .tile.sq{aspect-ratio:1/1}

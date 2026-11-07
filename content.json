@@ -1099,6 +1099,48 @@
           }
         ]
       }
+    ],
+    "wall": [
+      {
+        "title": "Art piece 1",
+        "src": "",
+        "desc": ""
+      },
+      {
+        "title": "Art piece 2",
+        "src": "",
+        "desc": ""
+      },
+      {
+        "title": "Art piece 3",
+        "src": "",
+        "desc": ""
+      },
+      {
+        "title": "Art piece 4",
+        "src": "",
+        "desc": ""
+      },
+      {
+        "title": "Art piece 5",
+        "src": "",
+        "desc": ""
+      },
+      {
+        "title": "Art piece 6",
+        "src": "",
+        "desc": ""
+      },
+      {
+        "title": "Art piece 7",
+        "src": "",
+        "desc": ""
+      },
+      {
+        "title": "Art piece 8",
+        "src": "",
+        "desc": ""
+      }
     ]
   },
   "wall": [

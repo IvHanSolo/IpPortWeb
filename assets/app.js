@@ -413,11 +413,13 @@ const WPM = [[3, 2, 38, -3], [50, 3, 34, 2], [28, 19, 34, -2], [3, 35, 34, 3], [
 const EXP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><g class="e1"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></g><g class="e2"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></g></svg>';
 
 let WALL = '';
-const mkWall = () => `
+const mkWall = () => {
+  const wallItems = (CONTENT.photography?.wall?.length ? CONTENT.photography.wall : (CONTENT.wall?.length ? CONTENT.wall : P(8, 'Art piece')));
+  return `
 <div class="phead">Art wall</div>
 <div class="wallw">
   <div class="wall">
-    ${(CONTENT.photography?.wall || []).map((x, i) => {
+    ${wallItems.map((x, i) => {
       const o = norm(x);
       const id = reg(o, { _v: 'photography', _al: 'Art wall', _sp: 1 });
       const p = WP[i % 8];
@@ -431,6 +433,7 @@ const mkWall = () => `
   <p>A new mix of photos every visit. Drag to arrange inside the board. Double-tap a piece to swap its image. Use Show only above to see just one album.</p>
   <button class="btn" data-reset>Reset</button>
 </div>`.trim();
+};
 
 function applyWall() {
   let sv = {};
@@ -2015,12 +2018,14 @@ function mixWall() {
 
   let k = 0;
   ws.forEach(w => {
-    if (!wallAlbum && im[w.dataset.i]) return;
+    if (!wallAlbum && im[w.dataset.i] && w.querySelector('img')) return;
     const p = pool[k++ % pool.length];
     const o = REG[+w.dataset.r];
-    o.src = p.src;
-    o.title = p.title;
-    delete o._s;
+    if (o) {
+      o.src = p.src;
+      o.title = p.title;
+      delete o._s;
+    }
     w.setAttribute('aria-label', p.title);
     w.innerHTML = `<img src="${esc(p.src)}" alt="${esc(p.title)}" draggable="false">`;
   });
@@ -2140,7 +2145,7 @@ document.addEventListener('click', e => {
 }, true);
 
 function albumToWall(i) {
-  const al = getPhotoAlbums()[i];
+  const al = getPhotoAlbums()[i] || (CONTENT.photography?.leisure || [])[i];
   if (!al) return;
   const ph = REG.filter(o => o._v === 'photography' && o._al === al.title && o.src && !isDoc(o) && !isVid(o))
     .map(o => ({ src: o.src, title: o.title }));
@@ -2151,7 +2156,11 @@ function albumToWall(i) {
     return;
   }
   wallAlbum = { name: al.title, photos: ph };
-  mixWall();
+  if (PAGE !== 'photography' || sp !== 1) {
+    go('photography', 1);
+  } else {
+    mixWall();
+  }
 }
 
 let NF = false;

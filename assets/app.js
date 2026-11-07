@@ -118,10 +118,17 @@ const norm = (x, b = {}) => {
   return o;
 };
 
-const getPhotoAlbums = () => [
-  ...(CONTENT.photography?.leisure || []),
-  ...(CONTENT.photography?.otherSections || [])
-];
+const getPhotoAlbums = () => {
+  const seen = new Set();
+  const res = [];
+  [...(CONTENT.photography?.leisure || []), ...(CONTENT.photography?.otherSections || [])].forEach(a => {
+    if (a && a.title && !seen.has(a.title)) {
+      seen.add(a.title);
+      res.push(a);
+    }
+  });
+  return res;
+};
 
 const lab = o => o.label || (isVid(o) ? 'Video' : isDoc(o) ? 'Document' : 'Image');
 

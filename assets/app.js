@@ -474,7 +474,7 @@ function applyWall() {
     im = JSON.parse(localStorage.getItem('ipwallimg') || '{}');
     locked = JSON.parse(localStorage.getItem('ipwalllocked') || '{}');
   } catch (_) {}
-  $('.wi').forEach(w => {
+  $$('.wi').forEach(w => {
     const isLocked = !!locked[w.dataset.i];
     w.classList.toggle('is-locked', isLocked);
     const p = sv[w.dataset.i];
@@ -773,7 +773,13 @@ function render(v, s = 0) {
 
 const shade = (T, a, b, o) => {
   try {
-    return T.animate([{ opacity: a }, { opacity: b }], Object.assign({ pseudoElement: '::after' }, o));
+    const anim = T.animate([{ opacity: a }, { opacity: b }], Object.assign({ pseudoElement: '::after' }, o));
+    if (anim) {
+      anim.finished.finally(() => {
+        try { anim.cancel(); } catch (_) {}
+      });
+    }
+    return anim;
   } catch (_) {
     return null;
   }
@@ -819,7 +825,15 @@ function nav() {
   };
 
   const done = () => {
-    [L, R, SH].forEach(el => el && el.getAnimations({ subtree: true }).forEach(a => a.cancel()));
+    [L, R, SH].forEach(el => {
+      if (!el) return;
+      el.getAnimations({ subtree: true }).forEach(a => a.cancel());
+      try {
+        if (el.getAnimations) {
+          el.getAnimations({ subtree: true, pseudoElement: '::after' }).forEach(a => a.cancel());
+        }
+      } catch (_) {}
+    });
     L.style.transform = '';
     R.style.transform = '';
     fin();
@@ -1426,7 +1440,7 @@ document.addEventListener('click', e => {
       localStorage.removeItem('ipwall');
       localStorage.removeItem('ipwallm');
     } catch (_) {}
-    $('.wi').forEach(w => {
+    $$('.wi').forEach(w => {
       w.style.left = '';
       w.style.top = '';
     });
@@ -2039,7 +2053,9 @@ document.addEventListener('load', e => {
 
 let nolb = false;
 let wfsPh = null;
-const WK = () => (matchMedia('(max-width:900px)').matches ? 'ipwallm' : 'ipwall');
+function WK() {
+  return matchMedia('(max-width:900px)').matches ? 'ipwallm' : 'ipwall';
+}
 
 const htxt = el => {
   const c = el.cloneNode(true);
@@ -2143,7 +2159,7 @@ function crumbs(v, l, s) {
 })();
 
 function mixWall(force = false) {
-  const ws = $('.wi');
+  const ws = $$('.wi');
   if (!ws.length) return;
   let im = {};
   let locked = {};

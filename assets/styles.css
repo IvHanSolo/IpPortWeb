@@ -106,7 +106,8 @@ h2{font:400 2rem/1.1 var(--f-head);margin:0 0 .6rem}h3{font:400 1.4rem var(--f-h
 .pnote{margin-top:1rem;border:2px dashed var(--line);border-radius:6px;padding:.7rem 1rem;min-height:4.2rem}.pnote p{margin:0;color:var(--mut);font-style:italic}
 .badge{display:inline-block;margin:.8rem 0 0;border:2px solid var(--o);color:var(--o);padding:.1rem .8rem;font:400 1.05rem var(--f-head);letter-spacing:.08em;transform:rotate(-3deg)}
 .wall{position:relative;height:clamp(300px,50vh,520px);border-radius:6px;background:repeating-linear-gradient(0deg,transparent 0 23px,color-mix(in srgb,var(--ink) 8%,transparent) 23px 24px),repeating-linear-gradient(90deg,transparent 0 23px,color-mix(in srgb,var(--ink) 8%,transparent) 23px 24px),color-mix(in srgb,var(--ink) 5%,transparent);border:2px solid var(--line);overflow:hidden}
-.wi{position:absolute;left:var(--l);top:var(--t);width:var(--w);aspect-ratio:var(--ar);rotate:var(--rt);border:5px solid #f4f4f0;padding:0;background:#ddd;color:#111;box-shadow:3px 6px 14px rgba(0,0,0,.4);cursor:grab;touch-action:none;font:400 .95rem var(--f-head);overflow:hidden}
+.wi{position:absolute;left:var(--l);top:var(--t);width:var(--w);aspect-ratio:var(--ar);rotate:var(--rt);border:5px solid #f4f4f0;border-radius:3px;padding:0;background:#1a1a1a;color:#eee;box-shadow:3px 6px 14px rgba(0,0,0,.4);cursor:grab;touch-action:none;font:400 .95rem var(--f-head);overflow:hidden;transition:box-shadow .2s ease,border-color .2s ease}
+.wi:hover{box-shadow:4px 8px 18px rgba(0,0,0,.55);border-color:#fff}
 .wi:active{cursor:grabbing}.wi img{width:100%;height:100%;object-fit:cover;pointer-events:none;display:block}.wh{display:flex;justify-content:space-between;align-items:center;gap:1rem;color:var(--mut);font-style:italic;margin:.6rem 0 0}.wh .btn{margin:0;padding:.2rem .9rem;font-size:.95rem}
 @media(max-width:900px){
 body{padding:calc(3.5rem + env(safe-area-inset-top,0px)) 0 calc(3.4rem + env(safe-area-inset-bottom,0px));font-size:16px}
@@ -570,7 +571,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .folders .fold::before{content:"";position:absolute;left:-2px;top:-.72rem;width:42%;height:.72rem;border:2px solid var(--ink);border-bottom:0;border-radius:8px 8px 0 0;background:inherit;transition:border-color .3s}
 .folders .fold:hover{transform:translateY(-3px) rotate(-.6deg);border-color:var(--o);box-shadow:0 8px 20px rgba(0,0,0,.25)}
 .folders .fold:hover::before{border-color:var(--o)}
-.folders .fold b{display:block;font:700 1.2rem/1.25 var(--f-head);letter-spacing:.02em;color:var(--ink);white-space:normal;word-break:break-word}
+.folders .fold b{display:block;font:700 1.2rem/1.25 var(--f-sub);letter-spacing:0;color:var(--ink);white-space:normal;word-break:break-word}
 .folders .fold span{display:block;color:var(--mut);font:italic .85rem/1.35 var(--f-sub);margin-top:.35rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .folders .fold small{display:block;color:var(--o);font:600 .85rem var(--f-sub);margin-top:.45rem}
 @media(max-width:600px){.folders{grid-template-columns:1fr;gap:1.4rem}}
@@ -669,6 +670,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 
 /* Photo Wall Controls, Lock Button & Privacy Note */
 .wh-actions{display:flex;gap:.5rem;align-items:center;flex-shrink:0}
+.wh-actions .btn{margin:0;padding:.32rem 1rem;font-size:.95rem;font-family:var(--f-head);border-radius:2rem;letter-spacing:.05em}
 .pk-actions{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;margin:.6rem 0}
 .pk-actions label.btn{display:inline-block;margin:0}
 .pk-actions .btn-lock{margin:0}

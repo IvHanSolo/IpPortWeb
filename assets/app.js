@@ -888,6 +888,7 @@ window.addEventListener('resize', fitFolderTitles);
 function render(v, s = 0) {
   wallFs(false);
   vidFx(null, false);
+  const fromPage = cur;
   cur = v;
   if (v === 'cover') lastCoverY = 0;
   sp = s;
@@ -942,16 +943,20 @@ function render(v, s = 0) {
   if (v === 'cover') {
     const cw = $('.cwall');
     if (cw) {
-      cw.classList.add('cw-settling');
-      cwStk();
-      setTimeout(() => {
-        cwStk();
+      if (fromPage !== 'cover') {
+        cw.classList.add('cw-settling');
+        setTimeout(() => {
+          try { cwStk(); } catch (_) {}
+          cw.classList.remove('cw-settling');
+        }, 420);
+      } else {
         cw.classList.remove('cw-settling');
-      }, 420);
+      }
+      try { cwStk(); } catch (_) {}
     }
   } else {
-    cwStk();
-    setTimeout(cwStk, 300);
+    try { cwStk(); } catch (_) {}
+    setTimeout(() => { try { cwStk(); } catch (_) {} }, 300);
   }
   fitFolderTitles();
   setTimeout(fitFolderTitles, 120);
@@ -1241,7 +1246,8 @@ addEventListener('touchmove', e => {
         n.classList.remove('faded-out');
       } else if (deltaTouch < -4) {
         const sc = $('#R .sc');
-        if (sc && sc.scrollTop > 60) {
+        const y = (sc && sc.scrollTop) || (BK && BK.scrollTop) || window.scrollY || 0;
+        if (y > 60) {
           n.classList.add('faded-out');
         }
       }
@@ -2284,25 +2290,29 @@ addEventListener('resize', () => {
 
 /* cover text gets its black stroke only while a light piece, or the piece being chosen, sits behind that line of text */
 function cwStk() {
-  const n = $('.cwn');
-  if (!n) return;
-  if (n.classList.contains('faded-out')) {
-    $$('.cw').forEach(t => t.classList.remove('cwu'));
-    return;
-  }
-  const ts = $('.cw')
-    .filter(t => t.dataset.lt || t.matches(':hover'))
-    .map(t => t.getBoundingClientRect());
-  [...n.children].forEach(x => {
-    const b = x.getBoundingClientRect();
-    x.classList.toggle('stk', ts.some(r => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
-  });
+  try {
+    const n = $('.cwn');
+    if (!n) return;
+    if (n.classList.contains('faded-out')) {
+      $$('.cw').forEach(t => t.classList.remove('cwu'));
+      return;
+    }
+    const ts = $$('.cw')
+      .filter(t => t.dataset.lt || t.matches(':hover'))
+      .map(t => t.getBoundingClientRect());
+    [...n.children].forEach(x => {
+      const b = x.getBoundingClientRect();
+      x.classList.toggle('stk', ts.some(r => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
+    });
 
-  const ks = [...n.children].filter(x => x.offsetParent).map(x => x.getBoundingClientRect());
-  $$('.cw').forEach(t => {
-    const r = t.getBoundingClientRect();
-    t.classList.toggle('cwu', ks.some(b => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
-  });
+    const ks = [...n.children].filter(x => x.offsetParent).map(x => x.getBoundingClientRect());
+    $$('.cw').forEach(t => {
+      const r = t.getBoundingClientRect();
+      t.classList.toggle('cwu', ks.some(b => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
+    });
+  } catch (err) {
+    console.warn('cwStk error:', err);
+  }
 }
 
 let lastCoverY = 0;
@@ -2312,7 +2322,7 @@ function updateCoverFade() {
   const n = $('.cwn');
   if (!n) return;
   const sc = $('#R .sc');
-  const y = sc ? sc.scrollTop : (window.scrollY || 0);
+  const y = (sc && sc.scrollTop) || (BK && BK.scrollTop) || window.scrollY || 0;
 
   if (y <= 30) {
     n.classList.remove('faded-out');
@@ -2374,7 +2384,8 @@ addEventListener('wheel', e => {
     n.classList.remove('faded-out');
   } else if (e.deltaY > 3) {
     const sc = $('#R .sc');
-    if (sc && sc.scrollTop > 60) {
+    const y = (sc && sc.scrollTop) || (BK && BK.scrollTop) || window.scrollY || 0;
+    if (y > 60) {
       n.classList.add('faded-out');
     }
   }

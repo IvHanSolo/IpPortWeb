@@ -769,7 +769,7 @@ function render(v, s = 0) {
 
   const nsR = (v === 'photography' && s === 2) ? ' ns' : '';
   L.innerHTML = '<div class="dots"></div><div class="sc"><div class="crw">' + CR + sbar() + '</div>' + l + `</div>${!SO && (i || s) ? EG(-1) : ''}`;
-  R.innerHTML = (v === 'cover' ? '<div class="dots"></div>' : '') + '<div class="sc' + nsR + '">' + (SO && v === 'thanks' ? CR : '') + (r === '@toc' ? toc() : r.replace('@wall', cwall)) + `</div>${v === 'thanks' ? TKN : ''}${SO ? '' : (i < order.length - 1 || s < n - 1) ? EG(1) : ''}`;
+  R.innerHTML = (v === 'cover' ? '<div class="dots"></div>' : '') + '<div class="sc' + nsR + '">' + '' + (r === '@toc' ? toc() : r.replace('@wall', cwall)) + `</div>${v === 'thanks' ? TKN : ''}${SO ? '' : (i < order.length - 1 || s < n - 1) ? EG(1) : ''}`;
 
   $('#top').innerHTML = nb(i, names[v] + (n > 1 ? ` ${s + 1}/${n}` : ''), s);
   $$('#tabs a').forEach(a => a.toggleAttribute('aria-current', a.dataset.v === v));
@@ -2126,6 +2126,35 @@ const cwQ = () => {
 };
 
 document.addEventListener('scroll', cwQ, true);
+let tknTimer = null;
+function tknScroll() {
+  if (cur !== 'thanks') return;
+  const el = $('.tkn');
+  if (!el) return;
+  el.classList.add('active');
+  clearTimeout(tknTimer);
+  tknTimer = setTimeout(() => {
+    if (!el.matches(':hover') && !el.matches(':focus-within')) {
+      el.classList.remove('active');
+    }
+  }, 2200);
+}
+
+document.addEventListener('scroll', tknScroll, true);
+addEventListener('wheel', tknScroll, { passive: true });
+addEventListener('touchmove', tknScroll, { passive: true });
+document.addEventListener('pointerleave', e => {
+  if (e.target && e.target.closest && e.target.closest('.tkn')) {
+    clearTimeout(tknTimer);
+    tknTimer = setTimeout(() => {
+      const el = $('.tkn');
+      if (el && !el.matches(':hover') && !el.matches(':focus-within')) {
+        el.classList.remove('active');
+      }
+    }, 800);
+  }
+}, true);
+
 document.addEventListener('mouseover', cwQ);
 addEventListener('resize', cwQ);
 

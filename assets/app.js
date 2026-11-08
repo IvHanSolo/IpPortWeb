@@ -469,7 +469,7 @@ const mkWall = () => {
       const id = reg(o, { _v: 'photography', _al: 'Photo wall', _sp: 2 });
       const p = WP[i % 8];
       const q = WPM[i % 8];
-      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}<span class="wi-edge-hint" aria-hidden="true"></span><span class="wi-handle rot" data-action="rot" title="Drag to rotate" aria-hidden="true"></span><span class="wi-handle res" data-action="res" title="Drag to resize" aria-hidden="true"></span></button>`;
+      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}<span class="wi-edge-hint" aria-hidden="true"></span></button>`;
     }).join('')}
   </div>
   <button class="wfs" data-wfs type="button" aria-label="Expand photo wall to full screen" title="Full screen">${EXP}</button>
@@ -621,13 +621,70 @@ function pick(t) {
   document.body.append(m);
 }
 
+// Dynamic cursor reflecting corners (rotate) and sides (enlarge/resize) on fullscreen art wall
+document.addEventListener('pointermove', e => {
+  if (dg) {
+    const { w, action, bx, sx, sy, cx, cy, startW, l, t } = dg;
+    const dx = e.clientX - sx;
+    const dy = e.clientY - sy;
+    if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+    if (!moved) return;
+
+    if (action === 'rot') {
+      const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
+      const deg = Math.round(angle) + 'deg';
+      w.style.setProperty('--rt', deg);
+      w.style.rotate = deg;
+    } else if (action === 'res') {
+      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+      const startDist = Math.hypot(sx - cx, sy - cy) || 1;
+      const nw = Math.max(12, Math.min(85, startW * (dist / startDist)));
+      const pct = nw.toFixed(1) + '%';
+      w.style.setProperty('--w', pct);
+      w.style.width = pct;
+    } else {
+      w.style.left = (Math.max(-MG, Math.min(bx.width - w.offsetWidth + MG, l + dx)) / bx.width) * 100 + '%';
+      w.style.top = (Math.max(-MG, Math.min(bx.height - w.offsetHeight + MG, t + dy)) / bx.height) * 100 + '%';
+    }
+    return;
+  }
+
+  // Hover cursor update
+  const w = e.target && e.target.closest && e.target.closest('.wallw.fs .wi');
+  if (!w) return;
+  const rect = w.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const cornerThreshold = Math.min(32, Math.min(rect.width, rect.height) * 0.28);
+  const sideThreshold = Math.min(22, Math.min(rect.width, rect.height) * 0.18);
+
+  const nearLeft = x <= cornerThreshold;
+  const nearRight = x >= rect.width - cornerThreshold;
+  const nearTop = y <= cornerThreshold;
+  const nearBottom = y >= rect.height - cornerThreshold;
+  const isCorner = (nearLeft || nearRight) && (nearTop || nearBottom);
+
+  if (isCorner) {
+    w.dataset.zone = 'rot';
+    w.style.cursor = 'crosshair';
+  } else if (x <= sideThreshold || x >= rect.width - sideThreshold) {
+    w.dataset.zone = 'res';
+    w.style.cursor = 'ew-resize';
+  } else if (y <= sideThreshold || y >= rect.height - sideThreshold) {
+    w.dataset.zone = 'res';
+    w.style.cursor = 'ns-resize';
+  } else {
+    w.dataset.zone = 'drag';
+    w.style.cursor = 'grab';
+  }
+});
+
 document.addEventListener('pointerdown', e => {
   const w = e.target.closest('.wi');
   if (!w) return;
   const isFsWall = Boolean(w.closest('.wallw.fs'));
-  const rotH = e.target.closest('[data-action="rot"]');
-  const resH = e.target.closest('[data-action="res"]');
-  const action = (isFsWall && (rotH ? 'rot' : resH ? 'res' : null)) || 'drag';
+  const zone = w.dataset.zone || 'drag';
+  const action = (isFsWall && (zone === 'rot' || zone === 'res')) ? zone : 'drag';
   const r = w.getBoundingClientRect();
   const parentBx = w.parentElement.getBoundingClientRect();
 
@@ -645,30 +702,83 @@ document.addEventListener('pointerdown', e => {
   };
   moved = false;
   w.style.zIndex = ++zt;
-  if (isFsWall) w.classList.add('is-interacting');
+  w.classList.add('is-interacting', 'is-selected');
+  $$('.wall .wi').forEach(other => { if (other !== w) other.classList.remove('is-selected'); });
 });
 
-document.addEventListener('pointermove', e => {
-  if (!dg) return;
-  const { w, action, bx, sx, sy, cx, cy, startW, l, t } = dg;
-  const dx = e.clientX - sx;
-  const dy = e.clientY - sy;
-  if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
-  if (!moved) return;
+// Mobile 2-finger zoom (enlarge) & rotate gestures on Art Wall
+let wallTouch = null;
+document.addEventListener('touchstart', e => {
+  const w = e.target.closest && e.target.closest('.wall .wi');
+  if (!w) {
+    if (!e.target.closest('.wallw')) {
+      $$('.wall .wi.is-selected').forEach(x => x.classList.remove('is-selected'));
+    }
+    return;
+  }
+  $$('.wall .wi').forEach(other => { if (other !== w) other.classList.remove('is-selected'); });
+  w.classList.add('is-selected');
 
-  if (action === 'rot') {
-    const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
-    const deg = Math.round(angle) + 'deg';
-    w.style.setProperty('--rt', deg);
-    w.style.rotate = deg;
-  } else if (action === 'res') {
-    const nw = Math.max(12, Math.min(68, startW + (dx / bx.width) * 100));
-    const pct = nw.toFixed(1) + '%';
-    w.style.setProperty('--w', pct);
-    w.style.width = pct;
-  } else {
-    w.style.left = (Math.max(-MG, Math.min(bx.width - w.offsetWidth + MG, l + dx)) / bx.width) * 100 + '%';
-    w.style.top = (Math.max(-MG, Math.min(bx.height - w.offsetHeight + MG, t + dy)) / bx.height) * 100 + '%';
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    const t1 = e.touches[0];
+    const t2 = e.touches[1];
+    const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+    const angle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * (180 / Math.PI);
+    const parentBx = w.parentElement.getBoundingClientRect();
+    const curW = parseFloat(w.style.getPropertyValue('--w') || w.style.width) || ((w.offsetWidth / parentBx.width) * 100);
+    const curRt = parseFloat(w.style.getPropertyValue('--rt') || w.style.rotate) || 0;
+
+    wallTouch = {
+      w,
+      parentBx,
+      startDist: dist || 1,
+      startAngle: angle,
+      startW: curW,
+      startRt: curRt
+    };
+    w.classList.add('is-interacting');
+  }
+}, { passive: false });
+
+document.addEventListener('touchmove', e => {
+  if (!wallTouch || e.touches.length !== 2) return;
+  e.preventDefault();
+  const { w, startDist, startAngle, startW, startRt } = wallTouch;
+  const t1 = e.touches[0];
+  const t2 = e.touches[1];
+  const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+  const angle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * (180 / Math.PI);
+
+  // 1. Two-finger zoom enlarges/shrinks
+  const scale = dist / startDist;
+  const nw = Math.max(12, Math.min(85, startW * scale));
+  const pct = nw.toFixed(1) + '%';
+  w.style.setProperty('--w', pct);
+  w.style.width = pct;
+
+  // 2. Two-finger twist rotates
+  const dAngle = angle - startAngle;
+  const newRt = Math.round(startRt + dAngle) + 'deg';
+  w.style.setProperty('--rt', newRt);
+  w.style.rotate = newRt;
+}, { passive: false });
+
+document.addEventListener('touchend', () => {
+  if (wallTouch) {
+    if (wallTouch.w) wallTouch.w.classList.remove('is-interacting');
+    let sv = {};
+    try { sv = JSON.parse(localStorage.getItem(WK()) || '{}'); } catch (_) {}
+    $$('.wi').forEach(w => {
+      sv[w.dataset.i] = [
+        w.style.left || '',
+        w.style.top || '',
+        w.style.getPropertyValue('--rt') || '',
+        w.style.getPropertyValue('--w') || ''
+      ];
+    });
+    try { localStorage.setItem(WK(), JSON.stringify(sv)); } catch (_) {}
+    wallTouch = null;
   }
 });
 
@@ -736,6 +846,24 @@ const tg = d => {
 const EG = d => `<button class="edge ${d < 0 ? 'pv' : 'nx'}" data-t="${d}" aria-label="${d < 0 ? 'Previous' : 'Next'}"><i></i><span>${tg(d)}</span></button>`;
 const nb = (i, n, s) => `<div class="nb">${i || s ? '<button class="pv" data-t="-1"><i></i>' + tg(-1) + '</button>' : '<span class="gap"></span>'}${n ? `<em>${n}</em>` : ''}${i < order.length - 1 || s < sets().length - 1 ? '<button data-t="1">' + tg(1) + '<i></i></button>' : '<span class="gap"></span>'}</div>`;
 
+
+// Auto-fit folder titles so single words never break or wrap mid-word
+function fitFolderTitles() {
+  $$('.folders .fold b, .fold b').forEach(b => {
+    b.style.fontSize = '';
+    const parent = b.parentElement;
+    if (!parent) return;
+    const maxW = parent.clientWidth - (parseFloat(getComputedStyle(parent).paddingLeft) || 0) - (parseFloat(getComputedStyle(parent).paddingRight) || 0);
+    let sz = parseFloat(getComputedStyle(b).fontSize);
+    let iter = 0;
+    while (b.scrollWidth > maxW + 1 && sz > 7.5 && iter++ < 14) {
+      sz -= 0.5;
+      b.style.fontSize = sz + 'px';
+    }
+  });
+}
+window.addEventListener('resize', fitFolderTitles);
+
 function render(v, s = 0) {
   wallFs(false);
   vidFx(null, false);
@@ -792,6 +920,8 @@ function render(v, s = 0) {
   fit();
   cwStk();
   setTimeout(cwStk, 300);
+  fitFolderTitles();
+  setTimeout(fitFolderTitles, 120);
 
   if (pending) {
     const o = pending;
@@ -1382,6 +1512,7 @@ const exifHtml = o => {
 function show(n) {
   const l = vis();
   idx = (n + l.length) % l.length;
+  if (lb) { lb.classList.remove('orient-landscape'); $('.btn-orient', lb).forEach(b => b.classList.toggle('active', b.dataset.orient === 'portrait')); }
   const o = REG[+l[idx].dataset.r];
   const w = o._v === 'writing';
   const pv = w ? o.pdf || '' : /\.pdf$/i.test(o.src || '') ? o.src : '';
@@ -1497,8 +1628,15 @@ function openAt(t) {
     lb.className = 'lb';
     lb.setAttribute('role', 'dialog');
     lb.setAttribute('aria-modal', 'true');
-    lb.innerHTML = '<button class="x" aria-label="Close">×</button><div class="tools"><button data-fs>Full screen</button><button data-ss>Slideshow</button></div><button class="p" aria-label="Previous">‹</button><div class="wrap"><div class="stage"></div><div class="panel"></div></div><button class="n" aria-label="Next">›</button>';
+    lb.innerHTML = '<button class="x" aria-label="Close">×</button><div class="tools"><button data-fs>Full screen</button><button data-ss>Slideshow</button><div class="orient-opts"><button type="button" class="btn-orient active" data-orient="portrait">Portrait</button><button type="button" class="btn-orient" data-orient="landscape">Landscape</button></div></div><button class="p" aria-label="Previous">‹</button><div class="wrap"><div class="stage"></div><div class="panel"></div></div><button class="n" aria-label="Next">›</button>';
     lb.onclick = ev => {
+      const OB = ev.target.closest('[data-orient]');
+      if (OB) {
+        const orient = OB.dataset.orient;
+        $$('.btn-orient', lb).forEach(b => b.classList.toggle('active', b === OB));
+        lb.classList.toggle('orient-landscape', orient === 'landscape');
+        return;
+      }
       const T2 = ev.target.closest('[data-fs],[data-ss]');
       if (T2) {
         if (T2.hasAttribute('data-fs')) {
@@ -2267,7 +2405,7 @@ document.addEventListener('fullscreenchange', () => {
 });
 
 function crumbs(v, l, s) {
-  if (v === 'cover') return '';
+  if (v === 'cover' || v === 'thanks') return '';
   const P = [{ t: 'Index', g: 'index|0' }];
   if (v !== 'index') {
     P.push({ t: names[v], g: v + '|0' });
@@ -2359,7 +2497,7 @@ function mixWall(force = false) {
       existingImg.src = p.src;
       existingImg.alt = p.title;
     } else {
-      w.innerHTML = `<img src="${esc(p.src)}" alt="${esc(p.title)}" draggable="false"><span class="wi-edge-hint" aria-hidden="true"></span><span class="wi-handle rot" data-action="rot" title="Drag to rotate" aria-hidden="true"></span><span class="wi-handle res" data-action="res" title="Drag to resize" aria-hidden="true"></span>`;
+      w.innerHTML = `<img src="${esc(p.src)}" alt="${esc(p.title)}" draggable="false"><span class="wi-edge-hint" aria-hidden="true"></span>`;
     }
   });
 }

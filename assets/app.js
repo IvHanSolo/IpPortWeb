@@ -243,19 +243,21 @@ const B = {
     const photoItems = all.filter(t => t.o.src);
     const mixedItems = shuf(photoItems.slice());
     const tilesAll = mixedItems.map((t, i) => `
-<button type="button" class="bt" data-r="${t.id}" data-o="${i}" data-vf="${esc(t.al)}" style="--rt:${RT[i % 8]}deg">
+<button type="button" class="bt" data-r="${t.id}" data-o="${i}" data-vf="${esc(t.al)}" data-tags="${esc([t.al, ...(t.o.tags || [])].join(','))}" style="--rt:${RT[i % 8]}deg">
   <img src="${esc(t.o.src)}" alt="${esc(t.o.title)}" loading="lazy" draggable="false">
   <span class="cap"><small>${esc(t.al)}</small><b>${esc(t.o.title)}</b></span>
 </button>`.trim()).join('');
 
-    const chips = als.length
-      ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-vfilter="">All</button>${als.map(a => `<button type="button" class="chip" data-vfilter="${esc(a.title)}">${esc(a.title)}</button>`).join('')}</div>`
+    const activeAlbums = als.filter(a => (a.items || []).some(x => norm(x, a).src));
+    const chips = activeAlbums.length
+      ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-vfilter="">All</button>${activeAlbums.map(a => `<button type="button" class="chip" data-vfilter="${esc(a.title)}">${esc(a.title)}</button>`).join('')}</div>`
       : '';
 
-    const albumFolders = als.map((al, i) => {
+    const mixedAls = shuf(als.slice());
+    const albumFolders = mixedAls.map(al => {
       const items = (al.items || []).filter(x => norm(x, al).src);
       return `
-<button class="fold" type="button" data-album="${i}">
+<button class="fold" type="button" data-album="${als.indexOf(al)}">
   <b>${esc(al.title)}</b>
   <span>${esc(al.desc || (al.group ? al.group : ''))}</span>
   <small>${items.length} photo${items.length === 1 ? '' : 's'}</small>
@@ -451,7 +453,7 @@ const mkWall = () => {
       const id = reg(o, { _v: 'photography', _al: 'Photo wall', _sp: 2 });
       const p = WP[i % 8];
       const q = WPM[i % 8];
-      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}</button>`;
+      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}<span class="wi-edge-hint" aria-hidden="true"></span><span class="wi-handle rot" data-action="rot" title="Drag to rotate" aria-hidden="true"></span><span class="wi-handle res" data-action="res" title="Drag to resize" aria-hidden="true"></span></button>`;
     }).join('')}
   </div>
   <button class="wfs" data-wfs type="button" aria-label="Expand photo wall to full screen" title="Full screen">${EXP}</button>
@@ -479,8 +481,16 @@ function applyWall() {
     w.classList.toggle('is-locked', isLocked);
     const p = sv[w.dataset.i];
     if (p) {
-      w.style.left = p[0];
-      w.style.top = p[1];
+      if (p[0]) w.style.left = p[0];
+      if (p[1]) w.style.top = p[1];
+      if (p[2]) {
+        w.style.setProperty('--rt', p[2]);
+        w.style.rotate = p[2];
+      }
+      if (p[3]) {
+        w.style.setProperty('--w', p[3]);
+        w.style.width = p[3];
+      }
     }
     if (im[w.dataset.i]) setImg(w, im[w.dataset.i], false);
   });
@@ -501,6 +511,9 @@ function setImg(t, u, sv = true) {
     } catch (_) {}
   }
 }
+
+const lockSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+const unlockSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>';
 
 function pick(t) {
   const m = document.createElement('div');
@@ -524,7 +537,7 @@ function pick(t) {
   <p class="d">This only changes your own wall, on this device. Press Mix under the wall for a new mix, or Reset to restore positions.</p>
   <div class="pk-actions">
     <label class="btn">Upload from my device<input type="file" accept="image/*" hidden></label>
-    <button type="button" class="btn btn-lock${isLocked ? ' is-locked' : ''}" data-lock="${t.dataset.i}">${isLocked ? '🔒 Locked' : '🔓 Lock picture'}</button>
+    <button type="button" class="btn btn-lock${isLocked ? ' is-locked' : ''}" data-lock="${t.dataset.i}">${isLocked ? lockSvg + ' Locked' : unlockSvg + ' Lock picture'}</button>
   </div>
   <div class="grid">
     ${ph.map(o => `<button class="tile" data-u="${esc(o.src)}"><img src="${esc(o.src)}" alt="${esc(o.title)}"></button>`).join('') || '<p class="d">Portfolio photos will appear here once they are added.</p>'}
@@ -555,7 +568,7 @@ function pick(t) {
       try {
         localStorage.setItem('ipwalllocked', JSON.stringify(lState));
       } catch (_) {}
-      lk.textContent = willLock ? '🔒 Locked' : '🔓 Lock picture';
+      lk.innerHTML = willLock ? lockSvg + ' Locked' : unlockSvg + ' Lock picture';
       lk.classList.toggle('is-locked', willLock);
       t.classList.toggle('is-locked', willLock);
       return;
@@ -595,38 +608,74 @@ function pick(t) {
 document.addEventListener('pointerdown', e => {
   const w = e.target.closest('.wi');
   if (!w) return;
+  const isFsWall = Boolean(w.closest('.wallw.fs'));
+  const rotH = e.target.closest('[data-action="rot"]');
+  const resH = e.target.closest('[data-action="res"]');
+  const action = (isFsWall && (rotH ? 'rot' : resH ? 'res' : null)) || 'drag';
+  const r = w.getBoundingClientRect();
+  const parentBx = w.parentElement.getBoundingClientRect();
+
   dg = {
     w,
-    bx: w.parentElement.getBoundingClientRect(),
+    action,
+    bx: parentBx,
     sx: e.clientX,
     sy: e.clientY,
+    cx: r.left + r.width / 2,
+    cy: r.top + r.height / 2,
+    startW: (w.offsetWidth / parentBx.width) * 100,
     l: w.offsetLeft,
     t: w.offsetTop
   };
   moved = false;
   w.style.zIndex = ++zt;
+  if (isFsWall) w.classList.add('is-interacting');
 });
 
 document.addEventListener('pointermove', e => {
   if (!dg) return;
-  const dx = e.clientX - dg.sx;
-  const dy = e.clientY - dg.sy;
-  if (Math.abs(dx) + Math.abs(dy) > 6) moved = true;
+  const { w, action, bx, sx, sy, cx, cy, startW, l, t } = dg;
+  const dx = e.clientX - sx;
+  const dy = e.clientY - sy;
+  if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
   if (!moved) return;
-  const { w, bx } = dg;
-  w.style.left = (Math.max(-MG, Math.min(bx.width - w.offsetWidth + MG, dg.l + dx)) / bx.width) * 100 + '%';
-  w.style.top = (Math.max(-MG, Math.min(bx.height - w.offsetHeight + MG, dg.t + dy)) / bx.height) * 100 + '%';
+
+  if (action === 'rot') {
+    const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
+    const deg = Math.round(angle) + 'deg';
+    w.style.setProperty('--rt', deg);
+    w.style.rotate = deg;
+  } else if (action === 'res') {
+    const nw = Math.max(12, Math.min(68, startW + (dx / bx.width) * 100));
+    const pct = nw.toFixed(1) + '%';
+    w.style.setProperty('--w', pct);
+    w.style.width = pct;
+  } else {
+    w.style.left = (Math.max(-MG, Math.min(bx.width - w.offsetWidth + MG, l + dx)) / bx.width) * 100 + '%';
+    w.style.top = (Math.max(-MG, Math.min(bx.height - w.offsetHeight + MG, t + dy)) / bx.height) * 100 + '%';
+  }
 });
 
 addEventListener('pointerup', () => {
-  if (dg && moved) {
-    let sv = {};
-    $$('.wi').forEach(w => {
-      sv[w.dataset.i] = [w.style.left, w.style.top];
-    });
-    try {
-      localStorage.setItem(WK(), JSON.stringify(sv));
-    } catch (_) {}
+  if (dg) {
+    if (dg.w) dg.w.classList.remove('is-interacting');
+    if (moved) {
+      let sv = {};
+      try {
+        sv = JSON.parse(localStorage.getItem(WK()) || '{}');
+      } catch (_) {}
+      $$('.wi').forEach(w => {
+        sv[w.dataset.i] = [
+          w.style.left || '',
+          w.style.top || '',
+          w.style.getPropertyValue('--rt') || '',
+          w.style.getPropertyValue('--w') || ''
+        ];
+      });
+      try {
+        localStorage.setItem(WK(), JSON.stringify(sv));
+      } catch (_) {}
+    }
   }
   dg = null;
   setTimeout(() => (moved = false), 50);
@@ -883,6 +932,14 @@ const pageOf = u => {
 };
 
 addEventListener('popstate', () => {
+  if (lb && !lb.hidden) {
+    if (lb.classList.contains('fs')) {
+      fsOn(false);
+    } else {
+      close(false);
+    }
+    return;
+  }
   const v = pageOf(location) || 'cover';
   PAGE = v;
   document.body.dataset.page = v;
@@ -1236,9 +1293,17 @@ document.addEventListener('click', e => {
   }
   const vf = e.target.closest('[data-vfilter]');
   if (vf) {
-    const f = vf.dataset.vfilter;
+    const f = (vf.dataset.vfilter || '').toLowerCase();
     $('[data-vfilter]').forEach(c => c.classList.toggle('on', c === vf));
-    $('#vboard .bt').forEach(t => (t.hidden = Boolean(f && t.dataset.vf !== f)));
+    $('#vboard .bt').forEach(t => {
+      if (!f) {
+        t.hidden = false;
+        return;
+      }
+      const tAl = (t.dataset.vf || '').toLowerCase();
+      const tTags = (t.dataset.tags || '').toLowerCase().split(',');
+      t.hidden = !(tAl === f || tTags.includes(f) || tTags.some(tg => tg.includes(f)));
+    });
     ordBoard();
     return;
   }
@@ -1317,7 +1382,7 @@ function show(n) {
       ? `<video src="${esc(o.src)}" controls></video>`
       : isDoc(o)
       ? '<div class="ph">Export to PDF to preview</div>'
-      : `<img src="${esc(o.src)}" alt="${esc(o.title)}">`;
+      : `<img src="${esc(o.src)}" alt="${esc(o.title)}"><span class="lb-wm" aria-hidden="true">ip</span>`;
   } else {
     m = `<div class="ph">${lab(o)} placeholder</div>`;
   }
@@ -1355,11 +1420,14 @@ function show(n) {
   if (pv) pdfRead($('.pdfv', st), pv);
 }
 
-function close() {
+function close(popHist = true) {
   ssStop();
   fsOn(false);
   lb.hidden = true;
   $('.stage', lb).innerHTML = '';
+  if (popHist && history.state && history.state.lb) {
+    try { history.back(); } catch (_) {}
+  }
   if (last && last.focus) last.focus();
 }
 
@@ -1438,6 +1506,7 @@ function openAt(t) {
   }
   lb.hidden = false;
   show(vis().indexOf(t));
+  try { history.pushState({ lb: true }, '', location.href); } catch (_) {}
   $('.x', lb).focus();
 }
 
@@ -1453,7 +1522,7 @@ document.addEventListener('click', e => {
       localStorage.removeItem('ipwall');
       localStorage.removeItem('ipwallm');
     } catch (_) {}
-    $$('.wi').forEach(w => {
+    $$$('.wi').forEach(w => {
       w.style.left = '';
       w.style.top = '';
     });
@@ -1855,15 +1924,17 @@ document.addEventListener('fullscreenchange', () => {
 });
 
 function fit() {
-  $$('.tk,.abx').forEach(t => {
+  $('.tk,.abx').forEach(t => {
     const sc = t.closest('.sc');
+    if (t.classList.contains('tk')) {
+      t.style.fontSize = (innerWidth < 900 ? 15 : 19) + 'px';
+      return;
+    }
     let f = t.classList.contains('abr')
       ? (innerWidth < 900 ? 17 : 30)
-      : t.classList.contains('abx')
-      ? (innerWidth < 900 ? 14 : 20)
-      : (innerWidth < 900 ? 13 : 16);
+      : (innerWidth < 900 ? 14 : 20);
     t.style.fontSize = f + 'px';
-    while (innerWidth >= 900 && sc.scrollHeight > sc.clientHeight + 1 && f > 4.5) {
+    while (innerWidth >= 900 && sc && sc.scrollHeight > sc.clientHeight + 1 && f > 4.5) {
       f -= 0.5;
       t.style.fontSize = f + 'px';
     }
@@ -2176,7 +2247,7 @@ function crumbs(v, l, s) {
 })();
 
 function mixWall(force = false) {
-  const ws = $$('.wi');
+  const ws = $$$('.wi');
   if (!ws.length) return;
   let im = {};
   let locked = {};
@@ -2922,3 +2993,28 @@ function palOf(p) {
 function posterPal() {
   $$('.poster[data-pal=auto]').forEach(palOf);
 }
+
+let lbTouch = null;
+document.addEventListener('touchstart', e => {
+  if (lb && !lb.hidden && e.target.closest('.lb')) {
+    const t = e.touches[0];
+    lbTouch = { x: t.clientX, y: t.clientY };
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  if (!lbTouch || !lb || lb.hidden) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - lbTouch.x;
+  const dy = t.clientY - lbTouch.y;
+  lbTouch = null;
+  if (dx > 75 && Math.abs(dy) < 60) {
+    // Swipe right back gesture
+    if (lb.classList.contains('fs')) fsOn(false);
+    else close();
+  } else if (dy > 95 && Math.abs(dx) < 70) {
+    // Swipe down gesture
+    if (lb.classList.contains('fs')) fsOn(false);
+    else close();
+  }
+}, { passive: true });

@@ -1177,7 +1177,7 @@
           {
             "title": "Media Law",
             "desc": "Ad made for a Media Law course.",
-            "embed": "https://youtu.be/iAnrXJlXl0Y"
+            "embed": "https://youtu.be/iAnrXJlXlOY"
           }
         ]
       },
@@ -1254,15 +1254,15 @@
     {
       "title": "CSM",
       "status": "WIP",
-      "desc": "Coming soon...",
+      "desc": "A detective noire graphic novel written by Ivan Philips and Illustrated by Soumitra Lovalekar",
       "items": [
         {
           "title": "CSM",
           "src": "images/csm/csm-teaser.jpg",
-          "desc": "Coming soon..."
+          "desc": "A detective noire graphic novel written by Ivan Philips and Illustrated by Soumitra Lovalekar"
         }
       ],
-      "note": "Coming soon... brief to follow."
+      "note": "A detective noire graphic novel written by Ivan Philips and Illustrated by Soumitra Lovalekar"
     },
     {
       "title": "Album Art",

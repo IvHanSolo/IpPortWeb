@@ -248,9 +248,25 @@ const B = {
   <span class="cap"><small>${esc(t.al)}</small><b>${esc(t.o.title)}</b></span>
 </button>`.trim()).join('');
 
-    const activeAlbums = als.filter(a => (a.items || []).some(x => norm(x, a).src));
-    const chips = activeAlbums.length
-      ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-vfilter="">All</button>${activeAlbums.map(a => `<button type="button" class="chip" data-vfilter="${esc(a.title)}">${esc(a.title)}</button>`).join('')}</div>`
+    const activeCats = [];
+    als.forEach(a => {
+      const aLower = a.title.toLowerCase();
+      const count = all.filter(t => t.al.toLowerCase() === aLower || (t.o.tags || []).some(tg => String(tg).toLowerCase() === aLower)).length;
+      if (count > 0 && !activeCats.some(c => c.toLowerCase() === aLower)) {
+        activeCats.push(a.title);
+      }
+    });
+    // Add user tags like F&F
+    ['F&F'].forEach(tg => {
+      const tgLower = tg.toLowerCase();
+      const count = all.filter(t => (t.o.tags || []).some(x => String(x).toLowerCase() === tgLower)).length;
+      if (count > 0 && !activeCats.some(c => c.toLowerCase() === tgLower)) {
+        activeCats.push(tg);
+      }
+    });
+
+    const chips = activeCats.length
+      ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-vfilter="">All</button>${activeCats.map(c => `<button type="button" class="chip" data-vfilter="${esc(c)}">${esc(c)}</button>`).join('')}</div>`
       : '';
 
     const mixedAls = shuf(als.slice());
@@ -264,8 +280,8 @@ const B = {
 </button>`.trim();
     }).join('');
 
-    const wch = als.length
-      ? `<div class="alb"><span>Show only</span>${als.map((a, i) => `<button type="button" class="chip" data-towall="${i}">${esc(a.title)}</button>`).join('')}</div>`
+    const wch = activeCats.length
+      ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-towall="all">All</button>${activeCats.map(c => `<button type="button" class="chip" data-towall="${esc(c)}">${esc(c)}</button>`).join('')}</div>`
       : '';
 
     return [
@@ -1294,8 +1310,8 @@ document.addEventListener('click', e => {
   const vf = e.target.closest('[data-vfilter]');
   if (vf) {
     const f = (vf.dataset.vfilter || '').toLowerCase();
-    $('[data-vfilter]').forEach(c => c.classList.toggle('on', c === vf));
-    $('#vboard .bt').forEach(t => {
+    $$('[data-vfilter]').forEach(c => c.classList.toggle('on', c === vf));
+    $$('#vboard .bt').forEach(t => {
       if (!f) {
         t.hidden = false;
         return;
@@ -1310,8 +1326,8 @@ document.addEventListener('click', e => {
   const af = e.target.closest('[data-afilter]');
   if (af) {
     const f = af.dataset.afilter;
-    $('[data-afilter]').forEach(c => c.classList.toggle('on', c === af));
-    $('.alb-sec').forEach(sec => {
+    $$('[data-afilter]').forEach(c => c.classList.toggle('on', c === af));
+    $$('.alb-sec').forEach(sec => {
       sec.hidden = Boolean(f && sec.dataset.alb !== f);
     });
     return;
@@ -1522,7 +1538,7 @@ document.addEventListener('click', e => {
       localStorage.removeItem('ipwall');
       localStorage.removeItem('ipwallm');
     } catch (_) {}
-    $$$('.wi').forEach(w => {
+    $('.wi').forEach(w => {
       w.style.left = '';
       w.style.top = '';
     });
@@ -1924,10 +1940,19 @@ document.addEventListener('fullscreenchange', () => {
 });
 
 function fit() {
-  $('.tk,.abx').forEach(t => {
+  $$('.tk,.abx').forEach(t => {
     const sc = t.closest('.sc');
     if (t.classList.contains('tk')) {
-      t.style.fontSize = (innerWidth < 900 ? 15 : 19) + 'px';
+      if (innerWidth < 900) {
+        t.style.fontSize = '14px';
+        return;
+      }
+      let f = 13.5;
+      t.style.fontSize = f + 'px';
+      while (sc && sc.scrollHeight > sc.clientHeight + 1 && f > 11) {
+        f -= 0.5;
+        t.style.fontSize = f + 'px';
+      }
       return;
     }
     let f = t.classList.contains('abr')
@@ -2054,7 +2079,7 @@ function cwStk() {
   const n = $('.cwn');
   if (!n) return;
   if (n.classList.contains('faded-out')) {
-    $('.cw').forEach(t => t.classList.remove('cwu'));
+    $$('.cw').forEach(t => t.classList.remove('cwu'));
     return;
   }
   const ts = $('.cw')
@@ -2066,7 +2091,7 @@ function cwStk() {
   });
 
   const ks = [...n.children].filter(x => x.offsetParent).map(x => x.getBoundingClientRect());
-  $('.cw').forEach(t => {
+  $$('.cw').forEach(t => {
     const r = t.getBoundingClientRect();
     t.classList.toggle('cwu', ks.some(b => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
   });
@@ -2247,7 +2272,7 @@ function crumbs(v, l, s) {
 })();
 
 function mixWall(force = false) {
-  const ws = $$$('.wi');
+  const ws = $$('.wi');
   if (!ws.length) return;
   let im = {};
   let locked = {};
@@ -2300,7 +2325,13 @@ function mixWall(force = false) {
       delete o._s;
     }
     w.setAttribute('aria-label', p.title);
-    w.innerHTML = `<img src="${esc(p.src)}" alt="${esc(p.title)}" draggable="false">`;
+    const existingImg = w.querySelector('img');
+    if (existingImg) {
+      existingImg.src = p.src;
+      existingImg.alt = p.title;
+    } else {
+      w.innerHTML = `<img src="${esc(p.src)}" alt="${esc(p.title)}" draggable="false"><span class="wi-edge-hint" aria-hidden="true"></span><span class="wi-handle rot" data-action="rot" title="Drag to rotate" aria-hidden="true"></span><span class="wi-handle res" data-action="res" title="Drag to resize" aria-hidden="true"></span>`;
+    }
   });
 }
 
@@ -2414,25 +2445,47 @@ document.addEventListener('click', e => {
   if (!t) return;
   e.stopPropagation();
   e.preventDefault();
-  albumToWall(+t.dataset.towall);
+  const val = t.dataset.towall;
+  if (!val || val === 'all') {
+    filterWall('all');
+  } else if (!isNaN(val) && String(val).trim() !== '') {
+    const al = getPhotoAlbums()[+val] || (CONTENT.photography?.leisure || [])[+val];
+    if (al) filterWall(al.title);
+  } else {
+    filterWall(val);
+  }
 }, true);
 
-function albumToWall(i) {
-  const al = getPhotoAlbums()[i] || (CONTENT.photography?.leisure || [])[i];
-  if (!al) return;
-  const ph = REG.filter(o => o._v === 'photography' && o._al === al.title && o.src && !isDoc(o) && !isVid(o))
-    .map(o => ({ src: o.src, title: o.title }));
+function filterWall(cat) {
   const hp = $('.wh p');
-
-  if (!ph.length) {
-    if (hp) hp.textContent = 'No photos in ' + al.title + ' yet.';
+  if (!cat || cat.toLowerCase() === 'all') {
+    wallAlbum = null;
+    $$('[data-towall]').forEach(c => c.classList.toggle('on', c.dataset.towall === 'all' || !c.dataset.towall));
+    if (hp) hp.textContent = 'A new mix of your photos every visit. Drag the pieces to arrange them.';
+    if (PAGE === 'photography' && sp === 2) {
+      mixWall(true);
+    }
     return;
   }
-  wallAlbum = { name: al.title, photos: ph };
+  const fLower = cat.toLowerCase();
+  const ph = REG.filter(o => {
+    if (o._v !== 'photography' || !o.src || isDoc(o) || isVid(o)) return false;
+    const aMatch = (o._al || '').toLowerCase() === fLower;
+    const tags = (o.tags || o._it || []).map(t => String(t).toLowerCase());
+    return aMatch || tags.includes(fLower);
+  }).map(o => ({ src: o.src, title: o.title }));
+
+  if (!ph.length) {
+    if (hp) hp.textContent = 'No photos in ' + cat + ' yet.';
+    return;
+  }
+  wallAlbum = { name: cat, photos: ph };
+  $$('[data-towall]').forEach(c => c.classList.toggle('on', (c.dataset.towall || '').toLowerCase() === fLower));
+  if (hp) hp.textContent = 'Showing ' + cat + ' (' + ph.length + ' photos). Press Mix for a new mix.';
   if (PAGE !== 'photography' || sp !== 2) {
     go('photography', 2);
   } else {
-    mixWall();
+    mixWall(true);
   }
 }
 

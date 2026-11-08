@@ -218,7 +218,7 @@ body{padding-right:clamp(9.5rem,13vw,12.5rem)}
 .crumb .sep{opacity:.6}.crumb b{font-weight:700;font-style:normal;color:var(--ink)}
 .alb{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:.7rem}.alb span{font:italic .95rem var(--f-body);color:var(--mut)}
 .chip{border:2px solid var(--ink);border-radius:2rem;background:none;color:var(--ink);padding:.12rem .8rem;font:400 .95rem var(--f-head);letter-spacing:.05em;cursor:pointer;transition:background .2s,color .2s}.chip:hover{background:var(--o);border-color:var(--o);color:#111}
-.sc:has(.tk),.r[data-theme=thanks] .sc{overflow-y:auto!important;overflow-x:hidden!important;height:100%!important;max-height:100%!important;padding:2rem 2.4rem 5rem!important;box-sizing:border-box!important}
+.sc:has(.tk),.r[data-theme=thanks] .sc{overflow-y:auto;overflow-x:hidden;height:100%!important;max-height:100%!important;padding:1.4rem 2.2rem 2.6rem!important;box-sizing:border-box!important}
 .tk{max-width:none;padding:.2rem 0;line-height:1.35}
 .tk .ty{font-size:3.3em;line-height:1}.tk .tq{font-size:1.15em;margin:.3em 0 .5em}
 .tk .th2{font-size:.8em;letter-spacing:.32em;margin:1.1em 0 .45em;gap:.8em}
@@ -728,10 +728,10 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .lb.fs .lb-wm{display:block}
 @media(max-width:900px){.lb-wm{right:1rem;bottom:1rem;font-size:1.05rem}}
 
-/* Thank you page desktop sizing */
-.tk{font-size:18px!important;line-height:1.45}
-.tk .tp{font-size:.95em;line-height:1.55}
-.tk .tsub{font-size:.85em}
+/* Thank you page desktop sizing (fits without scrolling) */
+.tk{font-size:13.5px;line-height:1.45;max-width:48rem;margin:0 auto}
+.tk .tp{font-size:1em;line-height:1.52}
+.tk .tsub{font-size:.88em}
 .tk .te b{font-size:1.05em}
 
 /* Pick modal lock button alignment */

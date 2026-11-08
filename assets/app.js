@@ -52,7 +52,8 @@ const CONTENT = {
       { group: 'Travel', title: 'Lonavala', desc: 'Description goes here.', items: P(14, 'Lonavala') },
       { group: 'Travel', title: 'Goa', desc: 'Description goes here.', items: P(14, 'Goa') },
       { group: 'Travel', title: 'Singapore', desc: 'Description goes here.', items: P(14, 'Singapore') },
-      { group: 'Travel', title: 'Andaman', desc: 'Description goes here.', items: P(14, 'Andaman') }
+      { group: 'Travel', title: 'Andaman', desc: 'Description goes here.', items: P(14, 'Andaman') },
+      { title: 'Abstract fun with colours', desc: 'Playful portraits and chromatic experiments with bold color, tonality, and character.', folder: 'images/abstract-colours/', items: [] }
     ],
     otherSections: [
       { title: 'Animals', desc: 'Description goes here.', items: P(9, 'Animal') },
@@ -257,7 +258,7 @@ const B = {
       }
     });
     // Add user tags like F&F
-    ['F&F'].forEach(tg => {
+    ['F&F', 'Boat', 'Sky', 'Night'].forEach(tg => {
       const tgLower = tg.toLowerCase();
       const count = all.filter(t => (t.o.tags || []).some(x => String(x).toLowerCase() === tgLower)).length;
       if (count > 0 && !activeCats.some(c => c.toLowerCase() === tgLower)) {
@@ -284,13 +285,33 @@ const B = {
       ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-towall="all">All</button>${activeCats.map(c => `<button type="button" class="chip" data-towall="${esc(c)}">${esc(c)}</button>`).join('')}</div>`
       : '';
 
+    const sortedAls = als.slice().sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    const albIndex = `
+<div class="alb-index" aria-label="Alphabetical album index">
+  <div class="alb-index-hdr">
+    <h3>Albums (A–Z)</h3>
+  </div>
+  <ul class="alb-list">
+    ${sortedAls.map(al => {
+      const items = (al.items || []).filter(x => norm(x, al).src);
+      const origIdx = als.indexOf(al);
+      return `<li>
+        <button type="button" class="alb-item" data-album="${origIdx}">
+          <span class="alb-item-name">${esc(al.title)}</span>
+          <span class="alb-item-meta">${al.group ? `<span class="alb-item-grp">${esc(al.group)}</span>` : ''}<span class="alb-item-cnt">${items.length} photo${items.length === 1 ? '' : 's'}</span></span>
+        </button>
+      </li>`;
+    }).join('')}
+  </ul>
+</div>`.trim();
+
     return [
       [
         PT('photography', 'All Images', 'A glimpse through my lens across all collections') + tabs(0) + chips + '<p class="bh">Hover to peek. Click any photo to see it full screen.</p>',
         `<div class="boardw"><div class="board" id="vboard" data-kind="photos">${tilesAll || '<p>Photos will appear here once they are added.</p>'}</div></div>`
       ],
       [
-        PT('albums', 'Albums', 'Photographs organized by collection and destination') + tabs(1) + '<p class="bh">Click any album folder to view its collection.</p>',
+        PT('albums', 'Albums', 'Photographs organized by collection and destination') + tabs(1) + albIndex + '<p class="bh">Click any album folder to view its collection.</p>',
         `<div class="folders">${albumFolders || '<p>Albums will appear here once they are added.</p>'}</div>`
       ],
       [
@@ -918,8 +939,20 @@ function render(v, s = 0) {
   ordBoard();
   pdfCovers();
   fit();
-  cwStk();
-  setTimeout(cwStk, 300);
+  if (v === 'cover') {
+    const cw = $('.cwall');
+    if (cw) {
+      cw.classList.add('cw-settling');
+      cwStk();
+      setTimeout(() => {
+        cwStk();
+        cw.classList.remove('cw-settling');
+      }, 420);
+    }
+  } else {
+    cwStk();
+    setTimeout(cwStk, 300);
+  }
   fitFolderTitles();
   setTimeout(fitFolderTitles, 120);
 
@@ -1011,8 +1044,17 @@ function nav() {
   const liftAng = (mob ? (fwd ? 90 : -90) : (fwd ? -90 : 90)) + 'deg';
   const dropStartAng = (mob ? (fwd ? -90 : 90) : (fwd ? 90 : -90)) + 'deg';
 
-  const liftOpts = { duration: 280, easing: 'cubic-bezier(0.4, 0, 0.6, 0.2)', fill: 'forwards' };
-  const dropOpts = { duration: 320, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)', fill: 'forwards' };
+  const toCover = v === 'cover';
+  const liftOpts = {
+    duration: toCover ? 520 : 280,
+    easing: toCover ? 'cubic-bezier(0.35, 0, 0.45, 0.2)' : 'cubic-bezier(0.4, 0, 0.6, 0.2)',
+    fill: 'forwards'
+  };
+  const dropOpts = {
+    duration: toCover ? 640 : 320,
+    easing: toCover ? 'cubic-bezier(0.16, 0.84, 0.25, 1)' : 'cubic-bezier(0.2, 0.7, 0.3, 1)',
+    fill: 'forwards'
+  };
 
   const fin = () => {
     busy = false;
@@ -1439,17 +1481,45 @@ document.addEventListener('click', e => {
   }
   const vf = e.target.closest('[data-vfilter]');
   if (vf) {
-    const f = (vf.dataset.vfilter || '').toLowerCase();
-    $$('[data-vfilter]').forEach(c => c.classList.toggle('on', c === vf));
+    const filterVal = (vf.dataset.vfilter || '').trim().toLowerCase();
+    const container = vf.closest('.vch');
+    const allChip = container ? container.querySelector('[data-vfilter=""]') : $('[data-vfilter=""]');
+
+    if (!filterVal) {
+      // User clicked "All": clear all specific filters in this container, turn All on
+      const chipsInContainer = container ? $$('[data-vfilter]', container) : $$('[data-vfilter]');
+      chipsInContainer.forEach(c => c.classList.toggle('on', c === vf));
+    } else {
+      // User clicked a specific filter: toggle it
+      vf.classList.toggle('on');
+      if (allChip) allChip.classList.remove('on');
+
+      // If no specific filters remain active, turn "All" back on
+      const chipsInContainer = container ? $$('[data-vfilter]', container) : $$('[data-vfilter]');
+      const activeSpecific = chipsInContainer.filter(c => c.classList.contains('on') && c.dataset.vfilter);
+      if (activeSpecific.length === 0) {
+        if (allChip) allChip.classList.add('on');
+      }
+    }
+
+    // Determine all active filters
+    const chipsInContainer = container ? $$('[data-vfilter]', container) : $$('[data-vfilter]');
+    const activeFilters = chipsInContainer
+      .filter(c => c.classList.contains('on'))
+      .map(c => (c.dataset.vfilter || '').trim().toLowerCase())
+      .filter(Boolean);
+
     $$('#vboard .bt').forEach(t => {
-      if (!f) {
+      if (activeFilters.length === 0) {
         t.hidden = false;
         return;
       }
-      const tAl = (t.dataset.vf || '').toLowerCase();
-      const tTags = (t.dataset.tags || '').toLowerCase().split(',');
-      t.hidden = !(tAl === f || tTags.includes(f) || tTags.some(tg => tg.includes(f)));
+      const tAl = (t.dataset.vf || '').trim().toLowerCase();
+      const tTags = (t.dataset.tags || '').toLowerCase().split(',').map(s => s.trim());
+      const matches = activeFilters.some(f => tAl === f || tTags.includes(f) || tTags.some(tg => tg.includes(f)));
+      t.hidden = !matches;
     });
+
     ordBoard();
     return;
   }
@@ -1512,7 +1582,7 @@ const exifHtml = o => {
 function show(n) {
   const l = vis();
   idx = (n + l.length) % l.length;
-  if (lb) { lb.classList.remove('orient-landscape'); $('.btn-orient', lb).forEach(b => b.classList.toggle('active', b.dataset.orient === 'portrait')); }
+  if (lb) { lb.classList.remove('orient-landscape'); $$('.btn-orient', lb).forEach(b => b.classList.toggle('active', b.dataset.orient === 'portrait')); }
   const o = REG[+l[idx].dataset.r];
   const w = o._v === 'writing';
   const pv = w ? o.pdf || '' : /\.pdf$/i.test(o.src || '') ? o.src : '';
@@ -1676,7 +1746,7 @@ document.addEventListener('click', e => {
       localStorage.removeItem('ipwall');
       localStorage.removeItem('ipwallm');
     } catch (_) {}
-    $('.wi').forEach(w => {
+    $$('.wi').forEach(w => {
       w.style.left = '';
       w.style.top = '';
     });
@@ -2676,9 +2746,8 @@ function ordBoard() {
   const b = $('#vboard[data-kind="photos"]');
   if (!b) return;
   const t = [...b.children].filter(x => x.classList.contains('bt'));
-  const c = $('.chip.on[data-vfilter]');
-  const f = c && c.dataset.vfilter;
-  if (f) t.sort((a, b) => a.dataset.o - b.dataset.o);
+  const hasSpecificFilter = $$('.chip.on[data-vfilter]').some(c => c.dataset.vfilter);
+  if (hasSpecificFilter) t.sort((a, b) => a.dataset.o - b.dataset.o);
   else shuf(t);
   t.forEach(x => b.append(x));
 }
@@ -3238,3 +3307,20 @@ document.addEventListener('touchend', e => {
     else close();
   }
 }, { passive: true });
+
+
+// Hover interaction linking left-page album list to right-page folder cards
+document.addEventListener('pointerover', e => {
+  const item = e.target.closest && e.target.closest('.alb-item[data-album]');
+  if (item) {
+    const idx = item.dataset.album;
+    const fold = document.querySelector(`.folders .fold[data-album="${idx}"]`);
+    if (fold) fold.classList.add('fold-hovered');
+  }
+});
+document.addEventListener('pointerout', e => {
+  const item = e.target.closest && e.target.closest('.alb-item[data-album]');
+  if (item) {
+    document.querySelectorAll('.folders .fold.fold-hovered').forEach(f => f.classList.remove('fold-hovered'));
+  }
+});

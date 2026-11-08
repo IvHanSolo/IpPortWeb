@@ -1065,6 +1065,168 @@
             "exif": {}
           }
         ]
+      },
+      {
+        "title": "Abstract fun with colours",
+        "desc": "Playful portraits and chromatic experiments with bold color, tonality, and character.",
+        "folder": "images/abstract-colours/",
+        "items": [
+          {
+            "title": "Stamp of Approval",
+            "src": "stamp-forehead-close.jpg",
+            "desc": "A ₹5 stamp placed on the forehead, playful close portrait with chromatic toning.",
+            "tags": [
+              "F&F",
+              "People",
+              "portrait",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Thermal Aura",
+            "src": "thermal-aura-portrait.jpg",
+            "desc": "Heat-signature stylized portrait with hot pink rim lighting against a muted background.",
+            "tags": [
+              "F&F",
+              "People",
+              "portrait",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Neon Rings",
+            "src": "neon-mirror-night.jpg",
+            "desc": "Concentric psychedelic rings of glowing neon in a night-time bathroom mirror reflection.",
+            "tags": [
+              "F&F",
+              "People",
+              "abstract",
+              "night"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Pastime Postage",
+            "src": "stamp-forehead-wide.jpg",
+            "desc": "Wide seated portrait with the forehead stamp under soft cross-processed light.",
+            "tags": [
+              "F&F",
+              "People",
+              "portrait",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Amber Haze",
+            "src": "amber-sky-eyes-closed.jpg",
+            "desc": "Warm amber portrait with eyes closed against an open sky.",
+            "tags": [
+              "F&F",
+              "People",
+              "portrait",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Vending Machine Glow",
+            "src": "vending-machine-night.jpg",
+            "desc": "Quiet night solitude by a luminous cold-drink dispenser with split-color cast.",
+            "tags": [
+              "F&F",
+              "People",
+              "night",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Shipboard Gangway",
+            "src": "boat-stairs-gangway.jpg",
+            "desc": "High-angle view of white boat stairs and deep blue ferry deck.",
+            "tags": [
+              "Boat",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Grandma in Silhouette",
+            "src": "grandma-silhouette.jpg",
+            "desc": "Radiant backlit profile with glowing chromatic aura through the window.",
+            "tags": [
+              "F&F",
+              "People",
+              "portrait",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Ember Clouds",
+            "src": "cloud-fire-sky.jpg",
+            "desc": "Textured fiery clouds burning red and amber across an intense teal sky.",
+            "tags": [
+              "Sky",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Lifebuoy on Deck",
+            "src": "lifebuoy-boat-deck.jpg",
+            "desc": "Vivid orange lifebuoy and safety boat on the sunlit upper ferry deck.",
+            "tags": [
+              "Boat",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Cyan Facade",
+            "src": "cyan-windows-facade.jpg",
+            "desc": "Geometric array of deep blue window recesses framed by cyan stonework.",
+            "tags": [
+              "abstract",
+              "architecture"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Underground Haven",
+            "src": "underground-parking-gate.jpg",
+            "desc": "Warm lone lamp casting a conical amber pool above an open subterranean parking ramp.",
+            "tags": [
+              "Night",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Magenta Horizon",
+            "src": "hilltop-temple-pink-sky.jpg",
+            "desc": "A solitary hilltop shrine rising over tropical canopy under a saturated pink sky.",
+            "tags": [
+              "Sky",
+              "abstract"
+            ],
+            "exif": {}
+          },
+          {
+            "title": "Alpine Cloudscape",
+            "src": "himalayan-valley-clouds.jpg",
+            "desc": "High-altitude mountain ridges and solitary pine stands under rolling candy-floss clouds.",
+            "tags": [
+              "Himachal",
+              "Sky",
+              "abstract"
+            ],
+            "exif": {}
+          }
+        ]
       }
     ],
     "otherSections": [],

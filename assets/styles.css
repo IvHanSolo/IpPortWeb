@@ -793,3 +793,33 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
   .l .alb.vch .chip{padding:.32rem 1.05rem;font-size:.95rem;line-height:1.35;border-radius:2rem}
   .l .bh{margin-top:2rem;font-size:1.08rem;line-height:1.5;color:var(--mut)}
 }
+
+
+/* Alphabetical albums index on left page */
+.alb-index{margin:1.8rem 0 1.4rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+.alb-index-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.8rem}
+.alb-index-hdr h3{font:600 .88rem/1.2 var(--f-head);letter-spacing:.09em;text-transform:uppercase;color:var(--mut);margin:0}
+.alb-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}
+.alb-list li{margin:0}
+.alb-item{width:100%;display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;padding:.45rem .65rem;border:1px solid transparent;border-radius:6px;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.alb-item:hover{background:color-mix(in srgb,var(--ink) 8%,transparent);border-color:color-mix(in srgb,var(--ink) 18%,transparent);transform:translateX(3px)}
+.alb-item-name{font:700 1.05rem/1.25 var(--f-sub);color:var(--ink);transition:color .2s}
+.alb-item:hover .alb-item-name{color:var(--o)}
+.alb-item-meta{display:inline-flex;gap:.55rem;align-items:baseline;font-size:.82rem}
+.alb-item-grp{font-style:italic;color:var(--mut)}
+.alb-item-cnt{color:var(--o);font-weight:600}
+
+/* Left album hover links to right folder */
+.folders .fold.fold-hovered{transform:translateY(-3px) rotate(-.6deg)!important;border-color:var(--o)!important;box-shadow:0 8px 20px rgba(0,0,0,.25)!important}
+.folders .fold.fold-hovered::before{border-color:var(--o)!important}
+
+@media(max-width:900px){
+  .alb-index{margin:1.1rem 0 .9rem;padding-top:.8rem}
+  .alb-list{max-height:36vh;overflow-y:auto;padding-right:.3rem}
+  .alb-item{padding:.35rem .45rem}
+  .alb-item-name{font-size:.92rem}
+}
+
+/* Cover wall smooth transition & jank prevention */
+.cwall{transition:opacity .45s cubic-bezier(.2,.8,.3,1);opacity:1}
+.cwall.cw-settling{opacity:0!important;pointer-events:none}

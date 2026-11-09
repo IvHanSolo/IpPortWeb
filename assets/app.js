@@ -490,7 +490,7 @@ const mkWall = () => {
       const id = reg(o, { _v: 'photography', _al: 'Photo wall', _sp: 2 });
       const p = WP[i % 8];
       const q = WPM[i % 8];
-      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}<span class="wi-edge-hint" aria-hidden="true"></span></button>`;
+      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}<span class="wi-edge-hint" aria-hidden="true"></span><span class="wi-indicators" aria-hidden="true"><span class="wi-c tl"></span><span class="wi-c tr"></span><span class="wi-c bl"></span><span class="wi-c br"></span><span class="wi-edge-bar top"></span><span class="wi-edge-bar right"></span><span class="wi-edge-bar bottom"></span><span class="wi-edge-bar left"></span><span class="wi-zone-badge"></span></span></button>`;
     }).join('')}
   </div>
   <button class="wfs" data-wfs type="button" aria-label="Expand photo wall to full screen" title="Full screen">${EXP}</button>
@@ -536,7 +536,13 @@ function applyWall() {
 function setImg(t, u, sv = true) {
   const o = REG[+t.dataset.r];
   o.src = u;
-  t.innerHTML = `<img src="${esc(u)}" alt="${esc(o.title)}" draggable="false">`;
+  const imEl = t.querySelector('img');
+  if (imEl) {
+    imEl.src = u;
+    imEl.alt = o.title || '';
+  } else {
+    t.innerHTML = `<img src="${esc(u)}" alt="${esc(o.title)}" draggable="false"><span class="wi-edge-hint" aria-hidden="true"></span><span class="wi-indicators" aria-hidden="true"><span class="wi-c tl"></span><span class="wi-c tr"></span><span class="wi-c bl"></span><span class="wi-c br"></span><span class="wi-edge-bar top"></span><span class="wi-edge-bar right"></span><span class="wi-edge-bar bottom"></span><span class="wi-edge-bar left"></span><span class="wi-zone-badge"></span></span>`;
+  }
   if (sv) {
     let m = {};
     try {
@@ -642,13 +648,24 @@ function pick(t) {
   document.body.append(m);
 }
 
+// Custom high-contrast rotate and resize cursors for website photo wall
+const rotSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M16 4 A12 12 0 0 1 28 16' fill='none' stroke='#000' stroke-width='4.5'/><path d='M16 4 A12 12 0 0 1 28 16' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/><polygon points='27,8 31,18 21,16' fill='%23FF5A1F' stroke='#000' stroke-width='1.5'/><path d='M16 28 A12 12 0 0 1 4 16' fill='none' stroke='#000' stroke-width='4.5'/><path d='M16 28 A12 12 0 0 1 4 16' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/><polygon points='5,24 1,14 11,16' fill='%23FF5A1F' stroke='#000' stroke-width='1.5'/></svg>");
+const curRot = `url("data:image/svg+xml,${rotSvg}") 16 16, crosshair`;
+
+const resSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M5 16h22M5 16l6-6M5 16l6 6M27 16l-6-6M27 16l-6 6' fill='none' stroke='#000' stroke-width='4.5'/><path d='M5 16h22M5 16l6-6M5 16l6 6M27 16l-6-6M27 16l-6 6' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/></svg>");
+const curResEw = `url("data:image/svg+xml,${resSvg}") 16 16, ew-resize`;
+
+const resVertSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M16 5v22M16 5l-6 6M16 5l6 6M16 27l-6-6M16 27l6-6' fill='none' stroke='#000' stroke-width='4.5'/><path d='M16 5v22M16 5l-6 6M16 5l6 6M16 27l-6-6M16 27l6-6' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/></svg>");
+const curResNs = `url("data:image/svg+xml,${resVertSvg}") 16 16, ns-resize`;
+
 // Dynamic cursor reflecting corners (rotate) and sides (enlarge/resize) on fullscreen art wall
 document.addEventListener('pointermove', e => {
   if (dg) {
     const { w, action, bx, sx, sy, cx, cy, startW, l, t } = dg;
     const dx = e.clientX - sx;
     const dy = e.clientY - sy;
-    if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+    const threshold = (e.pointerType === 'touch') ? 12 : 4;
+    if (Math.abs(dx) + Math.abs(dy) > threshold) moved = true;
     if (!moved) return;
 
     if (action === 'rot') {
@@ -670,14 +687,14 @@ document.addEventListener('pointermove', e => {
     return;
   }
 
-  // Hover cursor update
+  // Hover cursor & prominent visual indicator update
   const w = e.target && e.target.closest && e.target.closest('.wallw.fs .wi');
   if (!w) return;
   const rect = w.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
-  const cornerThreshold = Math.min(32, Math.min(rect.width, rect.height) * 0.28);
-  const sideThreshold = Math.min(22, Math.min(rect.width, rect.height) * 0.18);
+  const cornerThreshold = Math.min(38, Math.min(rect.width, rect.height) * 0.32);
+  const sideThreshold = Math.min(26, Math.min(rect.width, rect.height) * 0.22);
 
   const nearLeft = x <= cornerThreshold;
   const nearRight = x >= rect.width - cornerThreshold;
@@ -687,16 +704,25 @@ document.addEventListener('pointermove', e => {
 
   if (isCorner) {
     w.dataset.zone = 'rot';
-    w.style.cursor = 'crosshair';
+    w.style.cursor = curRot;
+    const cName = (nearTop ? 't' : 'b') + (nearLeft ? 'l' : 'r');
+    w.dataset.activeCorner = cName;
+    delete w.dataset.activeSide;
   } else if (x <= sideThreshold || x >= rect.width - sideThreshold) {
     w.dataset.zone = 'res';
-    w.style.cursor = 'ew-resize';
+    w.style.cursor = curResEw;
+    w.dataset.activeSide = (x <= sideThreshold) ? 'left' : 'right';
+    delete w.dataset.activeCorner;
   } else if (y <= sideThreshold || y >= rect.height - sideThreshold) {
     w.dataset.zone = 'res';
-    w.style.cursor = 'ns-resize';
+    w.style.cursor = curResNs;
+    w.dataset.activeSide = (y <= sideThreshold) ? 'top' : 'bottom';
+    delete w.dataset.activeCorner;
   } else {
     w.dataset.zone = 'drag';
     w.style.cursor = 'grab';
+    delete w.dataset.activeCorner;
+    delete w.dataset.activeSide;
   }
 });
 
@@ -727,9 +753,23 @@ document.addEventListener('pointerdown', e => {
   $$('.wall .wi').forEach(other => { if (other !== w) other.classList.remove('is-selected'); });
 });
 
+// Mobile double-tap detection on Photo Wall (Swap piece modal)
+let lastWiTap = 0;
+let lastWiTarget = null;
+let wiTouchStartPos = null;
+let wiTouchMoved = false;
+
 // Mobile 2-finger zoom (enlarge) & rotate gestures on Art Wall
 let wallTouch = null;
 document.addEventListener('touchstart', e => {
+  const wItem = e.target.closest && e.target.closest('.wall .wi');
+  if (wItem && e.touches.length === 1) {
+    const touch = e.touches[0];
+    wiTouchStartPos = { x: touch.clientX, y: touch.clientY, target: wItem };
+    wiTouchMoved = false;
+  } else {
+    wiTouchStartPos = null;
+  }
   const w = e.target.closest && e.target.closest('.wall .wi');
   if (!w) {
     if (!e.target.closest('.wallw')) {
@@ -784,6 +824,42 @@ document.addEventListener('touchmove', e => {
   w.style.setProperty('--rt', newRt);
   w.style.rotate = newRt;
 }, { passive: false });
+
+document.addEventListener('touchmove', e => {
+  if (wiTouchStartPos && e.touches.length === 1) {
+    const t = e.touches[0];
+    if (Math.hypot(t.clientX - wiTouchStartPos.x, t.clientY - wiTouchStartPos.y) > 12) {
+      wiTouchMoved = true;
+    }
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  if (wiTouchStartPos && !wiTouchMoved) {
+    const w = wiTouchStartPos.target;
+    const now = Date.now();
+    const dt = now - lastWiTap;
+    if (lastWiTarget === w && dt > 40 && dt < 480) {
+      lastWiTap = 0;
+      lastWiTarget = null;
+      wiTouchStartPos = null;
+      moved = false;
+      try { if (e.cancelable) e.preventDefault(); } catch (_) {}
+      pick(w);
+      return;
+    }
+    lastWiTap = now;
+    lastWiTarget = w;
+  }
+  wiTouchStartPos = null;
+}, { passive: false });
+
+document.addEventListener('dblclick', e => {
+  const w = e.target.closest && e.target.closest('.wall .wi');
+  if (w) {
+    pick(w);
+  }
+});
 
 document.addEventListener('touchend', () => {
   if (wallTouch) {

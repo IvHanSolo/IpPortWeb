@@ -995,7 +995,7 @@ function render(v, s = 0) {
 
   const nsR = (v === 'photography' && s === 2) ? ' ns' : '';
   L.innerHTML = '<div class="dots"></div><div class="sc"><div class="crw">' + CR + sbar() + '</div>' + l + `</div>${!SO && (i || s) ? EG(-1) : ''}`;
-  R.innerHTML = (v === 'cover' ? '<div class="dots"></div>' : '') + '<div class="sc' + nsR + '">' + '' + (r === '@toc' ? toc() : r.replace('@wall', cwall)) + `</div>${v === 'thanks' ? TKN : ''}${SO ? '' : (i < order.length - 1 || s < n - 1) ? EG(1) : ''}`;
+  R.innerHTML = (v === 'cover' ? '<div class="dots"></div><div class="cover-frame" aria-hidden="true"></div>' : '') + '<div class="sc' + nsR + '">' + '' + (r === '@toc' ? toc() : r.replace('@wall', cwall)) + `</div>${v === 'thanks' ? TKN : ''}${SO ? '' : (i < order.length - 1 || s < n - 1) ? EG(1) : ''}`;
 
   $('#top').innerHTML = nb(i, names[v] + (n > 1 ? ` ${s + 1}/${n}` : ''), s);
   $$('#tabs a').forEach(a => a.toggleAttribute('aria-current', a.dataset.v === v));
@@ -1157,6 +1157,22 @@ function nav() {
     fin();
   };
 
+  const waitCoverImgs = () => {
+    if (!toCover) return Promise.resolve();
+    const imgs = Array.from(R.querySelectorAll('.cwall img[loading="eager"]'));
+    if (!imgs.length) return Promise.resolve();
+    return Promise.race([
+      Promise.all(imgs.map(img => {
+        if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+        return new Promise(res => {
+          img.addEventListener('load', res, { once: true });
+          img.addEventListener('error', res, { once: true });
+        });
+      })),
+      new Promise(res => setTimeout(res, 450))
+    ]);
+  };
+
   // Phase 1: lift active page towards the center spine
   shade(liftPage, 0, 0.45, liftOpts);
   liftPage.animate([{ transform: fx + '(0deg)' }, { transform: fx + '(' + liftAng + ')' }], liftOpts).finished.then(() => {
@@ -1165,9 +1181,18 @@ function nav() {
     BK.scrollTop = 0;
     [L, R, SH].forEach(el => el && el.getAnimations({ subtree: true }).forEach(a => a.cancel()));
 
-    // Phase 2: continue flowing smoothly down to the other side
-    shade(dropPage, 0.45, 0, dropOpts);
-    dropPage.animate([{ transform: fx + '(' + dropStartAng + ')' }, { transform: fx + '(0deg)' }], dropOpts).finished.then(done, done);
+    const proceedDrop = () => {
+      try { cwStk(); } catch (_) {}
+      // Phase 2: continue flowing smoothly down to the other side
+      shade(dropPage, 0.45, 0, dropOpts);
+      dropPage.animate([{ transform: fx + '(' + dropStartAng + ')' }, { transform: fx + '(0deg)' }], dropOpts).finished.then(done, done);
+    };
+
+    if (toCover) {
+      waitCoverImgs().then(proceedDrop);
+    } else {
+      proceedDrop();
+    }
   }).catch(done);
 }
 
@@ -1831,6 +1856,12 @@ document.addEventListener('click', e => {
     $$('.wi').forEach(w => {
       w.style.left = '';
       w.style.top = '';
+      w.style.width = '';
+      w.style.rotate = '';
+      w.style.removeProperty('--rt');
+      w.style.removeProperty('--w');
+      w.style.removeProperty('--l');
+      w.style.removeProperty('--t');
     });
     return;
   }

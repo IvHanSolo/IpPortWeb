@@ -203,7 +203,7 @@ body{padding-right:clamp(9.5rem,13vw,12.5rem)}
 .te span{display:block;font-size:.98rem;line-height:1.5;margin-top:.15rem}
 .ipb{display:grid;place-items:center;width:1.6rem;height:1.6rem;margin:1rem auto;border:1px solid currentColor;border-radius:50%;font:700 .55rem var(--f-body);font-style:normal;letter-spacing:0}
 @media(max-width:900px){
-.wi{position:absolute!important;left:var(--ml)!important;top:var(--mt)!important;width:var(--mw)!important}
+.wi{position:absolute!important;left:var(--ml,var(--l));top:var(--mt,var(--t));width:var(--mw,var(--w))}
 .book.hd{grid-template-rows:auto 34px minmax(0,1fr)}
 .book.hd .l .sc{padding-bottom:1rem;overflow:visible}
 .book.hd .r .sc.ns{display:block;overflow-y:auto}

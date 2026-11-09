@@ -559,6 +559,7 @@ const lockSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 const unlockSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>';
 
 function pick(t) {
+  if (document.querySelector('.lb.pk')) return;
   const m = document.createElement('div');
   m.className = 'lb pk';
   const ph = REG.filter(o => o._v === 'photography' && o._al !== 'Photo wall' && o.src && !isDoc(o) && !isVid(o));
@@ -648,6 +649,17 @@ function pick(t) {
   document.body.append(m);
 }
 
+const MG = 0;
+let lc = 0;
+let lt = null;
+let lw = null;
+let lb;
+let idx;
+let last;
+let dg = null;
+let moved = false;
+let zt = 5;
+
 // Custom high-contrast rotate and resize cursors for website photo wall
 const rotSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M16 4 A12 12 0 0 1 28 16' fill='none' stroke='#000' stroke-width='4.5'/><path d='M16 4 A12 12 0 0 1 28 16' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/><polygon points='27,8 31,18 21,16' fill='%23FF5A1F' stroke='#000' stroke-width='1.5'/><path d='M16 28 A12 12 0 0 1 4 16' fill='none' stroke='#000' stroke-width='4.5'/><path d='M16 28 A12 12 0 0 1 4 16' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/><polygon points='5,24 1,14 11,16' fill='%23FF5A1F' stroke='#000' stroke-width='1.5'/></svg>");
 const curRot = `url("data:image/svg+xml,${rotSvg}") 16 16, crosshair`;
@@ -729,6 +741,9 @@ document.addEventListener('pointermove', e => {
 document.addEventListener('pointerdown', e => {
   const w = e.target.closest('.wi');
   if (!w) return;
+  try {
+    if (w.setPointerCapture) w.setPointerCapture(e.pointerId);
+  } catch (_) {}
   const isFsWall = Boolean(w.closest('.wallw.fs'));
   const zone = w.dataset.zone || 'drag';
   const action = (isFsWall && (zone === 'rot' || zone === 'res')) ? zone : 'drag';
@@ -759,29 +774,46 @@ let lastWiTarget = null;
 let wiTouchStartPos = null;
 let wiTouchMoved = false;
 
-// Mobile 2-finger zoom (enlarge) & rotate gestures on Art Wall
+// Mobile touch gestures: 1-finger drag & 2-finger zoom/rotate on Art Wall
 let wallTouch = null;
 document.addEventListener('touchstart', e => {
-  const wItem = e.target.closest && e.target.closest('.wall .wi');
-  if (wItem && e.touches.length === 1) {
-    const touch = e.touches[0];
-    wiTouchStartPos = { x: touch.clientX, y: touch.clientY, target: wItem };
-    wiTouchMoved = false;
-  } else {
-    wiTouchStartPos = null;
-  }
   const w = e.target.closest && e.target.closest('.wall .wi');
   if (!w) {
     if (!e.target.closest('.wallw')) {
       $$('.wall .wi.is-selected').forEach(x => x.classList.remove('is-selected'));
     }
+    wiTouchStartPos = null;
     return;
   }
+
   $$('.wall .wi').forEach(other => { if (other !== w) other.classList.remove('is-selected'); });
   w.classList.add('is-selected');
 
-  if (e.touches.length === 2) {
-    e.preventDefault();
+  if (e.touches.length === 1) {
+    const touch = e.touches[0];
+    const r = w.getBoundingClientRect();
+    const parentBx = w.parentElement.getBoundingClientRect();
+    wiTouchStartPos = { x: touch.clientX, y: touch.clientY, target: w };
+    wiTouchMoved = false;
+
+    // Set up dg for immediate 1-finger touch dragging
+    dg = {
+      w,
+      action: 'drag',
+      bx: parentBx,
+      sx: touch.clientX,
+      sy: touch.clientY,
+      cx: r.left + r.width / 2,
+      cy: r.top + r.height / 2,
+      startW: (w.offsetWidth / parentBx.width) * 100,
+      l: w.offsetLeft,
+      t: w.offsetTop
+    };
+    moved = false;
+    w.style.zIndex = ++zt;
+    w.classList.add('is-interacting');
+  } else if (e.touches.length === 2) {
+    if (e.cancelable) e.preventDefault();
     const t1 = e.touches[0];
     const t2 = e.touches[1];
     const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
@@ -803,65 +835,46 @@ document.addEventListener('touchstart', e => {
 }, { passive: false });
 
 document.addEventListener('touchmove', e => {
-  if (!wallTouch || e.touches.length !== 2) return;
-  e.preventDefault();
-  const { w, startDist, startAngle, startW, startRt } = wallTouch;
-  const t1 = e.touches[0];
-  const t2 = e.touches[1];
-  const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
-  const angle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * (180 / Math.PI);
+  // 1. Two-finger zoom enlarges/shrinks & twist rotates
+  if (wallTouch && e.touches.length === 2) {
+    if (e.cancelable) e.preventDefault();
+    const { w, startDist, startAngle, startW, startRt } = wallTouch;
+    const t1 = e.touches[0];
+    const t2 = e.touches[1];
+    const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+    const angle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * (180 / Math.PI);
 
-  // 1. Two-finger zoom enlarges/shrinks
-  const scale = dist / startDist;
-  const nw = Math.max(12, Math.min(85, startW * scale));
-  const pct = nw.toFixed(1) + '%';
-  w.style.setProperty('--w', pct);
-  w.style.width = pct;
+    const scale = dist / startDist;
+    const nw = Math.max(12, Math.min(85, startW * scale));
+    const pct = nw.toFixed(1) + '%';
+    w.style.setProperty('--w', pct);
+    w.style.width = pct;
 
-  // 2. Two-finger twist rotates
-  const dAngle = angle - startAngle;
-  const newRt = Math.round(startRt + dAngle) + 'deg';
-  w.style.setProperty('--rt', newRt);
-  w.style.rotate = newRt;
-}, { passive: false });
+    const dAngle = angle - startAngle;
+    const newRt = Math.round(startRt + dAngle) + 'deg';
+    w.style.setProperty('--rt', newRt);
+    w.style.rotate = newRt;
+    return;
+  }
 
-document.addEventListener('touchmove', e => {
-  if (wiTouchStartPos && e.touches.length === 1) {
+  // 2. One-finger smooth touch drag
+  if (dg && e.touches.length === 1) {
     const t = e.touches[0];
-    if (Math.hypot(t.clientX - wiTouchStartPos.x, t.clientY - wiTouchStartPos.y) > 12) {
+    const dx = t.clientX - dg.sx;
+    const dy = t.clientY - dg.sy;
+    if (Math.abs(dx) + Math.abs(dy) > 6) {
+      moved = true;
       wiTouchMoved = true;
+      if (e.cancelable) e.preventDefault();
+      const { w, bx, l, t: top0 } = dg;
+      w.style.left = (Math.max(-MG, Math.min(bx.width - w.offsetWidth + MG, l + dx)) / bx.width) * 100 + '%';
+      w.style.top = (Math.max(-MG, Math.min(bx.height - w.offsetHeight + MG, top0 + dy)) / bx.height) * 100 + '%';
     }
   }
-}, { passive: true });
+}, { passive: false });
 
 document.addEventListener('touchend', e => {
-  if (wiTouchStartPos && !wiTouchMoved) {
-    const w = wiTouchStartPos.target;
-    const now = Date.now();
-    const dt = now - lastWiTap;
-    if (lastWiTarget === w && dt > 40 && dt < 480) {
-      lastWiTap = 0;
-      lastWiTarget = null;
-      wiTouchStartPos = null;
-      moved = false;
-      try { if (e.cancelable) e.preventDefault(); } catch (_) {}
-      pick(w);
-      return;
-    }
-    lastWiTap = now;
-    lastWiTarget = w;
-  }
-  wiTouchStartPos = null;
-}, { passive: false });
-
-document.addEventListener('dblclick', e => {
-  const w = e.target.closest && e.target.closest('.wall .wi');
-  if (w) {
-    pick(w);
-  }
-});
-
-document.addEventListener('touchend', () => {
+  // Save 2-finger zoom/rotate changes
   if (wallTouch) {
     if (wallTouch.w) wallTouch.w.classList.remove('is-interacting');
     let sv = {};
@@ -877,10 +890,61 @@ document.addEventListener('touchend', () => {
     try { localStorage.setItem(WK(), JSON.stringify(sv)); } catch (_) {}
     wallTouch = null;
   }
+
+  // Save 1-finger drag changes
+  if (dg) {
+    if (dg.w) dg.w.classList.remove('is-interacting');
+    if (moved) {
+      let sv = {};
+      try { sv = JSON.parse(localStorage.getItem(WK()) || '{}'); } catch (_) {}
+      $$('.wi').forEach(w => {
+        sv[w.dataset.i] = [
+          w.style.left || '',
+          w.style.top || '',
+          w.style.getPropertyValue('--rt') || '',
+          w.style.getPropertyValue('--w') || ''
+        ];
+      });
+      try { localStorage.setItem(WK(), JSON.stringify(sv)); } catch (_) {}
+    }
+    dg = null;
+  }
+
+  // Double tap detection for Swap Piece
+  if (wiTouchStartPos && !wiTouchMoved) {
+    const w = wiTouchStartPos.target;
+    const now = Date.now();
+    const dt = now - lastWiTap;
+    if (lastWiTarget === w && dt > 40 && dt < 450) {
+      lastWiTap = 0;
+      lastWiTarget = null;
+      wiTouchStartPos = null;
+      moved = false;
+      try { if (e.cancelable) e.preventDefault(); } catch (_) {}
+      pick(w);
+      return;
+    }
+    lastWiTap = now;
+    lastWiTarget = w;
+  }
+  wiTouchStartPos = null;
+  setTimeout(() => (moved = false), 60);
+}, { passive: false });
+
+document.addEventListener('dblclick', e => {
+  const w = e.target.closest && e.target.closest('.wall .wi');
+  if (w) {
+    pick(w);
+  }
 });
 
-addEventListener('pointerup', () => {
+function endDrag(e) {
   if (dg) {
+    try {
+      if (e && e.pointerId && dg.w && dg.w.hasPointerCapture && dg.w.hasPointerCapture(e.pointerId)) {
+        dg.w.releasePointerCapture(e.pointerId);
+      }
+    } catch (_) {}
     if (dg.w) dg.w.classList.remove('is-interacting');
     if (moved) {
       let sv = {};
@@ -901,8 +965,10 @@ addEventListener('pointerup', () => {
     }
   }
   dg = null;
-  setTimeout(() => (moved = false), 50);
-});
+  setTimeout(() => (moved = false), 60);
+}
+addEventListener('pointerup', endDrag);
+addEventListener('pointercancel', endDrag);
 
 let S = {};
 function build() {
@@ -1266,16 +1332,7 @@ addEventListener('hashchange', () => {
   nav();
 });
 
-const MG = 0;
-let lc = 0;
-let lt = null;
-let lw = null;
-let lb;
-let idx;
-let last;
-let dg = null;
-let moved = false;
-let zt = 5;
+// drag & interaction vars hoisted above
 
 const open = () => lb && !lb.hidden;
 

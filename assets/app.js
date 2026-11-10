@@ -1015,6 +1015,8 @@ const SH = $('#sheet') || BK;
 const isM = () => matchMedia('(max-width:900px)').matches;
 
 let cur = 'cover';
+let nextCwallHtml = '';
+const preloadedCoverSrcs = new Set();
 let sp = 0;
 let want = null;
 let busy = false;
@@ -1089,7 +1091,15 @@ function render(v, s = 0) {
 
   const nsR = (v === 'photography' && s === 2) ? ' ns' : '';
   L.innerHTML = '<div class="dots"></div><div class="sc"><div class="crw">' + CR + sbar() + '</div>' + l + `</div>${!SO && (i || s) ? EG(-1) : ''}`;
-  R.innerHTML = (v === 'cover' ? '<div class="dots"></div><div class="cover-frame" aria-hidden="true"></div>' : '') + '<div class="sc' + nsR + '">' + '' + (r === '@toc' ? toc() : r.replace('@wall', cwall)) + `</div>${v === 'thanks' ? TKN : ''}${SO ? '' : (i < order.length - 1 || s < n - 1) ? EG(1) : ''}`;
+  const renderCwall = () => {
+    if (nextCwallHtml) {
+      const h = nextCwallHtml;
+      nextCwallHtml = '';
+      if (cwCols === cwN()) return h;
+    }
+    return cwall();
+  };
+  R.innerHTML = (v === 'cover' ? '<div class="dots"></div><div class="cover-frame" aria-hidden="true"></div>' : '') + '<div class="sc' + nsR + '">' + '' + (r === '@toc' ? toc() : r.replace('@wall', renderCwall)) + `</div>${v === 'thanks' ? TKN : ''}${SO ? '' : (i < order.length - 1 || s < n - 1) ? EG(1) : ''}`;
 
   $('#top').innerHTML = nb(i, names[v] + (n > 1 ? ` ${s + 1}/${n}` : ''), s);
   $$('#tabs a').forEach(a => a.toggleAttribute('aria-current', a.dataset.v === v));
@@ -1112,18 +1122,8 @@ function render(v, s = 0) {
   fit();
   if (v === 'cover') {
     const cw = $('.cwall');
-    if (cw) {
-      if (fromPage !== 'cover') {
-        cw.classList.add('cw-settling');
-        setTimeout(() => {
-          try { cwStk(); } catch (_) {}
-          cw.classList.remove('cw-settling');
-        }, 420);
-      } else {
-        cw.classList.remove('cw-settling');
-      }
-      try { cwStk(); } catch (_) {}
-    }
+    if (cw) cw.classList.remove('cw-settling');
+    try { cwStk(); } catch (_) {}
   } else {
     try { cwStk(); } catch (_) {}
     setTimeout(() => { try { cwStk(); } catch (_) {} }, 300);
@@ -1224,6 +1224,18 @@ function nav() {
   const dropStartAng = (mob ? (fwd ? -90 : 90) : (fwd ? 90 : -90)) + 'deg';
 
   const toCover = v === 'cover';
+  if (toCover) {
+    nextCwallHtml = cwall();
+    const mAll = nextCwallHtml.matchAll(/<img\s+src="([^"]+)"[^>]*loading="eager"/g);
+    for (const m of mAll) {
+      const src = m[1].replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+      if (src && !preloadedCoverSrcs.has(src)) {
+        preloadedCoverSrcs.add(src);
+        const im = new Image();
+        im.src = src;
+      }
+    }
+  }
   const liftOpts = {
     duration: toCover ? 520 : 280,
     easing: toCover ? 'cubic-bezier(0.35, 0, 0.45, 0.2)' : 'cubic-bezier(0.4, 0, 0.6, 0.2)',
@@ -1252,6 +1264,8 @@ function nav() {
     });
     L.style.transform = '';
     R.style.transform = '';
+    L.style.opacity = '';
+    R.style.opacity = '';
     fin();
   };
 
@@ -1267,7 +1281,7 @@ function nav() {
           img.addEventListener('error', res, { once: true });
         });
       })),
-      new Promise(res => setTimeout(res, 450))
+      new Promise(res => setTimeout(res, 250))
     ]);
   };
 
@@ -1278,8 +1292,11 @@ function nav() {
     render(v, s);
     BK.scrollTop = 0;
     [L, R, SH].forEach(el => el && el.getAnimations({ subtree: true }).forEach(a => a.cancel()));
+    dropPage.style.transform = fx + '(' + dropStartAng + ')';
+    if (toCover) dropPage.style.opacity = '0';
 
     const proceedDrop = () => {
+      dropPage.style.opacity = '';
       try { cwStk(); } catch (_) {}
       // Phase 2: continue flowing smoothly down to the other side
       shade(dropPage, 0.45, 0, dropOpts);
@@ -2686,18 +2703,23 @@ function updateToTop() {
   }
 
   const pkPanel = document.querySelector('.lb.pk .panel');
+  const wrLb = lb && !lb.hidden && lb.classList.contains('wr') ? lb : null;
+  const afsOv = ovEl && ovEl.isConnected && !ovEl.classList.contains('out') && ovEl.classList.contains('afs') ? ovEl : null;
+  const covSc = cur === 'cover' ? $('.r[data-theme=cover] .sc') : null;
+  const activeSc = pkPanel || wrLb || afsOv || covSc || BK;
+
   let y = 0;
   let totalH = 0;
   let viewH = window.innerHeight;
 
-  if (pkPanel) {
-    y = pkPanel.scrollTop;
-    totalH = pkPanel.scrollHeight;
-    viewH = pkPanel.clientHeight;
+  if (activeSc) {
+    y = activeSc.scrollTop;
+    totalH = activeSc.scrollHeight;
+    viewH = activeSc.clientHeight;
   } else {
-    y = (BK && BK.scrollTop) || window.scrollY || document.documentElement.scrollTop || 0;
-    totalH = (BK && BK.scrollHeight) || document.documentElement.scrollHeight || 0;
-    viewH = (BK && BK.clientHeight) || window.innerHeight;
+    y = window.scrollY || document.documentElement.scrollTop || 0;
+    totalH = document.documentElement.scrollHeight || 0;
+    viewH = window.innerHeight;
   }
 
   // Show popup when scroll is long (totalH >= viewH * 1.5) and scrolled down roughly 2 swipes
@@ -2713,12 +2735,14 @@ function updateToTop() {
 
 function scrollToTop() {
   const pkPanel = document.querySelector('.lb.pk .panel');
-  if (pkPanel && pkPanel.scrollTop > 20) {
-    pkPanel.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  if (BK && BK.scrollTop > 20) {
-    BK.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  const wrLb = lb && !lb.hidden && lb.classList.contains('wr') ? lb : null;
+  const afsOv = ovEl && ovEl.isConnected && !ovEl.classList.contains('out') && ovEl.classList.contains('afs') ? ovEl : null;
+  const covSc = cur === 'cover' ? $('.r[data-theme=cover] .sc') : null;
+  [pkPanel, wrLb, afsOv, covSc, BK].forEach(el => {
+    if (el && el.scrollTop > 20) {
+      el.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
   window.scrollTo({ top: 0, behavior: 'smooth' });
   document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
   document.body.scrollTo({ top: 0, behavior: 'smooth' });

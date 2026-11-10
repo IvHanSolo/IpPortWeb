@@ -562,6 +562,8 @@ function pick(t) {
   if (document.querySelector('.lb.pk')) return;
   const m = document.createElement('div');
   m.className = 'lb pk';
+  m.setAttribute('role', 'dialog');
+  m.setAttribute('aria-modal', 'true');
   const ph = REG.filter(o => o._v === 'photography' && o._al !== 'Photo wall' && o.src && !isDoc(o) && !isVid(o));
 
   let locked = {};
@@ -571,8 +573,9 @@ function pick(t) {
   const isLocked = !!locked[t.dataset.i];
 
   m.innerHTML = `
-<button class="x" aria-label="Close">×</button>
+<button class="x pk-overlay-x" aria-label="Close" type="button">×</button>
 <div class="panel">
+  <button class="x pk-panel-x" aria-label="Close modal" type="button">×</button>
   <h2>Swap this piece</h2>
   <ol class="steps">
     <li>Pick a photo from the portfolio below,</li>
@@ -588,7 +591,16 @@ function pick(t) {
   </div>
 </div>`;
 
+  const dismissModal = () => {
+    m.classList.add('closing');
+    setTimeout(() => { if (m.parentNode) m.remove(); }, 160);
+  };
+
   m.onclick = ev => {
+    if (ev.target.closest('.x') || ev.target === m) {
+      dismissModal();
+      return;
+    }
     const lk = ev.target.closest('[data-lock]');
     if (lk) {
       let lState = {};
@@ -620,11 +632,17 @@ function pick(t) {
     const u = ev.target.closest('[data-u]');
     if (u) {
       setImg(t, u.dataset.u);
-      m.remove();
-    } else if (ev.target === m || ev.target.closest('.x')) {
-      m.remove();
+      dismissModal();
+      return;
     }
   };
+
+  m.addEventListener('pointerdown', ev => {
+    if (ev.target.closest('.x')) {
+      ev.stopPropagation();
+      dismissModal();
+    }
+  });
 
   $('input', m).onchange = ev => {
     const f = ev.target.files[0];
@@ -702,7 +720,7 @@ document.addEventListener('pointermove', e => {
   // Hover cursor & prominent visual indicator update
   const w = e.target && e.target.closest && e.target.closest('.wall .wi');
   if (!w) {
-    $('.wall .wi').forEach(other => {
+    $$('.wall .wi').forEach(other => {
       if (other !== dg?.w) {
         delete other.dataset.activeCorner;
         delete other.dataset.activeSide;
@@ -1862,8 +1880,12 @@ function openAt(t) {
     lb.className = 'lb';
     lb.setAttribute('role', 'dialog');
     lb.setAttribute('aria-modal', 'true');
-    lb.innerHTML = '<button class="x" aria-label="Close">×</button><div class="tools"><button data-fs>Full screen</button><button data-ss>Slideshow</button><div class="orient-opts"><button type="button" class="btn-orient active" data-orient="portrait">Portrait</button><button type="button" class="btn-orient" data-orient="landscape">Landscape</button></div></div><button class="p" aria-label="Previous">‹</button><div class="wrap"><div class="stage"></div><div class="panel"></div></div><button class="n" aria-label="Next">›</button>';
+    lb.innerHTML = '<button class="x" aria-label="Close" type="button">×</button><div class="tools"><button data-fs type="button">Full screen</button><button data-ss type="button">Slideshow</button><div class="orient-opts"><button type="button" class="btn-orient active" data-orient="portrait">Portrait</button><button type="button" class="btn-orient" data-orient="landscape">Landscape</button></div></div><button class="p" aria-label="Previous" type="button">‹</button><div class="wrap"><div class="stage"></div><div class="panel"></div></div><button class="n" aria-label="Next" type="button">›</button>';
     lb.onclick = ev => {
+      if (ev.target.closest('.x')) {
+        close();
+        return;
+      }
       const OB = ev.target.closest('[data-orient]');
       if (OB) {
         const orient = OB.dataset.orient;
@@ -1886,10 +1908,16 @@ function openAt(t) {
         fsOn(!lb.classList.contains('fs'));
         return;
       }
-      if ((ev.target.matches('.x,.lb') || (ev.target.matches('.wrap') && lb.classList.contains('fs'))) && !ev.target.closest('.panel')) close();
-      if (ev.target.matches('.p')) show(idx - 1);
-      if (ev.target.matches('.n')) show(idx + 1);
+      if ((ev.target === lb || (ev.target.matches('.wrap') && lb.classList.contains('fs'))) && !ev.target.closest('.panel')) close();
+      if (ev.target.closest('.p')) show(idx - 1);
+      if (ev.target.closest('.n')) show(idx + 1);
     };
+    lb.addEventListener('pointerdown', ev => {
+      if (ev.target.closest('.x')) {
+        ev.stopPropagation();
+        close();
+      }
+    });
     document.body.append(lb);
   }
   lb.hidden = false;
@@ -3456,28 +3484,84 @@ function posterPal() {
   $$('.poster[data-pal=auto]').forEach(palOf);
 }
 
-let lbTouch = null;
+let touchExitState = null;
 document.addEventListener('touchstart', e => {
-  if (lb && !lb.hidden && e.target.closest('.lb')) {
-    const t = e.touches[0];
-    lbTouch = { x: t.clientX, y: t.clientY };
+  if (e.touches.length !== 1) {
+    touchExitState = null;
+    return;
+  }
+  const t = e.touches[0];
+  const pk = document.querySelector('.lb.pk');
+  const isLbOpen = lb && !lb.hidden;
+  const isFsWall = $('.wallw.fs');
+
+  if (pk) {
+    const panel = pk.querySelector('.panel');
+    const isAtTop = !panel || panel.scrollTop <= 6;
+    touchExitState = {
+      type: 'pk',
+      el: pk,
+      x: t.clientX,
+      y: t.clientY,
+      time: Date.now(),
+      isAtTop
+    };
+  } else if (isLbOpen && e.target.closest('.lb')) {
+    touchExitState = {
+      type: 'lb',
+      el: lb,
+      x: t.clientX,
+      y: t.clientY,
+      time: Date.now(),
+      isAtTop: true
+    };
+  } else if (isFsWall && !e.target.closest('.wi')) {
+    touchExitState = {
+      type: 'wallfs',
+      el: isFsWall,
+      x: t.clientX,
+      y: t.clientY,
+      time: Date.now(),
+      isAtTop: true
+    };
+  } else {
+    touchExitState = null;
   }
 }, { passive: true });
 
+document.addEventListener('touchmove', e => {
+  if (!touchExitState || e.touches.length !== 1) return;
+  const t = e.touches[0];
+  touchExitState.lastX = t.clientX;
+  touchExitState.lastY = t.clientY;
+}, { passive: true });
+
 document.addEventListener('touchend', e => {
-  if (!lbTouch || !lb || lb.hidden) return;
-  const t = e.changedTouches[0];
-  const dx = t.clientX - lbTouch.x;
-  const dy = t.clientY - lbTouch.y;
-  lbTouch = null;
-  if (dx > 75 && Math.abs(dy) < 60) {
-    // Swipe right back gesture
+  if (!touchExitState) return;
+  const state = touchExitState;
+  touchExitState = null;
+
+  const endX = state.lastX ?? (e.changedTouches[0] ? e.changedTouches[0].clientX : state.x);
+  const endY = state.lastY ?? (e.changedTouches[0] ? e.changedTouches[0].clientY : state.y);
+  const dx = endX - state.x;
+  const dy = endY - state.y;
+  const dt = Date.now() - state.time;
+
+  const isSwipeDown = (dy > 48 && dy > Math.abs(dx) * 0.7) || (dy > 30 && dt < 240 && dy > Math.abs(dx));
+  const isSwipeRight = (dx > 55 && dx > Math.abs(dy) * 0.7) || (dx > 32 && dt < 240 && dx > Math.abs(dy));
+  const isSwipeUp = (dy < -60 && Math.abs(dy) > Math.abs(dx) * 0.7 && state.type === 'lb');
+
+  if (state.type === 'pk' && state.isAtTop && (isSwipeDown || isSwipeRight)) {
+    const m = state.el;
+    if (m && m.parentNode) {
+      m.classList.add('closing');
+      setTimeout(() => { if (m.parentNode) m.remove(); }, 160);
+    }
+  } else if (state.type === 'lb' && (isSwipeDown || isSwipeRight || isSwipeUp)) {
     if (lb.classList.contains('fs')) fsOn(false);
     else close();
-  } else if (dy > 95 && Math.abs(dx) < 70) {
-    // Swipe down gesture
-    if (lb.classList.contains('fs')) fsOn(false);
-    else close();
+  } else if (state.type === 'wallfs' && (isSwipeDown || isSwipeRight)) {
+    wallFs(false);
   }
 }, { passive: true });
 

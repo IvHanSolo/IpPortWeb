@@ -1319,13 +1319,22 @@ const pageOf = u => {
   return Object.keys(FILE).find(k => FILE[k] === f);
 };
 
+let closingLb = false;
 addEventListener('popstate', () => {
+  if (closingLb) {
+    closingLb = false;
+    return;
+  }
   if (lb && !lb.hidden) {
     if (lb.classList.contains('fs')) {
       fsOn(false);
     } else {
       close(false);
     }
+    return;
+  }
+  if (ovEl) {
+    ovClose();
     return;
   }
   const v = pageOf(location) || 'cover';
@@ -1769,6 +1778,19 @@ function show(n) {
   const o = REG[+l[idx].dataset.r];
   const w = o._v === 'writing';
   const pv = w ? o.pdf || '' : /\.pdf$/i.test(o.src || '') ? o.src : '';
+  const isPhoto = o._v === 'photography' && !w && !pv;
+  const isReading = w || Boolean(pv) || (o._v === 'other' && (!o.src || Boolean(o.text)));
+
+  if (lb) {
+    const orientBox = $('.orient-opts', lb);
+    if (orientBox) orientBox.style.display = isPhoto ? 'inline-flex' : 'none';
+    const fsBtn = $('[data-fs]', lb);
+    if (fsBtn) {
+      const isFs = lb.classList.contains('fs') || Boolean(document.fullscreenElement);
+      fsBtn.textContent = isFs ? 'Exit full screen' : 'Full screen';
+    }
+  }
+
   let m = '';
 
   if (pv) {
@@ -1799,7 +1821,7 @@ function show(n) {
     posterPal();
     posterFit();
   }
-  lb.classList.toggle('wr', w || Boolean(pv));
+  lb.classList.toggle('wr', isReading);
 
   const textParagraphs = o.text && !pv
     ? String(o.text).split(/\n\s*\n/).map(p => `<p class="w">${esc(p)}</p>`).join('')
@@ -1821,12 +1843,21 @@ function show(n) {
 }
 
 function close(popHist = true) {
+  if (!lb) return;
   ssStop();
   fsOn(false);
-  lb.hidden = true;
-  $('.stage', lb).innerHTML = '';
+  const el = lb;
+  lb = null;
+  el.classList.add('out');
+  el.hidden = true;
+  el.style.setProperty('display', 'none', 'important');
+  setTimeout(() => {
+    try { el.remove(); } catch (_) {}
+  }, 180);
   if (popHist && history.state && history.state.lb) {
+    closingLb = true;
     try { history.back(); } catch (_) {}
+    setTimeout(() => { closingLb = false; }, 300);
   }
   if (last && last.focus) last.focus();
 }
@@ -1876,6 +1907,10 @@ document.addEventListener('click', e => {
 
 function openAt(t) {
   last = t;
+  if (lb) {
+    try { lb.remove(); } catch (_) {}
+    lb = null;
+  }
   if (!lb) {
     lb = document.createElement('div');
     lb.className = 'lb';
@@ -3578,6 +3613,7 @@ document.addEventListener('touchstart', e => {
   const pk = document.querySelector('.lb.pk');
   const isLbOpen = lb && !lb.hidden;
   const isFsWall = $('.wallw.fs');
+  const isOvOpen = ovEl && ovEl.offsetParent;
 
   if (pk) {
     const panel = pk.querySelector('.panel');
@@ -3590,14 +3626,27 @@ document.addEventListener('touchstart', e => {
       time: Date.now(),
       isAtTop
     };
+  } else if (isOvOpen && e.target.closest('.vfs, .afs, .cvp')) {
+    const isAtTop = !ovEl || ovEl.scrollTop <= 10;
+    touchExitState = {
+      type: 'ov',
+      el: ovEl,
+      x: t.clientX,
+      y: t.clientY,
+      time: Date.now(),
+      isAtTop
+    };
   } else if (isLbOpen && e.target.closest('.lb')) {
+    const isWr = lb.classList.contains('wr');
+    const panel = $('.panel', lb);
+    const isAtTop = !isWr || (lb.scrollTop <= 10 && (!panel || panel.scrollTop <= 10));
     touchExitState = {
       type: 'lb',
       el: lb,
       x: t.clientX,
       y: t.clientY,
       time: Date.now(),
-      isAtTop: true
+      isAtTop
     };
   } else if (isFsWall && !e.target.closest('.wi')) {
     touchExitState = {
@@ -3630,21 +3679,26 @@ document.addEventListener('touchend', e => {
   const dx = endX - state.x;
   const dy = endY - state.y;
   const dt = Date.now() - state.time;
+  const winW = window.innerWidth;
 
   const isSwipeDown = (dy > 48 && dy > Math.abs(dx) * 0.7) || (dy > 30 && dt < 240 && dy > Math.abs(dx));
-  const isSwipeRight = (dx > 55 && dx > Math.abs(dy) * 0.7) || (dx > 32 && dt < 240 && dx > Math.abs(dy));
-  const isSwipeUp = (dy < -60 && Math.abs(dy) > Math.abs(dx) * 0.7 && state.type === 'lb');
+  const isSwipeRight = (dx > 50 && dx > Math.abs(dy) * 0.7) || (dx > 30 && dt < 240 && dx > Math.abs(dy));
+  const isSwipeLeftEdge = (state.x >= winW - 80 && dx < -35) || (dx < -55 && Math.abs(dx) > Math.abs(dy) * 0.75);
 
-  if (state.type === 'pk' && state.isAtTop && (isSwipeDown || isSwipeRight)) {
+  const shouldExit = (isSwipeDown && state.isAtTop) || isSwipeRight || isSwipeLeftEdge;
+
+  if (state.type === 'pk' && shouldExit) {
     const m = state.el;
     if (m && m.parentNode) {
       m.classList.add('closing');
       setTimeout(() => { if (m.parentNode) m.remove(); }, 160);
     }
-  } else if (state.type === 'lb' && (isSwipeDown || isSwipeRight || isSwipeUp)) {
-    if (lb.classList.contains('fs')) fsOn(false);
+  } else if (state.type === 'ov' && shouldExit) {
+    ovClose();
+  } else if (state.type === 'lb' && shouldExit) {
+    if (state.el && state.el.classList.contains('fs')) fsOn(false);
     else close();
-  } else if (state.type === 'wallfs' && (isSwipeDown || isSwipeRight)) {
+  } else if (state.type === 'wallfs' && shouldExit) {
     wallFs(false);
   }
 }, { passive: true });

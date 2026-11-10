@@ -462,6 +462,7 @@ const WP = [[4, 6, 30, -3], [38, 4, 26, 2], [68, 8, 26, -2], [8, 44, 24, 3], [38
 const AR = ['4/5', '1/1', '3/4', '5/4'];
 const WPM = [[3, 2, 38, -3], [50, 3, 34, 2], [28, 19, 34, -2], [3, 35, 34, 3], [56, 30, 38, -1.5], [30, 52, 34, 2.5], [4, 62, 36, -2], [54, 70, 38, 1.5]];
 const EXP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><g class="e1"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></g><g class="e2"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></g></svg>';
+const WI_UI = '<span class="wi-indicators" aria-hidden="true"><span class="wi-c tl" data-h="tl"></span><span class="wi-c tr" data-h="tr"></span><span class="wi-c bl" data-h="bl"></span><span class="wi-c br" data-h="br"></span><span class="wi-edge-bar top" data-h="t"></span><span class="wi-edge-bar right" data-h="r"></span><span class="wi-edge-bar bottom" data-h="b"></span><span class="wi-edge-bar left" data-h="l"></span><span class="wi-rot-stem"></span><span class="wi-rot-handle" data-h="rot" title="Rotate"></span><span class="wi-deg"></span></span>';
 
 let WALL = '';
 const mkWall = () => {
@@ -475,7 +476,7 @@ const mkWall = () => {
       const id = reg(o, { _v: 'photography', _al: 'Photo wall', _sp: 2 });
       const p = WP[i % 8];
       const q = WPM[i % 8];
-      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}<span class="wi-indicators" aria-hidden="true"><span class="wi-c tl" data-h="tl"></span><span class="wi-c tr" data-h="tr"></span><span class="wi-c bl" data-h="bl"></span><span class="wi-c br" data-h="br"></span><span class="wi-edge-bar top" data-h="t"></span><span class="wi-edge-bar right" data-h="r"></span><span class="wi-edge-bar bottom" data-h="b"></span><span class="wi-edge-bar left" data-h="l"></span><span class="wi-rot-stem"></span><span class="wi-rot-handle" data-h="rot" title="Rotate"></span><span class="wi-deg"></span></span></button>`;
+      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}${WI_UI}</button>`;
     }).join('')}
   </div>
   <button class="wfs" data-wfs type="button" aria-label="Expand photo wall to full screen" title="Full screen">${EXP}</button>
@@ -526,7 +527,7 @@ function setImg(t, u, sv = true) {
     imEl.src = u;
     imEl.alt = o.title || '';
   } else {
-    t.innerHTML = `<img src="${esc(u)}" alt="${esc(o.title)}" draggable="false"><span class="wi-indicators" aria-hidden="true"><span class="wi-c tl" data-h="tl"></span><span class="wi-c tr" data-h="tr"></span><span class="wi-c bl" data-h="bl"></span><span class="wi-c br" data-h="br"></span><span class="wi-edge-bar top" data-h="t"></span><span class="wi-edge-bar right" data-h="r"></span><span class="wi-edge-bar bottom" data-h="b"></span><span class="wi-edge-bar left" data-h="l"></span><span class="wi-rot-stem"></span><span class="wi-rot-handle" data-h="rot" title="Rotate"></span><span class="wi-deg"></span></span>`;
+    t.innerHTML = `<img src="${esc(u)}" alt="${esc(o.title)}" draggable="false">${WI_UI}`;
   }
   if (sv) {
     let m = {};
@@ -2103,15 +2104,29 @@ document.addEventListener('click', e => {
       localStorage.removeItem('ipwall');
       localStorage.removeItem('ipwallm');
     } catch (_) {}
-    $$('.wi').forEach(w => {
+    const wallEl = $('.wall');
+    if (wallEl) {
+      wallEl.classList.add('is-settling');
+      setTimeout(() => wallEl.classList.remove('is-settling'), 460);
+    }
+    $$('.wi').forEach((w, idx) => {
+      const i = Number.isFinite(+w.dataset.i) ? +w.dataset.i : idx;
+      const p = WP[i % 8];
+      const q = WPM[i % 8];
       w.style.left = '';
       w.style.top = '';
       w.style.width = '';
       w.style.rotate = '';
-      w.style.removeProperty('--rt');
-      w.style.removeProperty('--w');
-      w.style.removeProperty('--l');
-      w.style.removeProperty('--t');
+      w.style.zIndex = '';
+      w.style.setProperty('--l', p[0] + '%');
+      w.style.setProperty('--t', p[1] + '%');
+      w.style.setProperty('--w', p[2] + '%');
+      w.style.setProperty('--rt', p[3] + 'deg');
+      w.style.setProperty('--ml', q[0] + '%');
+      w.style.setProperty('--mt', q[1] + '%');
+      w.style.setProperty('--mw', q[2] + '%');
+      w.style.setProperty('--ar', AR[i % 4]);
+      w.classList.remove('is-selected', 'is-interacting', 'is-rotating');
     });
     return;
   }
@@ -3022,10 +3037,68 @@ function mixWall(force = false) {
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
 
+  let svD = {};
+  let svM = {};
+  try {
+    svD = JSON.parse(localStorage.getItem('ipwall') || '{}');
+    svM = JSON.parse(localStorage.getItem('ipwallm') || '{}');
+  } catch (_) {}
+
+  let freeSlots = [];
+  if (force) {
+    const lockedIdx = new Set(ws.filter(w => locked[w.dataset.i]).map(w => (+w.dataset.i) % 8));
+    freeSlots = Array.from({ length: ws.length }, (_, idx) => idx).filter(s => !lockedIdx.has(s % 8));
+    if (!freeSlots.length) freeSlots = Array.from({ length: ws.length }, (_, idx) => idx);
+    for (let i = freeSlots.length - 1; i > 0; i--) {
+      const j = (Math.random() * (i + 1)) | 0;
+      [freeSlots[i], freeSlots[j]] = [freeSlots[j], freeSlots[i]];
+    }
+    const wallEl = $('.wall');
+    if (wallEl) {
+      wallEl.classList.add('is-settling');
+      setTimeout(() => wallEl.classList.remove('is-settling'), 460);
+    }
+  }
+
+  const jit = (v, r) => v + (Math.random() * 2 - 1) * r;
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
   let k = 0;
+  let sk = 0;
   ws.forEach(w => {
-    if (locked[w.dataset.i]) return;
-    if (!force && !wallAlbum && im[w.dataset.i] && w.querySelector('img')) return;
+    const wiKey = w.dataset.i;
+    if (locked[wiKey]) return;
+    if (force) {
+      const sIdx = freeSlots[sk++ % freeSlots.length];
+      const baseD = WP[sIdx % 8];
+      const baseM = WPM[sIdx % 8];
+      const nw = clamp(jit(baseD[2], 3), 20, 34);
+      const nl = clamp(jit(baseD[0], 3.5), 2, 100 - nw - 3);
+      const nt = clamp(jit(baseD[1], 4), 2, 73);
+      const nrt = Math.round(clamp(jit(baseD[3], 6), -12, 12));
+      const nmw = clamp(jit(baseM[2], 3), 28, 42);
+      const nml = clamp(jit(baseM[0], 3), 2, 100 - nmw - 3);
+      const nmt = clamp(jit(baseM[1], 3), 2, 72);
+      const ar = AR[(sIdx + ((Math.random() * AR.length) | 0)) % AR.length];
+
+      w.style.left = '';
+      w.style.top = '';
+      w.style.width = '';
+      w.style.rotate = '';
+      w.style.setProperty('--l', nl.toFixed(1) + '%');
+      w.style.setProperty('--t', nt.toFixed(1) + '%');
+      w.style.setProperty('--w', nw.toFixed(1) + '%');
+      w.style.setProperty('--rt', nrt + 'deg');
+      w.style.setProperty('--ml', nml.toFixed(1) + '%');
+      w.style.setProperty('--mt', nmt.toFixed(1) + '%');
+      w.style.setProperty('--mw', nmw.toFixed(1) + '%');
+      w.style.setProperty('--ar', ar);
+      w.classList.remove('is-selected');
+
+      svD[wiKey] = [nl.toFixed(1) + '%', nt.toFixed(1) + '%', nrt + 'deg', nw.toFixed(1) + '%'];
+      svM[wiKey] = [nml.toFixed(1) + '%', nmt.toFixed(1) + '%', nrt + 'deg', nmw.toFixed(1) + '%'];
+    }
+    if (!force && !wallAlbum && im[wiKey] && w.querySelector('img')) return;
     const p = pool[k++ % pool.length];
     const o = REG[+w.dataset.r];
     if (o) {
@@ -3039,9 +3112,16 @@ function mixWall(force = false) {
       existingImg.src = p.src;
       existingImg.alt = p.title;
     } else {
-      w.innerHTML = `<img src="${esc(p.src)}" alt="${esc(p.title)}" draggable="false"><span class="wi-edge-hint" aria-hidden="true"></span>`;
+      w.innerHTML = `<img src="${esc(p.src)}" alt="${esc(p.title)}" draggable="false">${WI_UI}`;
     }
   });
+
+  if (force) {
+    try {
+      localStorage.setItem('ipwall', JSON.stringify(svD));
+      localStorage.setItem('ipwallm', JSON.stringify(svM));
+    } catch (_) {}
+  }
 }
 
 const TKN = '<div class="tkn"><button type="button" class="btn" data-t="-1">‹ Previous</button><button type="button" class="btn" data-cv>Back to cover</button></div>';

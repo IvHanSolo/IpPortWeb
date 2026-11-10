@@ -737,6 +737,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 /* Canva-style interactive corner, edge & rotate handles on Photo Wall */
 .wi-handle{display:none!important}
 .wall .wi{overflow:visible!important;transition:outline .2s,box-shadow .2s}
+.wall.is-settling .wi{transition:left .42s cubic-bezier(.22,.85,.32,1),top .42s cubic-bezier(.22,.85,.32,1),width .42s cubic-bezier(.22,.85,.32,1),rotate .42s cubic-bezier(.22,.85,.32,1),box-shadow .2s ease,border-color .2s ease}
 .wall .wi img{border-radius:2px}
 .wall .wi:hover,.wall .wi.is-selected{outline:2px solid var(--o)!important;outline-offset:2px!important;box-shadow:0 0 22px rgba(255,90,31,.55)!important}
 .wall .wi.is-interacting{outline:2px solid #fff!important;outline-offset:2px!important;box-shadow:0 0 28px rgba(255,255,255,.75)!important}

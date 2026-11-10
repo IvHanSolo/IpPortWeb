@@ -1108,12 +1108,11 @@ function render(v, s = 0) {
     const cw = $('.cwall');
     if (cw) cw.classList.remove('cw-settling');
     try { cwStk(); } catch (_) {}
-  } else {
-    try { cwStk(); } catch (_) {}
-    setTimeout(() => { try { cwStk(); } catch (_) {} }, 300);
   }
   fitFolderTitles();
-  setTimeout(fitFolderTitles, 120);
+  if (!document.fonts || document.fonts.status !== 'loaded') {
+    setTimeout(fitFolderTitles, 120);
+  }
 
   if (pending) {
     const o = pending;
@@ -1221,12 +1220,12 @@ function nav() {
     }
   }
   const liftOpts = {
-    duration: toCover ? 520 : 280,
+    duration: toCover ? 210 : 170,
     easing: toCover ? 'cubic-bezier(0.35, 0, 0.45, 0.2)' : 'cubic-bezier(0.4, 0, 0.6, 0.2)',
     fill: 'forwards'
   };
   const dropOpts = {
-    duration: toCover ? 640 : 320,
+    duration: toCover ? 240 : 190,
     easing: toCover ? 'cubic-bezier(0.16, 0.84, 0.25, 1)' : 'cubic-bezier(0.2, 0.7, 0.3, 1)',
     fill: 'forwards'
   };
@@ -1265,7 +1264,7 @@ function nav() {
           img.addEventListener('error', res, { once: true });
         });
       })),
-      new Promise(res => setTimeout(res, 250))
+      new Promise(res => setTimeout(res, 100))
     ]);
   };
 
@@ -2371,29 +2370,31 @@ if (EDIT) {
   document.body.append(b);
 }
 
-Promise.race([
-  Promise.all([
-    '400 1em "Champagne & Limousines"',
-    'italic 400 1em "Champagne & Limousines"',
-    '400 1em "Playfair Display"',
-    'italic 400 1em "Playfair Display"'
-  ].map(f => (document.fonts && document.fonts.load) ? document.fonts.load(f).catch(() => 0) : Promise.resolve())),
-  new Promise(r => setTimeout(r, 700))
-])
-  .then(() => fetch('content.json', EDIT ? { cache: 'no-store' } : {}))
+const contentReq = fetch('content.json', EDIT ? { cache: 'no-store' } : {})
   .then(r => (r.ok ? r.json() : null))
-  .catch(() => null)
-  .then(j => {
-    if (j) Object.assign(CONTENT, j);
-    if (EDIT) {
-      try {
-        const d = JSON.parse(localStorage.getItem('ipdraft') || 'null');
-        if (d) Object.assign(CONTENT, d);
-      } catch (_) {}
-    }
-    build();
-    nav();
-  });
+  .catch(() => null);
+
+const fontsQuick = (document.fonts && document.fonts.load && document.fonts.status !== 'loaded')
+  ? Promise.race([
+      Promise.all([
+        '400 1em "Champagne & Limousines"',
+        '400 1em "Playfair Display"'
+      ].map(f => document.fonts.load(f).catch(() => 0))),
+      new Promise(r => setTimeout(r, 90))
+    ])
+  : Promise.resolve();
+
+Promise.all([contentReq, fontsQuick]).then(([j]) => {
+  if (j) Object.assign(CONTENT, j);
+  if (EDIT) {
+    try {
+      const d = JSON.parse(localStorage.getItem('ipdraft') || 'null');
+      if (d) Object.assign(CONTENT, d);
+    } catch (_) {}
+  }
+  build();
+  nav();
+});
 
 let ssT = null;
 
@@ -2459,28 +2460,33 @@ function fit() {
     }
   });
 
-  $$('.sc').forEach(e => {
-    e.style.setProperty('--ix', 1);
-    if (e.querySelector('.tk,.abx,.cwall')) return;
-    if (innerWidth >= 901 && BK.classList.contains('ix')) {
-      let x = 1;
-      while (e.scrollHeight > e.clientHeight + 2 && x > 0.4) {
-        x -= 0.05;
-        e.style.setProperty('--ix', x.toFixed(2));
+  if (innerWidth >= 901) {
+    $$('.sc').forEach(e => {
+      e.style.setProperty('--ix', 1);
+      if (e.querySelector('.tk,.abx,.cwall,.board,.wkw,.folders,.grid')) return;
+      if (BK.classList.contains('ix')) {
+        let x = 1;
+        while (e.scrollHeight > e.clientHeight + 2 && x > 0.4) {
+          x -= 0.05;
+          e.style.setProperty('--ix', x.toFixed(2));
+        }
       }
-    }
-    let k = 1;
-    e.style.setProperty('--k', 1);
-    while (e.scrollHeight > e.clientHeight + 2 && k > 0.64) {
-      k -= 0.06;
-      e.style.setProperty('--k', k.toFixed(2));
-    }
-  });
+      let k = 1;
+      e.style.setProperty('--k', 1);
+      while (e.scrollHeight > e.clientHeight + 2 && k > 0.64) {
+        k -= 0.06;
+        e.style.setProperty('--k', k.toFixed(2));
+      }
+    });
+  }
 }
 
 addEventListener('resize', () => fit());
 if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(() => fit());
+  document.fonts.ready.then(() => {
+    fit();
+    fitFolderTitles();
+  });
 }
 
 /* ---- cover wall: a scrolling gallery of the pieces named in content.json "coverWall", mixed each visit ---- */
@@ -2573,22 +2579,28 @@ function cwStk() {
   try {
     const n = $('.cwn');
     if (!n) return;
+    const cws = $$('.cw');
     if (n.classList.contains('faded-out')) {
-      $$('.cw').forEach(t => t.classList.remove('cwu'));
+      cws.forEach(t => t.classList.remove('cwu'));
       return;
     }
-    const ts = $$('.cw')
-      .filter(t => t.dataset.lt || t.matches(':hover'))
-      .map(t => t.getBoundingClientRect());
-    [...n.children].forEach(x => {
-      const b = x.getBoundingClientRect();
-      x.classList.toggle('stk', ts.some(r => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
-    });
+    // Batch all DOM layout reads first before any classList writes
+    const kids = [...n.children];
+    const kidData = kids.map(x => ({ el: x, vis: Boolean(x.offsetParent), rect: x.getBoundingClientRect() }));
+    const cwData = cws.map(t => ({
+      el: t,
+      lightOrHover: Boolean(t.dataset.lt || t.matches(':hover')),
+      rect: t.getBoundingClientRect()
+    }));
+    const ts = cwData.filter(d => d.lightOrHover).map(d => d.rect);
+    const ks = kidData.filter(d => d.vis).map(d => d.rect);
 
-    const ks = [...n.children].filter(x => x.offsetParent).map(x => x.getBoundingClientRect());
-    $$('.cw').forEach(t => {
-      const r = t.getBoundingClientRect();
-      t.classList.toggle('cwu', ks.some(b => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
+    // Batch all DOM writes
+    kidData.forEach(({ el, rect: b }) => {
+      el.classList.toggle('stk', ts.some(r => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
+    });
+    cwData.forEach(({ el, rect: r }) => {
+      el.classList.toggle('cwu', ks.some(b => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
     });
   } catch (_) {}
 }
@@ -2651,8 +2663,10 @@ document.addEventListener('pointerleave', e => {
   }
 }, true);
 
-document.addEventListener('mouseover', cwQ);
-addEventListener('resize', cwQ);
+document.addEventListener('mouseover', e => {
+  if (cur === 'cover' && e.target && e.target.closest && e.target.closest('.cwall')) cwQ();
+});
+addEventListener('resize', () => { if (cur === 'cover') cwQ(); });
 
 let toTopBtn = null;
 let toTopR = 0;

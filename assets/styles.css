@@ -36,9 +36,9 @@ h2{font:400 2rem/1.1 var(--f-head);margin:0 0 .6rem}h3{font:400 1.4rem var(--f-h
 .tabs a:nth-child(7n+1){--c:#FF5A1F}.tabs a:nth-child(7n+2){--c:#F3F3F0}.tabs a:nth-child(7n+3){--c:#e8c07d}.tabs a:nth-child(7n+4){--c:#9cc3b5}.tabs a:nth-child(7n+5){--c:#d98ca0}.tabs a:nth-child(7n+6){--c:#a9b4e0}.tabs a:nth-child(2n){padding-right:2.7rem}
 .tabs a:hover{transform:translateX(8px) rotate(-1.5deg);filter:none}.tabs a[aria-current]{transform:translateX(16px);filter:none;font-size:1.2rem}
 @keyframes tin{from{transform:translateX(-130px)}}
-.edge{position:absolute;top:50%;z-index:6;display:flex;align-items:center;gap:.5rem;height:3.2rem;padding:0 1.1rem;border:0;border-radius:2rem;background:var(--o);color:#111;font:400 1.05rem var(--f-head);letter-spacing:.06em;cursor:pointer;opacity:0;box-shadow:0 8px 20px rgba(0,0,0,.4);transition:opacity .3s,transform .4s cubic-bezier(.2,.9,.3,1)}
+.edge{position:absolute;top:50%;z-index:6;display:flex;align-items:center;gap:.5rem;height:3.2rem;padding:0 1.1rem;border:0;border-radius:2rem;background:var(--o);color:#111;font:400 1.05rem var(--f-head);letter-spacing:.06em;cursor:pointer;opacity:0;pointer-events:none;box-shadow:0 8px 20px rgba(0,0,0,.4);transition:opacity .3s,transform .4s cubic-bezier(.2,.9,.3,1)}
 .edge.pv{left:.7rem;transform:translate(-130%,-50%)}.edge.nx{right:1.6rem;transform:translate(150%,-50%)}
-.pg:hover .edge,.edge:focus-visible{opacity:1}.pg:hover .edge.pv,.pg:hover .edge.nx,.edge:focus-visible{transform:translate(0,-50%)}
+.edge.on,.edge:focus-visible{opacity:1;pointer-events:auto}.edge.pv.on,.edge.nx.on,.edge:focus-visible{transform:translate(0,-50%)}
 .edge span{max-width:0;overflow:hidden;white-space:nowrap;transition:max-width .35s}.edge:hover span,.edge:focus-visible span{max-width:6.5rem}
 .edge i{width:.6em;height:.6em;border:solid currentColor;border-width:2px 2px 0 0}.edge.nx i{transform:rotate(45deg)}.edge.pv i{transform:rotate(-135deg)}.edge.pv span{order:2}
 .nb button{transition:transform .25s,color .2s}.nb .pv:hover{transform:translateX(-5px)}.nb [data-t="1"]:hover{transform:translateX(5px)}

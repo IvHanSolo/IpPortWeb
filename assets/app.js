@@ -1652,6 +1652,37 @@ addEventListener('wheel', e => {
   }
 }, { passive: true });
 
+function clearEdges() {
+  $$('.edge.on').forEach(b => b.classList.remove('on'));
+}
+
+addEventListener('pointermove', e => {
+  if (e.pointerType === 'touch' || isM() || open() || busy || dg || dragAl) {
+    clearEdges();
+    return;
+  }
+  const hitEdge = e.target && e.target.closest && e.target.closest('.edge');
+  const toggleEdge = (pageEl, btn, isLeft) => {
+    if (!pageEl || !btn) return;
+    if (hitEdge === btn) {
+      btn.classList.add('on');
+      return;
+    }
+    const r = pageEl.getBoundingClientRect();
+    const midY = r.top + r.height / 2;
+    const yBand = Math.min(84, r.height * 0.16);
+    const inY = Math.abs(e.clientY - midY) <= yBand;
+    const inX = isLeft
+      ? e.clientX >= r.left && e.clientX <= r.left + 52
+      : e.clientX >= r.right - 56 && e.clientX <= r.right;
+    btn.classList.toggle('on', inY && inX);
+  };
+  toggleEdge(L, $('.edge.pv', L), true);
+  toggleEdge(R, $('.edge.nx', R), false);
+});
+document.addEventListener('pointerleave', clearEdges);
+addEventListener('blur', clearEdges);
+
 if (!reduce) {
   addEventListener('pointermove', e => {
     const x = e.clientX / innerWidth - 0.5;

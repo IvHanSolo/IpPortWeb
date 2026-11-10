@@ -734,54 +734,58 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 
 
 
-/* Art wall fullscreen interactive edge handles & highlighting */
-/* Art wall interactive highlighting */
+/* Canva-style interactive corner, edge & rotate handles on Photo Wall */
 .wi-handle{display:none!important}
-.wall .wi{transition:outline .2s,box-shadow .2s}
-.wall .wi:hover,.wall .wi.is-selected{outline:2px solid var(--o)!important;outline-offset:3px!important;box-shadow:0 0 24px rgba(255,90,31,.65)!important}
-.wall .wi.is-interacting{outline:2px solid #fff!important;outline-offset:3px!important;box-shadow:0 0 30px rgba(255,255,255,.8)!important}
+.wall .wi{overflow:visible!important;transition:outline .2s,box-shadow .2s}
+.wall .wi img{border-radius:2px}
+.wall .wi:hover,.wall .wi.is-selected{outline:2px solid var(--o)!important;outline-offset:2px!important;box-shadow:0 0 22px rgba(255,90,31,.55)!important}
+.wall .wi.is-interacting{outline:2px solid #fff!important;outline-offset:2px!important;box-shadow:0 0 28px rgba(255,255,255,.75)!important}
 
-/* Prominent corner & edge visual indicators on website art wall */
-.wall .wi .wi-edge-hint{position:absolute;inset:-2px;border:2px dashed rgba(255,255,255,.6);border-radius:4px;pointer-events:none;opacity:0;transition:opacity .2s}
-.wall .wi:hover .wi-edge-hint,.wall .wi.is-selected .wi-edge-hint{opacity:1}
+.wall .wi .wi-indicators{position:absolute;inset:0;pointer-events:none;z-index:8;opacity:0;transition:opacity .15s}
+.wall .wi:hover .wi-indicators,.wall .wi.is-selected .wi-indicators,.wall .wi.is-interacting .wi-indicators{opacity:1}
+.wall .wi:hover .wi-c,.wall .wi.is-selected .wi-c,.wall .wi.is-interacting .wi-c,
+.wall .wi:hover .wi-edge-bar,.wall .wi.is-selected .wi-edge-bar,.wall .wi.is-interacting .wi-edge-bar,
+.wall .wi:hover .wi-rot-handle,.wall .wi.is-selected .wi-rot-handle,.wall .wi.is-interacting .wi-rot-handle,
+.wall .wi:hover .wi-rot-stem,.wall .wi.is-selected .wi-rot-stem{pointer-events:auto}
 
-.wall .wi .wi-indicators{position:absolute;inset:0;pointer-events:none;z-index:6;opacity:0;transition:opacity .2s}
-.wall .wi:hover .wi-indicators,.wall .wi.is-selected .wi-indicators{opacity:1}
+/* Canva corner circle handles (resize/enlarge proportionally anchored to opposite corner) */
+.wall .wi .wi-c{position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;border:1.5px solid #1a1a1a;box-shadow:0 1px 4px rgba(0,0,0,.65);pointer-events:none;transition:transform .14s,background .14s,border-color .14s}
+.wall .wi .wi-c.tl{top:-12px;left:-12px}
+.wall .wi .wi-c.tr{top:-12px;right:-12px}
+.wall .wi .wi-c.bl{bottom:-12px;left:-12px}
+.wall .wi .wi-c.br{bottom:-12px;right:-12px}
+.wall .wi .wi-c:hover,.wall .wi[data-active-handle="tl"] .wi-c.tl,.wall .wi[data-active-handle="tr"] .wi-c.tr,.wall .wi[data-active-handle="bl"] .wi-c.bl,.wall .wi[data-active-handle="br"] .wi-c.br{transform:scale(1.25);background:var(--o);border-color:#fff}
 
-/* Prominent white sketched curved rotation arrows for Rotate (styled after user sketch reference) */
-.wall .wi .wi-c{position:absolute;width:32px;height:32px;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'><path d='M11 9 C22 4, 34 9, 36 20 C 37.5 28, 33 34, 25 36' stroke='#000' stroke-width='5' stroke-linecap='round'/><path d='M14 12 C23 8, 32 13, 34 21 C 35 27, 31 31, 25 33' stroke='#000' stroke-width='3' stroke-linecap='round'/><polygon points='26,38 16,33 24,27' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><path d='M11 9 C22 4, 34 9, 36 20 C 37.5 28, 33 34, 25 36' stroke='%23FFFFFF' stroke-width='2.6' stroke-linecap='round'/><path d='M14 12 C23 8, 32 13, 34 21 C 35 27, 31 31, 25 33' stroke='%23FFFFFF' stroke-width='1.3' stroke-linecap='round' opacity='0.85'/><polygon points='26,38 16,33 24,27' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><line x1='20' y1='34' x2='24' y2='30' stroke='%23111' stroke-width='1'/><line x1='22' y1='36' x2='25' y2='33' stroke='%23111' stroke-width='1'/></svg>") center/contain no-repeat;filter:drop-shadow(0 2px 4px rgba(0,0,0,.9));transition:transform .2s,filter .2s,opacity .2s;opacity:.82}
-.wall .wi .wi-c.tr{top:-16px;right:-16px}
-.wall .wi .wi-c.br{bottom:-16px;right:-16px;transform:rotate(90deg)}
-.wall .wi .wi-c.bl{bottom:-16px;left:-16px;transform:rotate(180deg)}
-.wall .wi .wi-c.tl{top:-16px;left:-16px;transform:rotate(270deg)}
+/* Canva side pill handles (resize/enlarge anchored to opposite edge) */
+.wall .wi .wi-edge-bar{position:absolute;background:#fff;border:1.2px solid #1a1a1a;border-radius:999px;box-shadow:0 1px 4px rgba(0,0,0,.65);pointer-events:none;transition:transform .14s,background .14s,border-color .14s}
+.wall .wi .wi-edge-bar.top{width:22px;height:6px;top:-8px;left:50%;margin-left:-11px}
+.wall .wi .wi-edge-bar.bottom{width:22px;height:6px;bottom:-8px;left:50%;margin-left:-11px}
+.wall .wi .wi-edge-bar.left{width:6px;height:22px;left:-8px;top:50%;margin-top:-11px}
+.wall .wi .wi-edge-bar.right{width:6px;height:22px;right:-8px;top:50%;margin-top:-11px}
+.wall .wi .wi-edge-bar:hover,.wall .wi[data-active-handle="t"] .wi-edge-bar.top,.wall .wi[data-active-handle="b"] .wi-edge-bar.bottom,.wall .wi[data-active-handle="l"] .wi-edge-bar.left,.wall .wi[data-active-handle="r"] .wi-edge-bar.right{transform:scale(1.2);background:var(--o);border-color:#fff}
 
-.wall .wi[data-zone="rot"] .wi-c{opacity:1;filter:drop-shadow(0 0 6px rgba(255,255,255,.85)) drop-shadow(0 2px 6px rgba(0,0,0,.95))}
-.wall .wi[data-active-corner="tr"] .wi-c.tr{transform:scale(1.32);opacity:1;filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px var(--o))}
-.wall .wi[data-active-corner="br"] .wi-c.br{transform:rotate(90deg) scale(1.32);opacity:1;filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px var(--o))}
-.wall .wi[data-active-corner="bl"] .wi-c.bl{transform:rotate(180deg) scale(1.32);opacity:1;filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px var(--o))}
-.wall .wi[data-active-corner="tl"] .wi-c.tl{transform:rotate(270deg) scale(1.32);opacity:1;filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px var(--o))}
+/* Canva floating circular Rotate handle below bottom center with user's rotate icon */
+.wall .wi .wi-rot-stem{position:absolute;left:50%;top:calc(100% + 2px);width:34px;height:19px;margin-left:-17px;background:linear-gradient(to right,transparent 16px,rgba(255,255,255,.85) 16px,rgba(255,255,255,.85) 18px,transparent 18px);pointer-events:none}
+.wall .wi .wi-rot-handle{position:absolute;left:50%;top:calc(100% + 19px);width:26px;height:26px;margin-left:-13px;border-radius:50%;background:#fff url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.3' stroke-linecap='square' stroke-linejoin='miter'><path d='M20.5 11.2 A8.6 8.6 0 0 0 5.2 7.2 M5.2 2.8 V7.2 H9.6 M3.5 12.8 A8.6 8.6 0 0 0 18.8 16.8 M18.8 21.2 V16.8 H14.4'/></svg>") center/16px no-repeat;border:1.5px solid #1a1a1a;box-shadow:0 2px 7px rgba(0,0,0,.7);pointer-events:none;transition:transform .14s,background-color .14s,border-color .14s}
+.wall .wi .wi-rot-handle:hover,.wall .wi[data-zone="rot"] .wi-rot-handle{transform:scale(1.16);background-color:var(--o);border-color:#fff}
 
-/* Prominent white sketched enlarge arrows for Enlarge (styled after user sketch reference) */
-.wall .wi .wi-edge-bar{position:absolute;width:28px;height:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.9));transition:transform .2s,filter .2s,opacity .2s;opacity:0}
-.wall .wi .wi-edge-bar.top{top:-14px;left:50%;margin-left:-14px;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'><path d='M20 8 L20 32' stroke='#000' stroke-width='5' stroke-linecap='round'/><polygon points='20,8 14,16 26,16' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><polygon points='20,32 14,24 26,24' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><path d='M20 8 L20 32' stroke='%23FFFFFF' stroke-width='2.6' stroke-linecap='round'/><path d='M18 10 L18 30' stroke='%23FFFFFF' stroke-width='1.2' stroke-linecap='round' opacity='0.85'/><polygon points='20,8 14,16 26,16' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><polygon points='20,32 14,24 26,24' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><line x1='18' y1='13' x2='22' y2='15' stroke='%23111' stroke-width='1'/><line x1='18' y1='27' x2='22' y2='25' stroke='%23111' stroke-width='1'/></svg>") center/contain no-repeat}
-.wall .wi .wi-edge-bar.bottom{bottom:-14px;left:50%;margin-left:-14px;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'><path d='M20 8 L20 32' stroke='#000' stroke-width='5' stroke-linecap='round'/><polygon points='20,8 14,16 26,16' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><polygon points='20,32 14,24 26,24' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><path d='M20 8 L20 32' stroke='%23FFFFFF' stroke-width='2.6' stroke-linecap='round'/><path d='M18 10 L18 30' stroke='%23FFFFFF' stroke-width='1.2' stroke-linecap='round' opacity='0.85'/><polygon points='20,8 14,16 26,16' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><polygon points='20,32 14,24 26,24' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><line x1='18' y1='13' x2='22' y2='15' stroke='%23111' stroke-width='1'/><line x1='18' y1='27' x2='22' y2='25' stroke='%23111' stroke-width='1'/></svg>") center/contain no-repeat}
-.wall .wi .wi-edge-bar.left{left:-14px;top:50%;margin-top:-14px;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'><path d='M8 20 L32 20' stroke='#000' stroke-width='5' stroke-linecap='round'/><polygon points='8,20 16,14 16,26' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><polygon points='32,20 24,14 24,26' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><path d='M8 20 L32 20' stroke='%23FFFFFF' stroke-width='2.6' stroke-linecap='round'/><path d='M10 18 L30 18' stroke='%23FFFFFF' stroke-width='1.2' stroke-linecap='round' opacity='0.85'/><polygon points='8,20 16,14 16,26' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><polygon points='32,20 24,14 24,26' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><line x1='13' y1='18' x2='15' y2='22' stroke='%23111' stroke-width='1'/><line x1='27' y1='18' x2='25' y2='22' stroke='%23111' stroke-width='1'/></svg>") center/contain no-repeat}
-.wall .wi .wi-edge-bar.right{right:-14px;top:50%;margin-top:-14px;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'><path d='M8 20 L32 20' stroke='#000' stroke-width='5' stroke-linecap='round'/><polygon points='8,20 16,14 16,26' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><polygon points='32,20 24,14 24,26' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><path d='M8 20 L32 20' stroke='%23FFFFFF' stroke-width='2.6' stroke-linecap='round'/><path d='M10 18 L30 18' stroke='%23FFFFFF' stroke-width='1.2' stroke-linecap='round' opacity='0.85'/><polygon points='8,20 16,14 16,26' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><polygon points='32,20 24,14 24,26' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><line x1='13' y1='18' x2='15' y2='22' stroke='%23111' stroke-width='1'/><line x1='27' y1='18' x2='25' y2='22' stroke='%23111' stroke-width='1'/></svg>") center/contain no-repeat}
+/* Live Canva angle readout pill while rotating */
+.wall .wi .wi-deg{position:absolute;left:50%;top:calc(100% + 50px);transform:translateX(-50%);padding:3px 8px;border-radius:10px;background:rgba(14,14,14,.92);border:1px solid rgba(255,255,255,.35);color:#fff;font:600 11px/1.2 var(--f-head);letter-spacing:.04em;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s;z-index:20}
+.wall .wi.is-rotating .wi-deg{opacity:1}
 
-.wall .wi[data-zone="res"] .wi-edge-bar{opacity:.82}
-.wall .wi[data-active-side="top"] .wi-edge-bar.top{opacity:1;transform:scale(1.28);filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px var(--o))}
-.wall .wi[data-active-side="bottom"] .wi-edge-bar.bottom{opacity:1;transform:scale(1.28);filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px var(--o))}
-.wall .wi[data-active-side="left"] .wi-edge-bar.left{opacity:1;transform:scale(1.28);filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px var(--o))}
-.wall .wi[data-active-side="right"] .wi-edge-bar.right{opacity:1;transform:scale(1.28);filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 20px var(--o))}
-
-/* Prominent interactive floating action pill with white sketched arrow icons */
-.wall .wi .wi-zone-badge{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(14,14,14,.95);border:2px solid #fff;color:#fff;font:700 12px/1 var(--f-head);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 4px 18px rgba(0,0,0,.85),0 0 16px rgba(255,255,255,.5);opacity:0;transition:opacity .15s,transform .15s;pointer-events:none;white-space:nowrap;z-index:20}
-.wall .wi[data-zone="rot"] .wi-zone-badge{opacity:1}
-.wall .wi[data-zone="rot"] .wi-zone-badge::before{content:'';display:inline-block;width:16px;height:16px;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'><path d='M11 9 C22 4, 34 9, 36 20 C 37.5 28, 33 34, 25 36' stroke='#000' stroke-width='5' stroke-linecap='round'/><path d='M14 12 C23 8, 32 13, 34 21 C 35 27, 31 31, 25 33' stroke='#000' stroke-width='3' stroke-linecap='round'/><polygon points='26,38 16,33 24,27' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><path d='M11 9 C22 4, 34 9, 36 20 C 37.5 28, 33 34, 25 36' stroke='%23FFFFFF' stroke-width='2.6' stroke-linecap='round'/><path d='M14 12 C23 8, 32 13, 34 21 C 35 27, 31 31, 25 33' stroke='%23FFFFFF' stroke-width='1.3' stroke-linecap='round' opacity='0.85'/><polygon points='26,38 16,33 24,27' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><line x1='20' y1='34' x2='24' y2='30' stroke='%23111' stroke-width='1'/><line x1='22' y1='36' x2='25' y2='33' stroke='%23111' stroke-width='1'/></svg>") center/contain no-repeat;filter:drop-shadow(0 1px 2px rgba(0,0,0,.8))}
-.wall .wi[data-zone="rot"] .wi-zone-badge::after{content:"Rotate"}
-.wall .wi[data-zone="res"] .wi-zone-badge{opacity:1}
-.wall .wi[data-zone="res"] .wi-zone-badge::before{content:'';display:inline-block;width:16px;height:16px;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'><path d='M9 9 L31 31' stroke='#000' stroke-width='5' stroke-linecap='round'/><polygon points='9,9 18,9 9,18' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><polygon points='31,31 22,31 31,22' fill='#000' stroke='#000' stroke-width='3' stroke-linejoin='round'/><path d='M9 9 L31 31' stroke='%23FFFFFF' stroke-width='2.6' stroke-linecap='round'/><path d='M11 8 L32 29' stroke='%23FFFFFF' stroke-width='1.2' stroke-linecap='round' opacity='0.85'/><polygon points='9,9 18,9 9,18' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><polygon points='31,31 22,31 31,22' fill='%23FFFFFF' stroke='%23FFFFFF' stroke-width='1.2' stroke-linejoin='round'/><line x1='12' y1='12' x2='16' y2='10' stroke='%23111' stroke-width='1'/><line x1='28' y1='28' x2='24' y2='30' stroke='%23111' stroke-width='1'/></svg>") center/contain no-repeat;filter:drop-shadow(0 1px 2px rgba(0,0,0,.8))}
-.wall .wi[data-zone="res"] .wi-zone-badge::after{content:"Enlarge"}
+@media(max-width:900px){
+  .wall .wi .wi-c{width:18px;height:18px}
+  .wall .wi .wi-c.tl{top:-14px;left:-14px}
+  .wall .wi .wi-c.tr{top:-14px;right:-14px}
+  .wall .wi .wi-c.bl{bottom:-14px;left:-14px}
+  .wall .wi .wi-c.br{bottom:-14px;right:-14px}
+  .wall .wi .wi-edge-bar.top{top:-9px;width:26px;height:8px;margin-left:-13px}
+  .wall .wi .wi-edge-bar.bottom{bottom:-9px;width:26px;height:8px;margin-left:-13px}
+  .wall .wi .wi-edge-bar.left{left:-9px;width:8px;height:26px;margin-top:-13px}
+  .wall .wi .wi-edge-bar.right{right:-9px;width:8px;height:26px;margin-top:-13px}
+  .wall .wi .wi-rot-handle{width:30px;height:30px;margin-left:-15px;background-size:18px}
+  .wall .wi .wi-deg{top:calc(100% + 54px)}
+}
 
 /* Lightbox watermark */
 .lb-wm{display:none;position:absolute;right:1.6rem;bottom:1.4rem;font:700 1.25rem/1 var(--f-head);letter-spacing:.08em;text-transform:lowercase;color:rgba(255,255,255,.36);text-shadow:0 1px 4px rgba(0,0,0,.85);pointer-events:none;z-index:15;user-select:none}

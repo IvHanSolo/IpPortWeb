@@ -475,7 +475,7 @@ const mkWall = () => {
       const id = reg(o, { _v: 'photography', _al: 'Photo wall', _sp: 2 });
       const p = WP[i % 8];
       const q = WPM[i % 8];
-      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}<span class="wi-edge-hint" aria-hidden="true"></span><span class="wi-indicators" aria-hidden="true"><span class="wi-c tl"></span><span class="wi-c tr"></span><span class="wi-c bl"></span><span class="wi-c br"></span><span class="wi-edge-bar top"></span><span class="wi-edge-bar right"></span><span class="wi-edge-bar bottom"></span><span class="wi-edge-bar left"></span><span class="wi-zone-badge"></span></span></button>`;
+      return `<button class="wi" data-r="${id}" data-i="${i}" aria-label="${esc(o.title)}" data-o="${esc(o.src || '')}" style="--l:${p[0]}%;--t:${p[1]}%;--w:${p[2]}%;--rt:${p[3]}deg;--ar:${AR[i % 4]};--ml:${q[0]}%;--mt:${q[1]}%;--mw:${q[2]}%">${o.src ? `<img src="${esc(o.src)}" alt="${esc(o.title)}" draggable="false">` : esc(o.title)}<span class="wi-indicators" aria-hidden="true"><span class="wi-c tl" data-h="tl"></span><span class="wi-c tr" data-h="tr"></span><span class="wi-c bl" data-h="bl"></span><span class="wi-c br" data-h="br"></span><span class="wi-edge-bar top" data-h="t"></span><span class="wi-edge-bar right" data-h="r"></span><span class="wi-edge-bar bottom" data-h="b"></span><span class="wi-edge-bar left" data-h="l"></span><span class="wi-rot-stem"></span><span class="wi-rot-handle" data-h="rot" title="Rotate"></span><span class="wi-deg"></span></span></button>`;
     }).join('')}
   </div>
   <button class="wfs" data-wfs type="button" aria-label="Expand photo wall to full screen" title="Full screen">${EXP}</button>
@@ -526,7 +526,7 @@ function setImg(t, u, sv = true) {
     imEl.src = u;
     imEl.alt = o.title || '';
   } else {
-    t.innerHTML = `<img src="${esc(u)}" alt="${esc(o.title)}" draggable="false"><span class="wi-edge-hint" aria-hidden="true"></span><span class="wi-indicators" aria-hidden="true"><span class="wi-c tl"></span><span class="wi-c tr"></span><span class="wi-c bl"></span><span class="wi-c br"></span><span class="wi-edge-bar top"></span><span class="wi-edge-bar right"></span><span class="wi-edge-bar bottom"></span><span class="wi-edge-bar left"></span><span class="wi-zone-badge"></span></span>`;
+    t.innerHTML = `<img src="${esc(u)}" alt="${esc(o.title)}" draggable="false"><span class="wi-indicators" aria-hidden="true"><span class="wi-c tl" data-h="tl"></span><span class="wi-c tr" data-h="tr"></span><span class="wi-c bl" data-h="bl"></span><span class="wi-c br" data-h="br"></span><span class="wi-edge-bar top" data-h="t"></span><span class="wi-edge-bar right" data-h="r"></span><span class="wi-edge-bar bottom" data-h="b"></span><span class="wi-edge-bar left" data-h="l"></span><span class="wi-rot-stem"></span><span class="wi-rot-handle" data-h="rot" title="Rotate"></span><span class="wi-deg"></span></span>`;
   }
   if (sv) {
     let m = {};
@@ -663,8 +663,9 @@ let dg = null;
 let moved = false;
 let zt = 5;
 
-// Simple white rotate and enlarge cursors with a thin black stroke
-const rotSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M5.1 10.8 A7 7 0 0 1 18.1 8.5 M18.9 13.2 A7 7 0 0 1 5.9 15.5' fill='none' stroke='#000' stroke-width='3.2' stroke-linecap='round'/><polygon points='19.2,10.4 20.0,6.7 15.5,9.3' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><polygon points='4.8,13.6 4.0,17.3 8.5,14.7' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><path d='M5.1 10.8 A7 7 0 0 1 18.1 8.5 M18.9 13.2 A7 7 0 0 1 5.9 15.5' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/><polygon points='19.2,10.4 20.0,6.7 15.5,9.3' fill='#fff'/><polygon points='4.8,13.6 4.0,17.3 8.5,14.7' fill='#fff'/></svg>");
+// Simple white Canva-style rotate and resize cursors with a thin black stroke
+const ROT_PATH = "M20.5 11.2 A8.6 8.6 0 0 0 5.2 7.2 M5.2 2.8 V7.2 H9.6 M3.5 12.8 A8.6 8.6 0 0 0 18.8 16.8 M18.8 21.2 V16.8 H14.4";
+const rotSvg = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='${ROT_PATH}' fill='none' stroke='#000' stroke-width='3.4' stroke-linecap='square' stroke-linejoin='miter'/><path d='${ROT_PATH}' fill='none' stroke='#fff' stroke-width='1.8' stroke-linecap='square' stroke-linejoin='miter'/></svg>`);
 const curRot = `url("data:image/svg+xml,${rotSvg}") 14 14, crosshair`;
 
 const resSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M6.5 12H17.5' fill='none' stroke='#000' stroke-width='3.2' stroke-linecap='round'/><polygon points='2.5,12 8,8 8,16' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><polygon points='21.5,12 16,8 16,16' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><path d='M6.5 12H17.5' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/><polygon points='2.5,12 8,8 8,16' fill='#fff'/><polygon points='21.5,12 16,8 16,16' fill='#fff'/></svg>");
@@ -673,125 +674,265 @@ const curResEw = `url("data:image/svg+xml,${resSvg}") 14 14, ew-resize`;
 const resVertSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M12 6.5V17.5' fill='none' stroke='#000' stroke-width='3.2' stroke-linecap='round'/><polygon points='12,2.5 8,8 16,8' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><polygon points='12,21.5 8,16 16,16' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><path d='M12 6.5V17.5' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/><polygon points='12,2.5 8,8 16,8' fill='#fff'/><polygon points='12,21.5 8,16 16,16' fill='#fff'/></svg>");
 const curResNs = `url("data:image/svg+xml,${resVertSvg}") 14 14, ns-resize`;
 
-// Dynamic cursor reflecting corners (rotate) and sides (enlarge/resize) on fullscreen art wall
-document.addEventListener('pointermove', e => {
-  if (dg) {
-    const { w, action, bx, sx, sy, cx, cy, startW, l, t } = dg;
-    const dx = e.clientX - sx;
-    const dy = e.clientY - sy;
-    const threshold = (e.pointerType === 'touch') ? 12 : 4;
-    if (Math.abs(dx) + Math.abs(dy) > threshold) moved = true;
-    if (!moved) return;
+const resNwseSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M7.2 7.2L16.8 16.8' fill='none' stroke='#000' stroke-width='3.2' stroke-linecap='round'/><polygon points='4,4 10.6,5 5,10.6' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><polygon points='20,20 13.4,19 19,13.4' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><path d='M7.2 7.2L16.8 16.8' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/><polygon points='4,4 10.6,5 5,10.6' fill='#fff'/><polygon points='20,20 13.4,19 19,13.4' fill='#fff'/></svg>");
+const curResNwse = `url("data:image/svg+xml,${resNwseSvg}") 14 14, nwse-resize`;
 
-    if (action === 'rot') {
-      const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
-      const deg = Math.round(angle) + 'deg';
-      w.style.setProperty('--rt', deg);
-      w.style.rotate = deg;
-    } else if (action === 'res') {
-      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-      const startDist = Math.hypot(sx - cx, sy - cy) || 1;
-      const nw = Math.max(12, Math.min(85, startW * (dist / startDist)));
-      const pct = nw.toFixed(1) + '%';
-      w.style.setProperty('--w', pct);
-      w.style.width = pct;
-    } else {
-      w.style.left = (Math.max(-MG, Math.min(bx.width - w.offsetWidth + MG, l + dx)) / bx.width) * 100 + '%';
-      w.style.top = (Math.max(-MG, Math.min(bx.height - w.offsetHeight + MG, t + dy)) / bx.height) * 100 + '%';
-    }
-    return;
+const resNeswSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M16.8 7.2L7.2 16.8' fill='none' stroke='#000' stroke-width='3.2' stroke-linecap='round'/><polygon points='20,4 13.4,5 19,10.6' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><polygon points='4,20 10.6,19 5,13.4' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><path d='M16.8 7.2L7.2 16.8' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/><polygon points='20,4 13.4,5 19,10.6' fill='#fff'/><polygon points='4,20 10.6,19 5,13.4' fill='#fff'/></svg>");
+const curResNesw = `url("data:image/svg+xml,${resNeswSvg}") 14 14, nesw-resize`;
+
+const H_DIR = {
+  tl: [-1, -1, 225],
+  tr: [1, -1, 315],
+  bl: [-1, 1, 135],
+  br: [1, 1, 45],
+  t: [0, -1, 270],
+  b: [0, 1, 90],
+  l: [-1, 0, 180],
+  r: [1, 0, 0]
+};
+
+const getWiRtDeg = w => parseFloat(w.style.getPropertyValue('--rt') || w.style.rotate) || 0;
+
+function resCursorFor(w, h) {
+  const d = H_DIR[h];
+  if (!d) return curResEw;
+  const eff = (((d[2] + getWiRtDeg(w)) % 180) + 180) % 180;
+  const bucket = Math.round(eff / 45) % 4;
+  return bucket === 0 ? curResEw : bucket === 1 ? curResNwse : bucket === 2 ? curResNs : curResNesw;
+}
+
+function detectWiHandle(w, target, clientX, clientY) {
+  const hEl = target && target.closest && target.closest('[data-h]');
+  if (hEl && w.contains(hEl)) {
+    const h = hEl.dataset.h;
+    return h === 'rot' ? { zone: 'rot', handle: 'rot' } : { zone: 'res', handle: h };
   }
+  const parent = w.parentElement;
+  const bx = parent.getBoundingClientRect();
+  const cx = bx.left + parent.clientLeft + w.offsetLeft + w.offsetWidth / 2;
+  const cy = bx.top + parent.clientTop + w.offsetTop + w.offsetHeight / 2;
+  const rad = (-getWiRtDeg(w) * Math.PI) / 180;
+  const dx = clientX - cx;
+  const dy = clientY - cy;
+  const lx = dx * Math.cos(rad) - dy * Math.sin(rad);
+  const ly = dx * Math.sin(rad) + dy * Math.cos(rad);
+  const hw = w.offsetWidth / 2;
+  const hh = w.offsetHeight / 2;
 
-  // Hover cursor & prominent visual indicator update
-  const w = e.target && e.target.closest && e.target.closest('.wall .wi');
-  if (!w) {
-    $$('.wall .wi').forEach(other => {
-      if (other !== dg?.w) {
-        delete other.dataset.activeCorner;
-        delete other.dataset.activeSide;
-        if (other.dataset.zone) delete other.dataset.zone;
-      }
-    });
-    return;
+  const cTol = Math.min(20, Math.min(hw, hh) * 0.35);
+  const sTol = Math.min(14, Math.min(hw, hh) * 0.24);
+  const nL = lx <= -hw + cTol;
+  const nR = lx >= hw - cTol;
+  const nT = ly <= -hh + cTol;
+  const nB = ly >= hh - cTol;
+
+  if ((nL || nR) && (nT || nB)) {
+    return { zone: 'res', handle: (nT ? 't' : 'b') + (nL ? 'l' : 'r') };
   }
-  const rect = w.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const cornerThreshold = Math.min(38, Math.min(rect.width, rect.height) * 0.32);
-  const sideThreshold = Math.min(26, Math.min(rect.width, rect.height) * 0.22);
+  if (lx <= -hw + sTol) return { zone: 'res', handle: 'l' };
+  if (lx >= hw - sTol) return { zone: 'res', handle: 'r' };
+  if (ly <= -hh + sTol) return { zone: 'res', handle: 't' };
+  if (ly >= hh - sTol) return { zone: 'res', handle: 'b' };
+  return { zone: 'drag', handle: '' };
+}
 
-  const nearLeft = x <= cornerThreshold;
-  const nearRight = x >= rect.width - cornerThreshold;
-  const nearTop = y <= cornerThreshold;
-  const nearBottom = y >= rect.height - cornerThreshold;
-  const isCorner = (nearLeft || nearRight) && (nearTop || nearBottom);
-
-  if (isCorner) {
-    w.dataset.zone = 'rot';
-    w.style.cursor = curRot;
-    const cName = (nearTop ? 't' : 'b') + (nearLeft ? 'l' : 'r');
-    w.dataset.activeCorner = cName;
-    delete w.dataset.activeSide;
-  } else if (x <= sideThreshold || x >= rect.width - sideThreshold) {
-    w.dataset.zone = 'res';
-    w.style.cursor = curResEw;
-    w.dataset.activeSide = (x <= sideThreshold) ? 'left' : 'right';
-    delete w.dataset.activeCorner;
-  } else if (y <= sideThreshold || y >= rect.height - sideThreshold) {
-    w.dataset.zone = 'res';
-    w.style.cursor = curResNs;
-    w.dataset.activeSide = (y <= sideThreshold) ? 'top' : 'bottom';
-    delete w.dataset.activeCorner;
-  } else {
-    w.dataset.zone = 'drag';
-    w.style.cursor = 'grab';
-    delete w.dataset.activeCorner;
-    delete w.dataset.activeSide;
-  }
-});
-
-document.addEventListener('pointerdown', e => {
-  const w = e.target.closest('.wi');
-  if (!w) return;
-  try {
-    if (w.setPointerCapture) w.setPointerCapture(e.pointerId);
-  } catch (_) {}
+function startWallDrag(w, hit, clientX, clientY) {
+  const parent = w.parentElement;
+  const parentBx = parent.getBoundingClientRect();
+  const ox = parentBx.left + parent.clientLeft;
+  const oy = parentBx.top + parent.clientTop;
+  const pw = parent.clientWidth || parentBx.width;
+  const ph = parent.clientHeight || parentBx.height;
+  const w0 = w.offsetWidth;
+  const h0 = w.offsetHeight;
+  const cx0 = w.offsetLeft + w0 / 2;
+  const cy0 = w.offsetTop + h0 / 2;
+  const cx = ox + cx0;
+  const cy = oy + cy0;
   const isWall = Boolean(w.closest('.wall'));
-  const zone = w.dataset.zone || 'drag';
-  const action = (isWall && (zone === 'rot' || zone === 'res')) ? zone : 'drag';
-  const r = w.getBoundingClientRect();
-  const parentBx = w.parentElement.getBoundingClientRect();
+  const action = (isWall && (hit.zone === 'rot' || hit.zone === 'res')) ? hit.zone : 'drag';
 
-  dg = {
+  const st = {
     w,
     action,
+    handle: hit.handle,
     bx: parentBx,
-    sx: e.clientX,
-    sy: e.clientY,
-    cx: r.left + r.width / 2,
-    cy: r.top + r.height / 2,
-    startW: (w.offsetWidth / parentBx.width) * 100,
+    ox,
+    oy,
+    pw,
+    ph,
+    sx: clientX,
+    sy: clientY,
+    cx,
+    cy,
+    w0,
+    h0,
+    startWPct: (w0 / pw) * 100,
     l: w.offsetLeft,
     t: w.offsetTop
   };
+
+  if (action === 'rot') {
+    st.startAngle = Math.atan2(clientY - cy, clientX - cx) * (180 / Math.PI);
+    st.startRt = getWiRtDeg(w);
+    w.classList.add('is-rotating');
+  } else if (action === 'res') {
+    const dir = H_DIR[hit.handle] || [1, 1];
+    const rad = (getWiRtDeg(w) * Math.PI) / 180;
+    const cos = Math.cos(rad);
+    const sin = Math.sin(rad);
+    const axLoc = -dir[0] * (w0 / 2);
+    const ayLoc = -dir[1] * (h0 / 2);
+    const axRot = axLoc * cos - ayLoc * sin;
+    const ayRot = axLoc * sin + ayLoc * cos;
+    st.oppX = cx + axRot;
+    st.oppY = cy + ayRot;
+    st.vx = -2 * axRot;
+    st.vy = -2 * ayRot;
+    st.vLenSq = st.vx * st.vx + st.vy * st.vy || 1;
+    st.offX = (cx - axRot) - clientX;
+    st.offY = (cy - ayRot) - clientY;
+  }
+
+  dg = st;
   moved = false;
   w.style.zIndex = ++zt;
   w.classList.add('is-interacting', 'is-selected');
   $$('.wall .wi').forEach(other => { if (other !== w) other.classList.remove('is-selected'); });
+}
+
+function applyWallDrag(clientX, clientY) {
+  if (!dg) return;
+  const { w, action, ox, oy, pw, ph, sx, sy, cx, cy, l, t } = dg;
+  const dx = clientX - sx;
+  const dy = clientY - sy;
+
+  if (action === 'rot') {
+    const curAngle = Math.atan2(clientY - cy, clientX - cx) * (180 / Math.PI);
+    let dAngle = curAngle - dg.startAngle;
+    while (dAngle > 180) dAngle -= 360;
+    while (dAngle < -180) dAngle += 360;
+    let degVal = dg.startRt + dAngle;
+    while (degVal > 180) degVal -= 360;
+    while (degVal < -180) degVal += 360;
+    for (const snap of [-180, -90, 0, 90, 180]) {
+      if (Math.abs(degVal - snap) < 2.5) {
+        degVal = snap;
+        break;
+      }
+    }
+    const rounded = Math.round(degVal);
+    const degStr = rounded + 'deg';
+    w.style.setProperty('--rt', degStr);
+    w.style.rotate = degStr;
+    const degEl = w.querySelector('.wi-deg');
+    if (degEl) degEl.textContent = rounded + '°';
+  } else if (action === 'res') {
+    const px = clientX + dg.offX;
+    const py = clientY + dg.offY;
+    const rawScale = ((px - dg.oppX) * dg.vx + (py - dg.oppY) * dg.vy) / dg.vLenSq;
+    const minScale = 10 / dg.startWPct;
+    const maxScale = 85 / dg.startWPct;
+    const scale = Math.max(minScale, Math.min(maxScale, rawScale));
+    const nwPct = dg.startWPct * scale;
+    const pctStr = nwPct.toFixed(2) + '%';
+    const newWpx = dg.w0 * scale;
+    const newHpx = dg.h0 * scale;
+    const newCx = (dg.oppX - ox) + (dg.vx * scale) / 2;
+    const newCy = (dg.oppY - oy) + (dg.vy * scale) / 2;
+    const leftPx = Math.max(-MG, Math.min(pw - newWpx + MG, newCx - newWpx / 2));
+    const topPx = Math.max(-MG, Math.min(ph - newHpx + MG, newCy - newHpx / 2));
+
+    w.style.setProperty('--w', pctStr);
+    w.style.width = pctStr;
+    w.style.left = ((leftPx / pw) * 100).toFixed(2) + '%';
+    w.style.top = ((topPx / ph) * 100).toFixed(2) + '%';
+  } else {
+    w.style.left = (Math.max(-MG, Math.min(pw - w.offsetWidth + MG, l + dx)) / pw) * 100 + '%';
+    w.style.top = (Math.max(-MG, Math.min(ph - w.offsetHeight + MG, t + dy)) / ph) * 100 + '%';
+  }
+}
+
+function saveWallState() {
+  let sv = {};
+  try { sv = JSON.parse(localStorage.getItem(WK()) || '{}'); } catch (_) {}
+  $$('.wi').forEach(w => {
+    sv[w.dataset.i] = [
+      w.style.left || '',
+      w.style.top || '',
+      w.style.getPropertyValue('--rt') || '',
+      w.style.getPropertyValue('--w') || ''
+    ];
+  });
+  try { localStorage.setItem(WK(), JSON.stringify(sv)); } catch (_) {}
+}
+
+// Dynamic cursor reflecting Canva corner/side enlarge and floating rotate handle
+document.addEventListener('pointermove', e => {
+  if (dg) {
+    if (e.pointerType === 'touch') return;
+    const dx = e.clientX - dg.sx;
+    const dy = e.clientY - dg.sy;
+    if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+    if (!moved) return;
+    applyWallDrag(e.clientX, e.clientY);
+    return;
+  }
+
+  const w = e.target && e.target.closest && e.target.closest('.wall .wi');
+  if (!w) {
+    $$('.wall .wi').forEach(other => {
+      delete other.dataset.activeHandle;
+      if (other.dataset.zone) delete other.dataset.zone;
+    });
+    return;
+  }
+  const hit = detectWiHandle(w, e.target, e.clientX, e.clientY);
+  w.dataset.zone = hit.zone;
+  if (hit.handle) w.dataset.activeHandle = hit.handle;
+  else delete w.dataset.activeHandle;
+
+  if (hit.zone === 'rot') {
+    w.style.cursor = curRot;
+    const rh = w.querySelector('.wi-rot-handle');
+    if (rh) rh.style.cursor = curRot;
+  } else if (hit.zone === 'res') {
+    const cur = resCursorFor(w, hit.handle);
+    w.style.cursor = cur;
+    const hEl = w.querySelector(`[data-h="${hit.handle}"]`);
+    if (hEl) hEl.style.cursor = cur;
+  } else {
+    w.style.cursor = 'grab';
+  }
 });
 
-// Mobile double-tap detection on Photo Wall (Swap piece modal)
+document.addEventListener('pointerdown', e => {
+  const w = e.target.closest && e.target.closest('.wall .wi');
+  if (!w) {
+    if (e.target.closest && e.target.closest('.wall')) {
+      $$('.wall .wi.is-selected').forEach(x => x.classList.remove('is-selected'));
+    }
+    return;
+  }
+  if (e.pointerType === 'touch') return;
+  try {
+    if (w.setPointerCapture) w.setPointerCapture(e.pointerId);
+  } catch (_) {}
+  const hit = detectWiHandle(w, e.target, e.clientX, e.clientY);
+  startWallDrag(w, hit, e.clientX, e.clientY);
+});
+
+// Mobile double-tap detection & 1-finger Canva handles + 2-finger zoom/rotate on Art Wall
 let lastWiTap = 0;
 let lastWiTarget = null;
 let wiTouchStartPos = null;
 let wiTouchMoved = false;
-
-// Mobile touch gestures: 1-finger drag & 2-finger zoom/rotate on Art Wall
 let wallTouch = null;
+
 document.addEventListener('touchstart', e => {
   const w = e.target.closest && e.target.closest('.wall .wi');
   if (!w) {
-    if (!e.target.closest('.wallw')) {
+    if (!e.target.closest('.wallw') || (e.target.closest('.wall') && !e.target.closest('.wi'))) {
       $$('.wall .wi.is-selected').forEach(x => x.classList.remove('is-selected'));
     }
     wiTouchStartPos = null;
@@ -803,27 +944,10 @@ document.addEventListener('touchstart', e => {
 
   if (e.touches.length === 1) {
     const touch = e.touches[0];
-    const r = w.getBoundingClientRect();
-    const parentBx = w.parentElement.getBoundingClientRect();
-    wiTouchStartPos = { x: touch.clientX, y: touch.clientY, target: w };
+    const hit = detectWiHandle(w, e.target, touch.clientX, touch.clientY);
+    wiTouchStartPos = { x: touch.clientX, y: touch.clientY, target: w, onHandle: hit.zone !== 'drag' };
     wiTouchMoved = false;
-
-    // Set up dg for immediate 1-finger touch dragging
-    dg = {
-      w,
-      action: 'drag',
-      bx: parentBx,
-      sx: touch.clientX,
-      sy: touch.clientY,
-      cx: r.left + r.width / 2,
-      cy: r.top + r.height / 2,
-      startW: (w.offsetWidth / parentBx.width) * 100,
-      l: w.offsetLeft,
-      t: w.offsetTop
-    };
-    moved = false;
-    w.style.zIndex = ++zt;
-    w.classList.add('is-interacting');
+    startWallDrag(w, hit, touch.clientX, touch.clientY);
   } else if (e.touches.length === 2) {
     if (e.cancelable) e.preventDefault();
     const t1 = e.touches[0];
@@ -832,7 +956,7 @@ document.addEventListener('touchstart', e => {
     const angle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * (180 / Math.PI);
     const parentBx = w.parentElement.getBoundingClientRect();
     const curW = parseFloat(w.style.getPropertyValue('--w') || w.style.width) || ((w.offsetWidth / parentBx.width) * 100);
-    const curRt = parseFloat(w.style.getPropertyValue('--rt') || w.style.rotate) || 0;
+    const curRt = getWiRtDeg(w);
 
     wallTouch = {
       w,
@@ -847,7 +971,6 @@ document.addEventListener('touchstart', e => {
 }, { passive: false });
 
 document.addEventListener('touchmove', e => {
-  // 1. Two-finger zoom enlarges/shrinks & twist rotates
   if (wallTouch && e.touches.length === 2) {
     if (e.cancelable) e.preventDefault();
     const { w, startDist, startAngle, startW, startRt } = wallTouch;
@@ -857,7 +980,7 @@ document.addEventListener('touchmove', e => {
     const angle = Math.atan2(t2.clientY - t1.clientY, t2.clientX - t1.clientX) * (180 / Math.PI);
 
     const scale = dist / startDist;
-    const nw = Math.max(12, Math.min(85, startW * scale));
+    const nw = Math.max(10, Math.min(85, startW * scale));
     const pct = nw.toFixed(1) + '%';
     w.style.setProperty('--w', pct);
     w.style.width = pct;
@@ -869,61 +992,34 @@ document.addEventListener('touchmove', e => {
     return;
   }
 
-  // 2. One-finger smooth touch drag
   if (dg && e.touches.length === 1) {
     const t = e.touches[0];
     const dx = t.clientX - dg.sx;
     const dy = t.clientY - dg.sy;
-    if (Math.abs(dx) + Math.abs(dy) > 6) {
+    const thr = dg.action === 'drag' ? 6 : 3;
+    if (Math.abs(dx) + Math.abs(dy) > thr) {
       moved = true;
       wiTouchMoved = true;
       if (e.cancelable) e.preventDefault();
-      const { w, bx, l, t: top0 } = dg;
-      w.style.left = (Math.max(-MG, Math.min(bx.width - w.offsetWidth + MG, l + dx)) / bx.width) * 100 + '%';
-      w.style.top = (Math.max(-MG, Math.min(bx.height - w.offsetHeight + MG, top0 + dy)) / bx.height) * 100 + '%';
+      applyWallDrag(t.clientX, t.clientY);
     }
   }
 }, { passive: false });
 
 document.addEventListener('touchend', e => {
-  // Save 2-finger zoom/rotate changes
   if (wallTouch) {
-    if (wallTouch.w) wallTouch.w.classList.remove('is-interacting');
-    let sv = {};
-    try { sv = JSON.parse(localStorage.getItem(WK()) || '{}'); } catch (_) {}
-    $$('.wi').forEach(w => {
-      sv[w.dataset.i] = [
-        w.style.left || '',
-        w.style.top || '',
-        w.style.getPropertyValue('--rt') || '',
-        w.style.getPropertyValue('--w') || ''
-      ];
-    });
-    try { localStorage.setItem(WK(), JSON.stringify(sv)); } catch (_) {}
+    if (wallTouch.w) wallTouch.w.classList.remove('is-interacting', 'is-rotating');
+    saveWallState();
     wallTouch = null;
   }
 
-  // Save 1-finger drag changes
   if (dg) {
-    if (dg.w) dg.w.classList.remove('is-interacting');
-    if (moved) {
-      let sv = {};
-      try { sv = JSON.parse(localStorage.getItem(WK()) || '{}'); } catch (_) {}
-      $$('.wi').forEach(w => {
-        sv[w.dataset.i] = [
-          w.style.left || '',
-          w.style.top || '',
-          w.style.getPropertyValue('--rt') || '',
-          w.style.getPropertyValue('--w') || ''
-        ];
-      });
-      try { localStorage.setItem(WK(), JSON.stringify(sv)); } catch (_) {}
-    }
+    if (dg.w) dg.w.classList.remove('is-interacting', 'is-rotating');
+    if (moved) saveWallState();
     dg = null;
   }
 
-  // Double tap detection for Swap Piece
-  if (wiTouchStartPos && !wiTouchMoved) {
+  if (wiTouchStartPos && !wiTouchMoved && !wiTouchStartPos.onHandle) {
     const w = wiTouchStartPos.target;
     const now = Date.now();
     const dt = now - lastWiTap;
@@ -944,10 +1040,9 @@ document.addEventListener('touchend', e => {
 }, { passive: false });
 
 document.addEventListener('dblclick', e => {
+  if (e.target.closest && e.target.closest('[data-h]')) return;
   const w = e.target.closest && e.target.closest('.wall .wi');
-  if (w) {
-    pick(w);
-  }
+  if (w) pick(w);
 });
 
 function endDrag(e) {
@@ -957,24 +1052,8 @@ function endDrag(e) {
         dg.w.releasePointerCapture(e.pointerId);
       }
     } catch (_) {}
-    if (dg.w) dg.w.classList.remove('is-interacting');
-    if (moved) {
-      let sv = {};
-      try {
-        sv = JSON.parse(localStorage.getItem(WK()) || '{}');
-      } catch (_) {}
-      $$('.wi').forEach(w => {
-        sv[w.dataset.i] = [
-          w.style.left || '',
-          w.style.top || '',
-          w.style.getPropertyValue('--rt') || '',
-          w.style.getPropertyValue('--w') || ''
-        ];
-      });
-      try {
-        localStorage.setItem(WK(), JSON.stringify(sv));
-      } catch (_) {}
-    }
+    if (dg.w) dg.w.classList.remove('is-interacting', 'is-rotating');
+    if (moved) saveWallState();
   }
   dg = null;
   setTimeout(() => (moved = false), 60);

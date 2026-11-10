@@ -169,7 +169,7 @@ const WR = () => [
 ];
 
 const MAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg>';
-const sbar = () => `<form class="sbar" role="search"><button type="button" class="mag" aria-label="Search the book" aria-expanded="false">${MAG}</button><input type="search" id="q" placeholder="Search titles, headings, albums" aria-label="Search" autocomplete="off"><div class="sres" hidden></div></form>`;
+const sbar = () => `<form class="sbar" role="search"><button type="button" class="mag" aria-label="Search the book" aria-expanded="false">${MAG}</button><input type="search" id="q" placeholder="Describe an image, or search titles & albums" aria-label="Search" autocomplete="off"><div class="sres" hidden></div></form>`;
 const sub = `<a class="btn" href="${SUB}" target="_blank" rel="noopener">Read on Substack</a>`;
 
 const B = {
@@ -224,6 +224,8 @@ const B = {
         const id = reg(o, {
           _v: 'photography',
           _al: al.title,
+          _alDesc: al.desc || '',
+          _alGroup: al.group || '',
           _sp: 0,
           _it: o.tags || [],
           tags: [...(al.group ? [al.group] : []), ...(o.tags || []), ...(o.location ? [o.location] : [])]
@@ -325,7 +327,7 @@ const B = {
         all.push({
           o,
           f: f.title,
-          id: reg(o, { _v: 'video', _al: f.title, _sp: 0 })
+          id: reg(o, { _v: 'video', _al: f.title, _alDesc: f.desc || '', _sp: 0 })
         });
       });
     });
@@ -358,7 +360,7 @@ const B = {
         o.label = o.label || al.label;
         return o;
       });
-      const ids = its.map(o => reg(o, { _v: 'other', _al: al.title, _sp: i + 1 }));
+      const ids = its.map(o => reg(o, { _v: 'other', _al: al.title, _alDesc: al.desc || '', _sp: i + 1 }));
       return { al, its, ids, i };
     });
 
@@ -2183,8 +2185,93 @@ function goTo(o) {
   }
 }
 
-const hay = o =>
-  (o._s = o._s || [o.title, o.desc, (o.tags || []).join(' '), o._al, names[o._v]].join(' ').toLowerCase());
+const STOP_W = new Set([
+  'a', 'an', 'the', 'in', 'on', 'at', 'of', 'with', 'by', 'to', 'for', 'from',
+  'is', 'are', 'was', 'were', 'be', 'and', 'or', 'as', 'into', 'this', 'that',
+  'these', 'those', 'photo', 'photos', 'picture', 'pictures', 'image', 'images',
+  'shot', 'scene', 'view', 'near', 'next'
+]);
+
+const VIS_SYN = {
+  bw: ['monochrome', 'noir', 'black and white'],
+  monochrome: ['noir', 'black and white'],
+  noir: ['monochrome', 'black and white'],
+  hat: ['fedora', 'cap'],
+  fedora: ['hat'],
+  glasses: ['spectacles', 'shades', 'sunglasses'],
+  shades: ['sunglasses', 'glasses'],
+  sunglasses: ['shades', 'glasses'],
+  shop: ['store', 'stall', 'shopkeeper'],
+  store: ['shop', 'stall'],
+  train: ['railway', 'platform', 'commuters'],
+  station: ['railway', 'platform'],
+  sea: ['ocean', 'tidal', 'harbour', 'water', 'bay', 'coastal'],
+  ocean: ['sea', 'tidal', 'water', 'bay'],
+  boat: ['boats', 'ferry', 'ship', 'carrier', 'speedboat'],
+  ship: ['carrier', 'boat', 'boats', 'ferry'],
+  lighthouse: ['beacon'],
+  beacon: ['lighthouse'],
+  kid: ['child', 'girl'],
+  child: ['kid', 'girl'],
+  sleep: ['slumber', 'asleep', 'sleeping', 'resting'],
+  sleeping: ['slumber', 'asleep', 'sleep'],
+  fire: ['flame'],
+  flame: ['fire'],
+  night: ['dark', 'evening', 'dusk'],
+  sunset: ['dusk', 'golden', 'amber'],
+  sunrise: ['morning', 'golden'],
+  flower: ['flowers', 'bougainvillea', 'bloom'],
+  mountain: ['mountains', 'himalayan', 'alpine', 'ridge', 'himachal'],
+  hill: ['ridge', 'mountain', 'hilltop'],
+  dog: ['beagle', 'street dog'],
+  cat: ['kitten', 'tabby']
+};
+
+const stemTok = w => {
+  if (w.length <= 4) return w;
+  if (w.endsWith('ies')) return w.slice(0, -3) + 'y';
+  if (w.endsWith('ing') && w.length > 5) return w.slice(0, -3);
+  if (w.endsWith('es') && !w.endsWith('ss') && w.length > 4) return w.slice(0, -2);
+  if (w.endsWith('s') && !w.endsWith('ss')) return w.slice(0, -1);
+  return w;
+};
+
+const srcWords = u =>
+  (u ? String(u).split('/').pop().replace(/\.\w+$/, '').replace(/[-_]+/g, ' ') : '');
+
+const hitThumb = o =>
+  o._thumb ||
+  o.thumb ||
+  (isVid(o) ? thumb(o) : '') ||
+  (o.src && !isDoc(o) && !isVid(o) ? o.src : '') ||
+  o.cover ||
+  '';
+
+const hay = o => (o._s = o._s || [
+  o.title,
+  o.desc,
+  o._alDesc,
+  o._alGroup,
+  (o.tags || []).join(' '),
+  o.location,
+  o.artist,
+  o.font,
+  (o.tracks || []).join(' '),
+  o.exif ? Object.values(o.exif).join(' ') : '',
+  o.date,
+  srcWords(o.src),
+  srcWords(o.cover),
+  o._al,
+  names[o._v]
+].filter(Boolean).join(' ').toLowerCase());
+
+const matchTok = (text, w) => {
+  if (text.includes(w)) return true;
+  const st = stemTok(w);
+  if (st !== w && st.length >= 3 && text.includes(st)) return true;
+  const syns = VIS_SYN[w] || VIS_SYN[st];
+  return Boolean(syns && syns.some(s => text.includes(s)));
+};
 
 const pth = o =>
   names[o._v] + (o._al ? ' · ' + o._al : '') + (o._h ? ' · Heading' : '');
@@ -2192,19 +2279,70 @@ const pth = o =>
 function find(t) {
   const b = $('.sres');
   if (!b) return;
-  const ws = t.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  if (!ws.length) {
+  const raw = t.trim().toLowerCase().replace(/[^\p{L}\p{N}&]+/gu, ' ').trim();
+  const rawWs = raw.split(/\s+/).filter(Boolean);
+  if (!rawWs.length) {
     b.hidden = true;
     return;
   }
-  const ts = o => (ws.every(w => String(o.title).toLowerCase().includes(w)) ? 0 : 1);
-  const h = REG.filter(o => o._v && ws.every(w => hay(o).includes(w)))
-    .sort((a, b) => ts(a) - ts(b) || (Boolean(b._h) - Boolean(a._h)))
-    .slice(0, 30);
+  const filteredWs = rawWs.filter(w => !STOP_W.has(w));
+  const kws = filteredWs.length ? filteredWs : rawWs;
+
+  const albumSrcs = new Set(
+    REG.filter(o => o._v && o._al !== 'Photo wall' && o.src).map(o => o.src)
+  );
+  const pool = REG.filter(o => {
+    if (!o._v) return false;
+    if (!o._h && !o.src && !o.embed && !o.pdf && !o.text) return false;
+    if (o._al === 'Photo wall' && o.src && albumSrcs.has(o.src)) return false;
+    return true;
+  });
+
+  const scoreItem = o => {
+    const hStr = hay(o);
+    let hits = 0;
+    for (const w of kws) {
+      if (matchTok(hStr, w)) hits++;
+    }
+    if (!hits) return 0;
+    const ti = String(o.title || '').toLowerCase();
+    const ds = String(o.desc || '').toLowerCase();
+    let sc = hits * 10;
+    if (ti.includes(raw)) sc += 30;
+    if (ds.includes(raw)) sc += 22;
+    for (const w of kws) {
+      if (matchTok(ti, w)) sc += 12;
+      if (matchTok(ds, w)) sc += 8;
+    }
+    if (hitThumb(o)) sc += 3;
+    if (o._h && hits === kws.length) sc += 2;
+    return { hits, sc };
+  };
+
+  let scored = [];
+  pool.forEach(o => {
+    const r = scoreItem(o);
+    if (r && r.hits === kws.length) scored.push({ o, sc: r.sc, hits: r.hits });
+  });
+
+  if (!scored.length && kws.length >= 2) {
+    const minHits = kws.length >= 3 ? Math.max(2, Math.ceil(kws.length * 0.5)) : 1;
+    pool.forEach(o => {
+      const r = scoreItem(o);
+      if (r && r.hits >= minHits) scored.push({ o, sc: r.sc, hits: r.hits });
+    });
+  }
+
+  scored.sort((a, b) => b.hits - a.hits || b.sc - a.sc || (Boolean(b.o._h) - Boolean(a.o._h)));
+  const h = scored.slice(0, 30).map(x => x.o);
 
   b.innerHTML = h.length
-    ? h.map(o => `<button type="button" class="hit" data-hit="${REG.indexOf(o)}"><b>${esc(o.title)}</b><small>${esc(pth(o))}</small></button>`).join('')
-    : '<p>No matches. Try a folder or section name.</p>';
+    ? h.map(o => {
+        const th = hitThumb(o);
+        const desc = o.desc || o._alDesc || '';
+        return `<button type="button" class="hit${th ? ' has-thumb' : ''}" data-hit="${REG.indexOf(o)}"><span class="hit-body"><b>${esc(o.title)}</b><small>${esc(pth(o))}</small>${desc ? `<span class="hit-desc">${esc(desc)}</span>` : ''}</span>${th ? `<span class="hit-thumb"><img src="${esc(th)}" alt="" loading="lazy" draggable="false"></span>` : ''}</button>`;
+      }).join('')
+    : '<p>No matches. Try describing the subject, mood, or folder.</p>';
   b.hidden = false;
 }
 
@@ -2910,9 +3048,23 @@ function regHeads() {
         d.content.querySelectorAll('h1,h2,h3,.phead,.fold,.bt[data-album]').forEach(x => {
           let sv = v;
           let sp = s;
+          const cardEl = x;
+          let headDesc = '';
+          let headThumb = '';
           if (x.classList.contains('fold') || x.classList.contains('bt')) {
             sv = x.dataset.sv || v;
-            sp = +x.dataset.sp;
+            sp = x.dataset.sp != null ? +x.dataset.sp : s;
+            if (x.dataset.album != null) {
+              const al = getPhotoAlbums()[+x.dataset.album];
+              if (al) {
+                headDesc = al.desc || '';
+                const firstIt = (al.items || []).map(it => norm(it, al)).find(it => it.src);
+                headThumb = firstIt ? firstIt.src : '';
+              }
+            } else {
+              const spEl = cardEl.querySelector('span');
+              if (spEl) headDesc = spEl.textContent.trim();
+            }
             x = x.querySelector('b');
           }
           const t = x && htxt(x);
@@ -2920,7 +3072,7 @@ function regHeads() {
           const k = [sv, sp, t].join('|');
           if (seen.has(k)) return;
           seen.add(k);
-          reg({ title: t, desc: '' }, { _v: sv, _sp: sp, _h: 1 });
+          reg({ title: t, desc: headDesc, _thumb: headThumb }, { _v: sv, _sp: sp, _h: 1 });
         });
       });
     });

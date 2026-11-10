@@ -74,8 +74,8 @@ h2{font:400 2rem/1.1 var(--f-head);margin:0 0 .6rem}h3{font:400 1.4rem var(--f-h
 .sbar.open input{opacity:1;pointer-events:auto}.sbar input:focus{outline:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--o) 30%,transparent)}
 .mag{position:absolute;left:0;top:0;width:2.8rem;height:2.8rem;border-radius:50%;border:0;background:var(--o);color:#111;cursor:pointer;display:grid;place-items:center;z-index:2;transition:transform .3s}.mag:hover{transform:rotate(-12deg) scale(1.08)}
 .mag svg{width:1.4rem;height:1.4rem}
-.sres{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--paper);color:var(--ink);border:2px solid var(--o);border-radius:14px;max-height:50vh;overflow:auto;box-shadow:0 14px 30px rgba(0,0,0,.4)}.sres p{margin:0;padding:.8rem .9rem;color:var(--mut)}
-.hit{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);color:inherit;padding:.6rem .9rem;cursor:pointer}.hit:hover,.hit:focus-visible{background:color-mix(in srgb,var(--o) 18%,transparent)}.hit b{display:block;font:400 1.2rem var(--f-head)}.hit small{color:var(--mut);font-size:.95rem}
+.sres{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--paper);color:var(--ink);border:2px solid var(--o);border-radius:14px;max-height:52vh;overflow:auto;box-shadow:0 14px 30px rgba(0,0,0,.45);scrollbar-width:thin;scrollbar-color:var(--o) color-mix(in srgb,var(--ink) 14%,transparent)}.sres::-webkit-scrollbar{width:8px}.sres::-webkit-scrollbar-track{background:color-mix(in srgb,var(--ink) 12%,transparent);border-radius:8px}.sres::-webkit-scrollbar-thumb{background:var(--o);border-radius:8px}.sres p{margin:0;padding:.8rem .9rem;color:var(--mut)}
+.hit{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);color:inherit;padding:.62rem .85rem;cursor:pointer;transition:background .15s}.hit.has-thumb{display:flex;align-items:center;justify-content:space-between;gap:.75rem}.hit-body{flex:1;min-width:0;display:block}.hit:hover,.hit:focus-visible{background:color-mix(in srgb,var(--o) 18%,transparent)}.hit b{display:block;font:400 1.15rem/1.18 var(--f-head)}.hit small{display:block;color:var(--mut);font-size:.86rem;margin-top:.12rem}.hit-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:color-mix(in srgb,var(--ink) 74%,transparent);font:italic .84rem/1.3 var(--f-sub);margin-top:.22rem}.hit-thumb{flex:none;width:54px;height:54px;border-radius:6px;overflow:hidden;border:1.5px solid var(--line);background:#1a1a1a;transition:border-color .15s,transform .15s}.hit-thumb img{width:100%;height:100%;object-fit:cover;display:block}.hit:hover .hit-thumb,.hit:focus-visible .hit-thumb{border-color:var(--o);transform:scale(1.04)}
 .folders{display:grid;gap:.9rem;margin-top:1.6rem}
 .fold{position:relative;text-align:left;border:2px solid var(--ink);border-radius:2px 14px 14px 14px;background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink);padding:1rem 1.1rem;cursor:pointer;margin-top:.7rem;transition:transform .3s,border-color .3s}
 .fold::before{content:"";position:absolute;left:-2px;top:-.7rem;width:42%;height:.7rem;border:2px solid var(--ink);border-bottom:0;border-radius:8px 8px 0 0;background:inherit;transition:border-color .3s}
@@ -692,12 +692,12 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 }
 /* --- Breadcrumb Search & Profile Overlays --- */
 @media(min-width:901px){.cwn .lede{font-size:1.4rem;font-weight:600}.cwn .cvb{font-size:1.25rem}}
-.crw{display:flex;align-items:center;justify-content:space-between;gap:.7rem;min-height:2rem;margin:0 0 .9rem;position:relative;z-index:6}
+.crw{display:flex;align-items:center;justify-content:space-between;gap:.7rem;min-height:2rem;margin:0 0 .9rem;position:relative;z-index:8}
 .crw .crumb{flex:0 1 auto;min-width:0;margin:0}
-.crw .sbar{flex:none;width:2rem;height:2rem;margin:0 0 0 auto}.crw .sbar.open{width:min(68%,17rem)}
+.crw .sbar{flex:none;width:2rem;height:2rem;margin:0 0 0 auto}.crw .sbar.open{width:min(76%,22rem)}
 .crw .mag{width:2rem;height:2rem}.crw .mag svg{width:1rem;height:1rem}
 .crw .sbar input{font-size:.95rem;padding:0 .9rem 0 2.5rem}
-.crw .sres{left:auto;right:0;width:min(20rem,78vw)}
+.crw .sres{left:auto;right:0;width:min(25rem,86vw)}
 .tile.fold,.fold{border-radius:2px 14px 14px 14px}
 .wk .wkb{flex-wrap:wrap}.wk .wkb .btn{flex:1 1 40%}
 .bt.hl{outline:3px solid var(--o);outline-offset:2px;z-index:6}

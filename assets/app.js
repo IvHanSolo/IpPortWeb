@@ -700,8 +700,17 @@ document.addEventListener('pointermove', e => {
   }
 
   // Hover cursor & prominent visual indicator update
-  const w = e.target && e.target.closest && e.target.closest('.wallw.fs .wi');
-  if (!w) return;
+  const w = e.target && e.target.closest && e.target.closest('.wall .wi');
+  if (!w) {
+    $('.wall .wi').forEach(other => {
+      if (other !== dg?.w) {
+        delete other.dataset.activeCorner;
+        delete other.dataset.activeSide;
+        if (other.dataset.zone) delete other.dataset.zone;
+      }
+    });
+    return;
+  }
   const rect = w.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
@@ -744,9 +753,9 @@ document.addEventListener('pointerdown', e => {
   try {
     if (w.setPointerCapture) w.setPointerCapture(e.pointerId);
   } catch (_) {}
-  const isFsWall = Boolean(w.closest('.wallw.fs'));
+  const isWall = Boolean(w.closest('.wall'));
   const zone = w.dataset.zone || 'drag';
-  const action = (isFsWall && (zone === 'rot' || zone === 'res')) ? zone : 'drag';
+  const action = (isWall && (zone === 'rot' || zone === 'res')) ? zone : 'drag';
   const r = w.getBoundingClientRect();
   const parentBx = w.parentElement.getBoundingClientRect();
 

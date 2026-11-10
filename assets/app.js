@@ -172,6 +172,37 @@ const MAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 const sbar = () => `<form class="sbar" role="search"><button type="button" class="mag" aria-label="Search the book" aria-expanded="false">${MAG}</button><input type="search" id="q" placeholder="Describe an image, or search titles & albums" aria-label="Search" autocomplete="off"><div class="sres" hidden></div></form>`;
 const sub = `<a class="btn" href="${SUB}" target="_blank" rel="noopener">Read on Substack</a>`;
 
+let otherFlip = false;
+const otherFlipBtn = () =>
+  `<div class="other-flipw"><button type="button" class="btn other-flip" data-other-flip aria-pressed="${otherFlip}" title="Flip order of Work in progress and Completed"><span class="flip-ic" aria-hidden="true">⇅</span><span>${otherFlip ? 'Completed → Work in progress' : 'Work in progress → Completed'}</span></button></div>`;
+
+const otherGroups = () => (CONTENT.other || []).map((al, i) => ({
+  al,
+  its: (al.items || []).map(x => {
+    const o = norm(x, al);
+    o.label = o.label || al.label;
+    return o;
+  }),
+  i
+}));
+
+function otherOverview(A) {
+  const list = A || otherGroups();
+  const grp = st =>
+    list.filter(a => a.al.status === st)
+      .map(a => `<button class="fold" data-sv="other" data-sp="${a.i + 1}"><b>${esc(a.al.title)}</b><span>${esc(a.al.desc)}</span><small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small></button>`)
+      .join('') || '<p>Nothing here yet.</p>';
+
+  const hasWip = list.some(a => a.al.status === 'WIP');
+  const wipSec = hasWip ? `<section class="other-sec" data-sec="wip"><h2>Work in progress</h2><div class="folders">${grp('WIP')}</div></section>` : '';
+  const compSec = `<section class="other-sec" data-sec="completed"><h2>Completed</h2><div class="folders">${grp('Completed')}</div></section>`;
+  const secs = otherFlip ? [compSec, wipSec] : [wipSec, compSec];
+  return [
+    PT('other', 'Other works', 'Assignments and creative pieces that have been rehomed') + (hasWip ? otherFlipBtn() : ''),
+    `<div class="other-secs" id="other-secs">${secs.filter(Boolean).join('')}</div>`
+  ];
+}
+
 const B = {
   cover: () => [
     ['', `<div class="cv cvw"><div class="cwn">${PT('cover', 'Ivan Philips', 'Audio Visual Content')}<button type="button" class="btn cvb" data-t="1">Open</button><p class="cvh">(If you are seeing this on your mobile device, feel free to swipe up and down to change pages.)</p></div><div class="cwall">@wall</div></div>`]
@@ -354,27 +385,12 @@ const B = {
     ];
   },
   other: () => {
-    const A = (CONTENT.other || []).map((al, i) => {
-      const its = (al.items || []).map(x => {
-        const o = norm(x, al);
-        o.label = o.label || al.label;
-        return o;
-      });
-      const ids = its.map(o => reg(o, { _v: 'other', _al: al.title, _alDesc: al.desc || '', _sp: i + 1 }));
-      return { al, its, ids, i };
-    });
+    const A = otherGroups().map(g => ({
+      ...g,
+      ids: g.its.map(o => reg(o, { _v: 'other', _al: g.al.title, _alDesc: g.al.desc || '', _sp: g.i + 1 }))
+    }));
 
-    const grp = st =>
-      A.filter(a => a.al.status === st)
-        .map(a => `<button class="fold" data-sv="other" data-sp="${a.i + 1}"><b>${esc(a.al.title)}</b><span>${esc(a.al.desc)}</span><small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small></button>`)
-        .join('') || '<p>Nothing here yet.</p>';
-
-    const out = [
-      [
-        PT('other', 'Other works', 'Assignments and creative pieces that have been rehomed'),
-        `<h2>Completed</h2><div class="folders">${grp('Completed')}</div>${A.some(a => a.al.status === 'WIP') ? `<h2 class="s">Work in progress</h2><div class="folders">${grp('WIP')}</div>` : ''}`
-      ]
-    ];
+    const out = [otherOverview(A)];
 
     A.forEach(a => {
       out.push([
@@ -2165,6 +2181,23 @@ document.addEventListener('click', e => {
   if (F) {
     if (F.closest('.switch')) NF = true;
     go(F.dataset.sv || 'photography', +F.dataset.sp);
+    return;
+  }
+  const flipBtn = e.target.closest('[data-other-flip]');
+  if (flipBtn) {
+    otherFlip = !otherFlip;
+    const secs = $('#other-secs');
+    if (secs && secs.children.length > 1) {
+      secs.append(secs.firstElementChild);
+    }
+    flipBtn.setAttribute('aria-pressed', String(otherFlip));
+    const lbl = flipBtn.querySelector('span:last-child');
+    if (lbl) lbl.textContent = otherFlip ? 'Completed → Work in progress' : 'Work in progress → Completed';
+    if (S.other && S.other.leisure && S.other.leisure.length) {
+      S.other.leisure[0] = otherOverview();
+    }
+    const rSc = $('#R .sc');
+    if (rSc && rSc.scrollTop > 0) rSc.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
   const g = e.target.closest('[data-go]');

@@ -907,3 +907,13 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
   .btn-to-top.visible{transform:translateX(-50%) translateY(0) scale(1);opacity:1;pointer-events:auto}
   .btn-to-top:active{transform:translateX(-50%) translateY(2px) scale(.96);background:var(--o);color:#111;box-shadow:0 4px 22px rgba(255,90,31,.75)}
 }
+
+/* Other works: Work in progress / Completed order & left flip button */
+.other-flipw{margin-top:1.5rem}
+.other-flip{display:inline-flex;align-items:center;gap:.55rem;margin-top:0}
+.other-flip .flip-ic{display:inline-block;font-size:1.15em;line-height:1;transition:transform .28s ease}
+.other-flip[aria-pressed="true"] .flip-ic{transform:rotate(180deg)}
+.other-secs{display:flex;flex-direction:column}
+.other-sec h2{margin:0 0 .6rem}
+.other-sec+.other-sec{margin-top:1.8rem;border-top:2px solid var(--line);padding-top:1.2rem}
+@media(max-width:900px){.other-flipw{margin:.2rem 0 1rem}}

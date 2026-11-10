@@ -731,12 +731,6 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .priv-note{display:inline-block;margin-left:.35rem;padding:.15rem .6rem;border-radius:6px;background:color-mix(in srgb,var(--o) 25%,transparent);color:#ff9d6c;font-style:italic;font-weight:600;font-size:.88em;border:1px solid color-mix(in srgb,var(--o) 50%,transparent)}
 .wi.is-locked::after{content:'';position:absolute;top:7px;right:7px;width:20px;height:20px;background:rgba(15,15,15,.82) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FF5A1F' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E") center/12px no-repeat;border:1px solid rgba(255,90,31,.5);border-radius:4px;pointer-events:none;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.5)}
 
-/* Albums view grouping styles */
-.alb-boardw{display:flex;flex-direction:column;gap:1.6rem}
-.alb-sec{display:flex;flex-direction:column}
-.alb-hdr{display:flex;justify-content:space-between;align-items:baseline;padding:0 .2rem .45rem;margin-bottom:.6rem;border-bottom:1px solid var(--line)}
-.alb-hdr h3{margin:0;font:700 1.25rem/1.2 var(--f-head);letter-spacing:.02em;color:var(--ink)}
-.alb-hdr .alb-cnt{font:italic .88rem var(--f-sub);color:var(--mut)}
 
 
 /* Art wall fullscreen interactive edge handles & highlighting */

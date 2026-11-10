@@ -1687,15 +1687,6 @@ document.addEventListener('click', e => {
     ordBoard();
     return;
   }
-  const af = e.target.closest('[data-afilter]');
-  if (af) {
-    const f = af.dataset.afilter;
-    $$('[data-afilter]').forEach(c => c.classList.toggle('on', c === af));
-    $$('.alb-sec').forEach(sec => {
-      sec.hidden = Boolean(f && sec.dataset.alb !== f);
-    });
-    return;
-  }
   if (ovEl && !e.target.closest('.lb')) {
     if (e.target.closest('[data-ovx]')) {
       setTimeout(ovClose, 0);
@@ -2261,7 +2252,7 @@ Promise.race([
     'italic 400 1em "Champagne & Limousines"',
     '400 1em "Playfair Display"',
     'italic 400 1em "Playfair Display"'
-  ].map(f => document.fonts.load(f).catch(() => 0))),
+  ].map(f => (document.fonts && document.fonts.load) ? document.fonts.load(f).catch(() => 0) : Promise.resolve())),
   new Promise(r => setTimeout(r, 700))
 ])
   .then(() => fetch('content.json', EDIT ? { cache: 'no-store' } : {}))
@@ -2474,9 +2465,7 @@ function cwStk() {
       const r = t.getBoundingClientRect();
       t.classList.toggle('cwu', ks.some(b => b.left < r.right && b.right > r.left && b.top < r.bottom && b.bottom > r.top));
     });
-  } catch (err) {
-    console.warn('cwStk error:', err);
-  }
+  } catch (_) {}
 }
 
 let lastCoverY = 0;

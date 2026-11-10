@@ -663,15 +663,15 @@ let dg = null;
 let moved = false;
 let zt = 5;
 
-// Custom high-contrast rotate and resize cursors for website photo wall
-const rotSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M16 4 A12 12 0 0 1 28 16' fill='none' stroke='#000' stroke-width='4.5'/><path d='M16 4 A12 12 0 0 1 28 16' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/><polygon points='27,8 31,18 21,16' fill='%23FF5A1F' stroke='#000' stroke-width='1.5'/><path d='M16 28 A12 12 0 0 1 4 16' fill='none' stroke='#000' stroke-width='4.5'/><path d='M16 28 A12 12 0 0 1 4 16' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/><polygon points='5,24 1,14 11,16' fill='%23FF5A1F' stroke='#000' stroke-width='1.5'/></svg>");
-const curRot = `url("data:image/svg+xml,${rotSvg}") 16 16, crosshair`;
+// Simple white rotate and enlarge cursors with a thin black stroke
+const rotSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M5.1 10.8 A7 7 0 0 1 18.1 8.5 M18.9 13.2 A7 7 0 0 1 5.9 15.5' fill='none' stroke='#000' stroke-width='3.2' stroke-linecap='round'/><polygon points='19.2,10.4 20.0,6.7 15.5,9.3' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><polygon points='4.8,13.6 4.0,17.3 8.5,14.7' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><path d='M5.1 10.8 A7 7 0 0 1 18.1 8.5 M18.9 13.2 A7 7 0 0 1 5.9 15.5' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/><polygon points='19.2,10.4 20.0,6.7 15.5,9.3' fill='#fff'/><polygon points='4.8,13.6 4.0,17.3 8.5,14.7' fill='#fff'/></svg>");
+const curRot = `url("data:image/svg+xml,${rotSvg}") 14 14, crosshair`;
 
-const resSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M5 16h22M5 16l6-6M5 16l6 6M27 16l-6-6M27 16l-6 6' fill='none' stroke='#000' stroke-width='4.5'/><path d='M5 16h22M5 16l6-6M5 16l6 6M27 16l-6-6M27 16l-6 6' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/></svg>");
-const curResEw = `url("data:image/svg+xml,${resSvg}") 16 16, ew-resize`;
+const resSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M6.5 12H17.5' fill='none' stroke='#000' stroke-width='3.2' stroke-linecap='round'/><polygon points='2.5,12 8,8 8,16' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><polygon points='21.5,12 16,8 16,16' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><path d='M6.5 12H17.5' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/><polygon points='2.5,12 8,8 8,16' fill='#fff'/><polygon points='21.5,12 16,8 16,16' fill='#fff'/></svg>");
+const curResEw = `url("data:image/svg+xml,${resSvg}") 14 14, ew-resize`;
 
-const resVertSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M16 5v22M16 5l-6 6M16 5l6 6M16 27l-6-6M16 27l6-6' fill='none' stroke='#000' stroke-width='4.5'/><path d='M16 5v22M16 5l-6 6M16 5l6 6M16 27l-6-6M16 27l6-6' fill='none' stroke='%23FF5A1F' stroke-width='2.6'/></svg>");
-const curResNs = `url("data:image/svg+xml,${resVertSvg}") 16 16, ns-resize`;
+const resVertSvg = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M12 6.5V17.5' fill='none' stroke='#000' stroke-width='3.2' stroke-linecap='round'/><polygon points='12,2.5 8,8 16,8' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><polygon points='12,21.5 8,16 16,16' fill='#000' stroke='#000' stroke-width='1.8' stroke-linejoin='round'/><path d='M12 6.5V17.5' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/><polygon points='12,2.5 8,8 16,8' fill='#fff'/><polygon points='12,21.5 8,16 16,16' fill='#fff'/></svg>");
+const curResNs = `url("data:image/svg+xml,${resVertSvg}") 14 14, ns-resize`;
 
 // Dynamic cursor reflecting corners (rotate) and sides (enlarge/resize) on fullscreen art wall
 document.addEventListener('pointermove', e => {

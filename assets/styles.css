@@ -795,6 +795,7 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 
 /* Thank you page desktop sizing (fits without scrolling) */
 .tk{font-size:13.5px;line-height:1.45;max-width:48rem;margin:0 auto}
+@media(min-width:901px){.tk{max-width:min(66rem,100%)}}
 .tk .tp{font-size:1em;line-height:1.52}
 .tk .tsub{font-size:.88em}
 .tk .te b{font-size:1.05em}
@@ -877,10 +878,8 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .folders .fold.fold-hovered::before{border-color:var(--o)!important}
 
 @media(max-width:900px){
-  .alb-index{margin:1.1rem 0 .9rem;padding-top:.8rem}
-  .alb-list{max-height:36vh;overflow-y:auto;padding-right:.3rem}
-  .alb-item{padding:.35rem .45rem}
-  .alb-item-name{font-size:.92rem}
+  .alb-index{display:none!important}
+  .r .switch+.alb-index+.bh{margin-top:.7rem}
 }
 @media(min-width:901px){
   .l .sc:has(.switch,.alb.vch,.alb-index,.pnote){display:flex;flex-direction:column;overflow:hidden;padding:1.85rem 3.1rem 1.8rem}

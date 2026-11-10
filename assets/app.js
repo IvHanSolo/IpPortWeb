@@ -172,9 +172,19 @@ const MAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 const sbar = () => `<form class="sbar" role="search"><button type="button" class="mag" aria-label="Search the book" aria-expanded="false">${MAG}</button><input type="search" id="q" placeholder="Describe an image, or search titles & albums" aria-label="Search" autocomplete="off"><div class="sres" hidden></div></form>`;
 const sub = `<a class="btn" href="${SUB}" target="_blank" rel="noopener">Read on Substack</a>`;
 
-let otherFlip = false;
-const otherFlipBtn = () =>
-  `<div class="other-flipw"><button type="button" class="btn other-flip" data-other-flip aria-pressed="${otherFlip}" title="Flip order of Work in progress and Completed"><span class="flip-ic" aria-hidden="true">⇅</span><span>${otherFlip ? 'Completed → Work in progress' : 'Work in progress → Completed'}</span></button></div>`;
+const otherParentSp = s => {
+  const al = (CONTENT.other || [])[s - 2];
+  return al && al.status === 'Completed' ? 1 : 0;
+};
+
+function exitOtherFolder() {
+  const backSp = otherParentSp(sp);
+  if (history.state && history.state.fromOtherParent) {
+    try { history.back(); } catch (_) { go('other', backSp); }
+  } else {
+    go('other', backSp);
+  }
+}
 
 const otherGroups = () => (CONTENT.other || []).map((al, i) => ({
   al,
@@ -185,23 +195,6 @@ const otherGroups = () => (CONTENT.other || []).map((al, i) => ({
   }),
   i
 }));
-
-function otherOverview(A) {
-  const list = A || otherGroups();
-  const grp = st =>
-    list.filter(a => a.al.status === st)
-      .map(a => `<button class="fold" data-sv="other" data-sp="${a.i + 1}"><b>${esc(a.al.title)}</b><span>${esc(a.al.desc)}</span><small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small></button>`)
-      .join('') || '<p>Nothing here yet.</p>';
-
-  const hasWip = list.some(a => a.al.status === 'WIP');
-  const wipSec = hasWip ? `<section class="other-sec" data-sec="wip"><h2>Work in progress</h2><div class="folders">${grp('WIP')}</div></section>` : '';
-  const compSec = `<section class="other-sec" data-sec="completed"><h2>Completed</h2><div class="folders">${grp('Completed')}</div></section>`;
-  const secs = otherFlip ? [compSec, wipSec] : [wipSec, compSec];
-  return [
-    PT('other', 'Other works', 'Assignments and creative pieces that have been rehomed') + (hasWip ? otherFlipBtn() : ''),
-    `<div class="other-secs" id="other-secs">${secs.filter(Boolean).join('')}</div>`
-  ];
-}
 
 const B = {
   cover: () => [
@@ -387,10 +380,28 @@ const B = {
   other: () => {
     const A = otherGroups().map(g => ({
       ...g,
-      ids: g.its.map(o => reg(o, { _v: 'other', _al: g.al.title, _alDesc: g.al.desc || '', _sp: g.i + 1 }))
+      ids: g.its.map(o => reg(o, { _v: 'other', _al: g.al.title, _alDesc: g.al.desc || '', _sp: g.i + 2 }))
     }));
 
-    const out = [otherOverview(A)];
+    const grp = st =>
+      A.filter(a => a.al.status === st)
+        .map(a => `<button class="fold" data-sv="other" data-sp="${a.i + 2}"><b>${esc(a.al.title)}</b><span>${esc(a.al.desc)}</span><small>${a.its.length} item${a.its.length === 1 ? '' : 's'}</small></button>`)
+        .join('') || '<p>Nothing here yet.</p>';
+
+    const tabs = on =>
+      `<div class="switch" role="tablist" aria-label="Other works"><button data-sv="other" data-sp="0" aria-selected="${on === 0}">Work in progress</button><button data-sv="other" data-sp="1" aria-selected="${on === 1}">Completed</button></div>`;
+
+    const head = PT('other', 'Other works', 'Assignments and creative pieces that have been rehomed');
+    const out = [
+      [
+        head + tabs(0) + '<p class="bh">Click any folder to explore works in progress.</p>',
+        `<h2>Work in progress</h2><div class="folders">${grp('WIP')}</div>`
+      ],
+      [
+        head + tabs(1) + '<p class="bh">Click any folder to view completed works.</p>',
+        `<h2>Completed</h2><div class="folders">${grp('Completed')}</div>`
+      ]
+    ];
 
     A.forEach(a => {
       out.push([
@@ -1418,7 +1429,7 @@ function go(v, s = 0) {
     return;
   }
   const prevSp = (busy && want !== null) ? want : sp;
-  const fromOtherParent = PAGE === 'other' && prevSp === 0 && s > 0;
+  const fromOtherParent = PAGE === 'other' && (prevSp === 0 || prevSp === 1) && s >= 2;
   const st = { v: PAGE, sp: s, fromOtherParent };
   const targetUrl = s ? '#s' + s : location.pathname + location.search;
   if (s !== prevSp || replaceModal) {
@@ -1598,13 +1609,7 @@ addEventListener('touchend', e => {
       }
       if (dy < -70 && q.bot) turn(1);
       else if (dy > 70 && q.top) {
-        if (cur === 'other' && sp > 0) {
-          if (history.state && history.state.fromOtherParent) {
-            try { history.back(); } catch (_) { go('other', 0); }
-          } else {
-            go('other', 0);
-          }
-        } else {
+        if (cur === 'other' && sp >= 2) exitOtherFolder(); else {
           turn(-1);
         }
       }
@@ -2214,23 +2219,6 @@ document.addEventListener('click', e => {
     go(F.dataset.sv || 'photography', +F.dataset.sp);
     return;
   }
-  const flipBtn = e.target.closest('[data-other-flip]');
-  if (flipBtn) {
-    otherFlip = !otherFlip;
-    const secs = $('#other-secs');
-    if (secs && secs.children.length > 1) {
-      secs.append(secs.firstElementChild);
-    }
-    flipBtn.setAttribute('aria-pressed', String(otherFlip));
-    const lbl = flipBtn.querySelector('span:last-child');
-    if (lbl) lbl.textContent = otherFlip ? 'Completed → Work in progress' : 'Work in progress → Completed';
-    if (S.other && S.other.leisure && S.other.leisure.length) {
-      S.other.leisure[0] = otherOverview();
-    }
-    const rSc = $('#R .sc');
-    if (rSc && rSc.scrollTop > 0) rSc.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
-  }
   const g = e.target.closest('[data-go]');
   if (g) {
     $$('[data-proj]').forEach(x => (x.hidden = x.dataset.proj !== g.dataset.go));
@@ -2759,7 +2747,7 @@ function fit() {
   if (innerWidth >= 901) {
     $$('.sc').forEach(e => {
       e.style.setProperty('--ix', 1);
-      if (e.querySelector('.tk,.abx,.cwall,.board,.wkw,.folders,.grid,.alb-index,.vch')) return;
+      if (e.querySelector('.tk,.abx,.cwall,.board,.wkw,.folders,.grid,.alb-index,.vch,.switch')) return;
       if (BK.classList.contains('ix')) {
         let x = 1;
         while (e.scrollHeight > e.clientHeight + 2 && x > 0.4) {
@@ -3187,7 +3175,15 @@ function crumbs(v, l, s) {
       if (s === 1) al = 'Albums';
       else if (s === 2) al = 'Photo wall';
     }
-    else if ((v === 'other' || v === 'video') && s > 0) {
+    else if (v === 'other') {
+      if (s === 1) al = 'Completed';
+      else if (s >= 2) {
+        const pSp = otherParentSp(s);
+        P.push({ t: pSp === 1 ? 'Completed' : 'Work in progress', g: 'other|' + pSp });
+        const m = String(l).match(/<h1>(.*?)<\/h1>/);
+        al = m ? m[1] : '';
+      }
+    } else if (v === 'video' && s > 0) {
       const m = String(l).match(/<h1>(.*?)<\/h1>/);
       al = m ? m[1] : '';
     }
@@ -4049,7 +4045,7 @@ document.addEventListener('touchstart', e => {
       time: Date.now(),
       isAtTop: true
     };
-  } else if (cur === 'other' && sp > 0 && !e.target.closest('input, select, textarea, iframe')) {
+  } else if (cur === 'other' && sp >= 2 && !e.target.closest('input, select, textarea, iframe')) {
     touchExitState = {
       type: 'otherfolder',
       el: BK,
@@ -4103,11 +4099,7 @@ document.addEventListener('touchend', e => {
     wallFs(false);
   } else if (state.type === 'otherfolder' && (isSwipeRight || isSwipeLeftEdge)) {
     g = null;
-    if (history.state && history.state.fromOtherParent) {
-      try { history.back(); } catch (_) { go('other', 0); }
-    } else {
-      go('other', 0);
-    }
+    exitOtherFolder();
   }
 }, { passive: true });
 

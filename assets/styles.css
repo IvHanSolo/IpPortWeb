@@ -883,16 +883,14 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
   .alb-item-name{font-size:.92rem}
 }
 @media(min-width:901px){
-  .l .sc:has(.switch,.alb.vch,.alb-index,.other-flipw,.pnote){display:flex;flex-direction:column;overflow:hidden;padding:1.85rem 3.1rem 1.8rem}
-  .l .sc:has(.switch,.alb.vch,.alb-index,.other-flipw,.pnote)>*{flex:none}
-  .l .sc:has(.switch,.alb.vch,.alb-index,.other-flipw,.pnote) .crw{margin-bottom:.5rem}
-  .l .sc:has(.switch,.alb.vch,.alb-index,.other-flipw,.pnote) h1{font-size:clamp(2.5rem,4.6vw,4.5rem);margin-bottom:.4rem}
-  .l .sc:has(.switch,.alb.vch,.alb-index,.other-flipw,.pnote) .lede{margin:.2rem 0 .8rem;font-size:1.12rem;line-height:1.4}
+  .l .sc:has(.switch,.alb.vch,.alb-index,.pnote){display:flex;flex-direction:column;overflow:hidden;padding:1.85rem 3.1rem 1.8rem}
+  .l .sc:has(.switch,.alb.vch,.alb-index,.pnote)>*{flex:none}
+  .l .sc:has(.switch,.alb.vch,.alb-index,.pnote) .crw{margin-bottom:.5rem}
+  .l .sc:has(.switch,.alb.vch,.alb-index,.pnote) h1{font-size:clamp(2.5rem,4.6vw,4.5rem);margin-bottom:.4rem}
+  .l .sc:has(.switch,.alb.vch,.alb-index,.pnote) .lede{margin:.2rem 0 .8rem;font-size:1.12rem;line-height:1.4}
   .l .sc:has(.switch) .switch{align-self:flex-start;width:fit-content;margin:.65rem 0 .55rem}
   .l .sc:has(.switch) .switch button{padding:.44rem 1.2rem;font-size:1.05rem;white-space:nowrap}
   .l .sc:has(.alb.vch)>.btn{align-self:flex-start;margin:.65rem 0 .55rem;padding:.44rem 1.2rem;font-size:1.05rem}
-  .l .sc:has(.other-flipw) .other-flipw{align-self:flex-start;margin:.65rem 0 .55rem}
-  .l .sc:has(.other-flipw) .other-flip{padding:.44rem 1.2rem;font-size:1.05rem}
   .l .sc:has(.pnote) .badge{align-self:flex-start;margin:.65rem 0 0}
   .l .sc:has(.pnote) .pnote{flex:0 1 auto;min-height:4.2rem;overflow-y:auto;margin-top:1rem}
   .l .sc:has(.alb-index) .alb-index{flex:0 1 auto;min-height:0;display:flex;flex-direction:column;margin:.85rem 0 0;padding-top:.85rem}
@@ -923,15 +921,6 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
   .btn-to-top:active{transform:translateX(-50%) translateY(2px) scale(.96);background:var(--o);color:#111;box-shadow:0 4px 22px rgba(255,90,31,.75)}
 }
 
-/* Other works: Work in progress / Completed order & left flip button */
-.other-flipw{margin-top:1.5rem}
-.other-flip{display:inline-flex;align-items:center;gap:.55rem;margin-top:0}
-.other-flip .flip-ic{display:inline-block;font-size:1.15em;line-height:1;transition:transform .28s ease}
-.other-flip[aria-pressed="true"] .flip-ic{transform:rotate(180deg)}
-.other-secs{display:flex;flex-direction:column}
-.other-sec h2{margin:0 0 .6rem}
-.other-sec+.other-sec{margin-top:1.8rem;border-top:2px solid var(--line);padding-top:1.2rem}
-@media(max-width:900px){.other-flipw{margin:.2rem 0 1rem}}
 @media(min-width:901px){
   .folders{grid-template-columns:repeat(3,minmax(0,clamp(106px,10vw,142px)))!important;row-gap:clamp(1.35rem,2.8vh,2.2rem);column-gap:.8rem;justify-content:space-between;margin-top:.9rem}
   .folders .fold{padding:.72rem .68rem;margin-top:.58rem}
@@ -939,6 +928,5 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
   .folders .fold b{font-size:clamp(.72rem,1.15vw,.96rem)}
   .folders .fold span{font-size:.72rem;margin-top:.22rem}
   .folders .fold small{font-size:.72rem;padding-top:.25rem}
-  .other-sec+.other-sec{margin-top:1.35rem;padding-top:1rem}
   .r .sc:has(.folders){padding-bottom:2.4rem}
 }

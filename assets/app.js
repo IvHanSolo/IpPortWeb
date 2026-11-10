@@ -1192,7 +1192,11 @@ function nav() {
   if (!S.cover) return;
   const v = PAGE;
   const s = want !== null ? want : (v === cur && L.innerHTML ? sp : Math.min(hs(), S[v]['leisure'].length - 1));
-  if (busy || (v === cur && s === sp && L.innerHTML)) return;
+  if (busy) return;
+  if (v === cur && s === sp && L.innerHTML) {
+    want = null;
+    return;
+  }
   want = null;
 
   const fwd = order.indexOf(v) > order.indexOf(cur) || (v === cur && s > sp);
@@ -1293,11 +1297,19 @@ function nav() {
 const TT = v => (v === 'cover' ? '' : names[v] + ' · ') + 'Ivan Philips';
 
 function go(v, s = 0) {
+  if (ovEl) ovClose(false);
+  const url = FILE[v] + QS + (s ? '#s' + s : '');
+  const replaceModal = Boolean(history.state && (history.state.ov || history.state.lb));
   if (v !== PAGE) {
+    const st = { v, sp: s, fromOtherParent: false };
     try {
-      history.pushState(null, '', FILE[v] + QS + (s ? '#s' + s : ''));
+      if (replaceModal) {
+        history.replaceState(st, '', url);
+      } else {
+        history.pushState(st, '', url);
+      }
     } catch (_) {
-      location.href = FILE[v] + QS + (s ? '#s' + s : '');
+      location.href = url;
       return;
     }
     PAGE = v;
@@ -1307,11 +1319,21 @@ function go(v, s = 0) {
     nav();
     return;
   }
+  const prevSp = (busy && want !== null) ? want : sp;
+  const fromOtherParent = PAGE === 'other' && prevSp === 0 && s > 0;
+  const st = { v: PAGE, sp: s, fromOtherParent };
+  const targetUrl = s ? '#s' + s : location.pathname + location.search;
+  if (s !== prevSp || replaceModal) {
+    try {
+      if (replaceModal) {
+        history.replaceState(st, '', targetUrl);
+      } else {
+        history.pushState(st, '', targetUrl);
+      }
+    } catch (_) {}
+  }
   want = s;
   nav();
-  try {
-    history.replaceState(null, '', s ? '#s' + s : location.pathname + location.search);
-  } catch (_) {}
 }
 
 const pageOf = u => {
@@ -1320,9 +1342,14 @@ const pageOf = u => {
 };
 
 let closingLb = false;
+let closingOv = false;
 addEventListener('popstate', () => {
   if (closingLb) {
     closingLb = false;
+    return;
+  }
+  if (closingOv) {
+    closingOv = false;
     return;
   }
   if (lb && !lb.hidden) {
@@ -1334,7 +1361,7 @@ addEventListener('popstate', () => {
     return;
   }
   if (ovEl) {
-    ovClose();
+    ovClose(false);
     return;
   }
   const v = pageOf(location) || 'cover';
@@ -1470,13 +1497,23 @@ addEventListener('touchend', e => {
 
   if (q.m) {
     ptr.classList.remove('on');
-    if (Math.abs(dx) < 90) {
+    if (Math.abs(dx) < 90 && Math.abs(dy) > Math.abs(dx) * 1.2) {
       if (dy >= REF && q.top) {
         location.reload();
         return;
       }
       if (dy < -70 && q.bot) turn(1);
-      else if (dy > 70 && q.top) turn(-1);
+      else if (dy > 70 && q.top) {
+        if (cur === 'other' && sp > 0) {
+          if (history.state && history.state.fromOtherParent) {
+            try { history.back(); } catch (_) { go('other', 0); }
+          } else {
+            go('other', 0);
+          }
+        } else {
+          turn(-1);
+        }
+      }
     }
   } else if (Math.abs(dx) > 90 && Math.abs(dy) < 60) {
     turn(dx < 0 ? 1 : -1);
@@ -1543,18 +1580,23 @@ let ovList = [];
 let ovI = 0;
 let ovBack = null;
 
-function ovClose() {
+function ovClose(popHist = true) {
   if (!ovEl) return;
   const el = ovEl;
   ovEl = null;
   el.classList.add('out');
   setTimeout(() => el.remove(), 220);
   document.documentElement.classList.remove('ovo');
+  if (popHist && history.state && history.state.ov) {
+    closingOv = true;
+    try { history.back(); } catch (_) {}
+    setTimeout(() => { closingOv = false; }, 300);
+  }
   if (ovBack && ovBack.focus) ovBack.focus();
 }
 
 function ovOpen(kind, html, from) {
-  ovClose();
+  ovClose(false);
   ovKind = kind;
   ovBack = from || null;
   const el = document.createElement('div');
@@ -1565,6 +1607,14 @@ function ovOpen(kind, html, from) {
   document.body.append(el);
   ovEl = el;
   document.documentElement.classList.add('ovo');
+  try {
+    const st = { ov: kind, v: PAGE, sp };
+    if (history.state && (history.state.ov || history.state.lb)) {
+      history.replaceState(st, '', location.href);
+    } else {
+      history.pushState(st, '', location.href);
+    }
+  } catch (_) {}
 
   if (from && !reduce) {
     const r = from.getBoundingClientRect();
@@ -1599,7 +1649,7 @@ function vShow(n) {
 function watch(b) {
   const u = b.dataset.watch;
   const t = b.dataset.wt || '';
-  if (open()) close();
+  if (open()) close(false);
   ovOpen(
     'v',
     `<div class="vm"><div class="vst"><iframe src="${esc(embA(u))}" title="${esc(t)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="vi"><small>Film</small><h2>${esc(t)}</h2></div></div>`,
@@ -1726,11 +1776,15 @@ document.addEventListener('click', e => {
   }
   if (ovEl && !e.target.closest('.lb')) {
     if (e.target.closest('[data-ovx]')) {
-      setTimeout(ovClose, 0);
+      if (e.target.closest('[data-towall]')) {
+        ovClose(false);
+      } else {
+        setTimeout(() => ovClose(true), 0);
+      }
       return;
     }
     if (e.target.matches('.x') || e.target === ovEl) {
-      ovClose();
+      ovClose(true);
       return;
     }
     if (ovKind === 'v') {
@@ -2030,8 +2084,9 @@ document.addEventListener('click', e => {
 
 function goTo(o) {
   pending = o;
-  if (lb && !lb.hidden) close();
-  if (cur === o._v && sp === (o._sp || 0)) {
+  const sameSpread = cur === o._v && sp === (o._sp || 0);
+  if (lb && !lb.hidden) close(sameSpread);
+  if (sameSpread) {
     render(cur, sp);
   } else {
     go(o._v, o._sp || 0);
@@ -3613,7 +3668,7 @@ document.addEventListener('touchstart', e => {
   const pk = document.querySelector('.lb.pk');
   const isLbOpen = lb && !lb.hidden;
   const isFsWall = $('.wallw.fs');
-  const isOvOpen = ovEl && ovEl.offsetParent;
+  const isOvOpen = Boolean(ovEl && ovEl.isConnected && !ovEl.classList.contains('out'));
 
   if (pk) {
     const panel = pk.querySelector('.panel');
@@ -3657,6 +3712,15 @@ document.addEventListener('touchstart', e => {
       time: Date.now(),
       isAtTop: true
     };
+  } else if (cur === 'other' && sp > 0 && !e.target.closest('input, select, textarea, iframe')) {
+    touchExitState = {
+      type: 'otherfolder',
+      el: BK,
+      x: t.clientX,
+      y: t.clientY,
+      time: Date.now(),
+      isAtTop: true
+    };
   } else {
     touchExitState = null;
   }
@@ -3694,12 +3758,19 @@ document.addEventListener('touchend', e => {
       setTimeout(() => { if (m.parentNode) m.remove(); }, 160);
     }
   } else if (state.type === 'ov' && shouldExit) {
-    ovClose();
+    ovClose(true);
   } else if (state.type === 'lb' && shouldExit) {
     if (state.el && state.el.classList.contains('fs')) fsOn(false);
-    else close();
+    else close(true);
   } else if (state.type === 'wallfs' && shouldExit) {
     wallFs(false);
+  } else if (state.type === 'otherfolder' && (isSwipeRight || isSwipeLeftEdge)) {
+    g = null;
+    if (history.state && history.state.fromOtherParent) {
+      try { history.back(); } catch (_) { go('other', 0); }
+    } else {
+      go('other', 0);
+    }
   }
 }, { passive: true });
 

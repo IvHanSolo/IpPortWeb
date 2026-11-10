@@ -917,3 +917,13 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .other-sec h2{margin:0 0 .6rem}
 .other-sec+.other-sec{margin-top:1.8rem;border-top:2px solid var(--line);padding-top:1.2rem}
 @media(max-width:900px){.other-flipw{margin:.2rem 0 1rem}}
+@media(min-width:901px){
+  .folders{grid-template-columns:repeat(3,minmax(0,clamp(106px,10vw,142px)))!important;row-gap:clamp(1.35rem,2.8vh,2.2rem);column-gap:.8rem;justify-content:space-between;margin-top:.9rem}
+  .folders .fold{padding:.72rem .68rem;margin-top:.58rem}
+  .folders .fold::before{top:-.58rem;height:.58rem;border-radius:6px 6px 0 0}
+  .folders .fold b{font-size:clamp(.72rem,1.15vw,.96rem)}
+  .folders .fold span{font-size:.72rem;margin-top:.22rem}
+  .folders .fold small{font-size:.72rem;padding-top:.25rem}
+  .other-sec+.other-sec{margin-top:1.35rem;padding-top:1rem}
+  .r .sc:has(.folders){padding-bottom:2.4rem}
+}

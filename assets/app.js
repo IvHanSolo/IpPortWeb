@@ -2557,7 +2557,7 @@ function fit() {
   if (innerWidth >= 901) {
     $$('.sc').forEach(e => {
       e.style.setProperty('--ix', 1);
-      if (e.querySelector('.tk,.abx,.cwall,.board,.wkw,.folders,.grid')) return;
+      if (e.querySelector('.tk,.abx,.cwall,.board,.wkw,.folders,.grid,.alb-index,.vch')) return;
       if (BK.classList.contains('ix')) {
         let x = 1;
         while (e.scrollHeight > e.clientHeight + 2 && x > 0.4) {

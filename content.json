@@ -1,7 +1,7 @@
 {
   "intro": "Welcome to a glimpse of my work. I hope that you enjoy your journey and gain an understanding of what I can do, and why I do it.",
   "about": {
-    "photo": "",
+    "photo": "images/profile.jpg",
     "email": "Ivan913.ip@gmail.com",
     "phone": "+91 93172 91752",
     "instagram": "pp_fr_2",
@@ -1316,11 +1316,6 @@
     }
   ],
   "video": {
-    "showreel": {
-      "title": "Showreel",
-      "desc": "Selected highlights across narrative short films, commercial specs, and visual storytelling.",
-      "embed": ""
-    },
     "folders": [
       {
         "title": "Ads for classwork",

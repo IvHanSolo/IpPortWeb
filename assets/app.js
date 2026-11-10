@@ -42,7 +42,7 @@ const P = (n, l, x = {}) =>
 
 const CONTENT = {
   intro: 'Welcome to a glimpse of my work. I hope that you enjoy your journey and gain an understanding of what I can do, and why I do it.',
-  about: { photo: '' },
+  about: { photo: 'images/profile.jpg' },
   writing: {
     items: P(5, 'Piece title', { text: 'Paste the full piece here.\n\nA blank line starts a new paragraph.', pdf: '' })
   },
@@ -63,11 +63,6 @@ const CONTENT = {
     wall: P(8, 'Art piece')
   },
   video: {
-    showreel: {
-      title: 'Showreel',
-      desc: 'A short cut of recent work. One line about it goes here.',
-      embed: ''
-    },
     folders: [
       { title: 'Ads for classwork', desc: 'Description goes here.', items: P(3, 'Ad', { embed: '' }) },
       { title: 'Short Films', desc: 'Description goes here.', items: P(3, 'Short film', { embed: '' }) },
@@ -321,7 +316,6 @@ const B = {
     ];
   },
   video: () => {
-    const sr = CONTENT.video?.showreel || {};
     const fs = CONTENT.video?.folders || [];
     const all = [];
 
@@ -350,18 +344,9 @@ const B = {
       ? `<div class="alb vch"><span>Show</span><button type="button" class="chip on" data-vfilter="">All</button>${fs.map(f => `<button type="button" class="chip" data-vfilter="${esc(f.title)}">${esc(f.title)}</button>`).join('')}</div>`
       : '';
 
-    const showreelEmbed = sr.embed ? emb(sr.embed) : '';
-    const showreelHtml = `
-<div class="vt sr">
-  <div class="vp">
-    ${showreelEmbed ? `<iframe src="${esc(showreelEmbed)}" title="Showreel" allowfullscreen></iframe>` : '<span>Showreel goes here</span>'}
-  </div>
-  ${showreelEmbed ? VFB : ''}
-</div>`;
-
     return [
       [
-        PT('video', 'Video', 'A few immersive experiences') + showreelHtml + chips + '<p class="bh">A new mix every visit. Press and hold a piece to move it. Tap or click one to watch it full screen.</p>',
+        PT('video', 'Video', 'A few immersive experiences') + chips + '<p class="bh">A new mix every visit. Press and hold a piece to move it. Tap or click one to watch it full screen.</p>',
         `<div class="boardw"><div class="board" id="vboard" data-kind="video">${tiles || '<p>Videos will appear here once you add YouTube or Vimeo links.</p>'}</div></div>`
       ]
     ];
@@ -1059,7 +1044,6 @@ window.addEventListener('resize', fitFolderTitles);
 function render(v, s = 0) {
   wallFs(false);
   if (toTopBtn) toTopBtn.classList.remove('visible');
-  vidFx(null, false);
   const fromPage = cur;
   cur = v;
   if (v === 'cover') lastCoverY = 0;
@@ -1422,10 +1406,6 @@ addEventListener('keydown', e => {
     if (e.key === 'Escape') rClose();
     if (e.key === 'ArrowRight') rGo(1);
     if (e.key === 'ArrowLeft') rGo(-1);
-    return;
-  }
-  if ($('.vp.fx')) {
-    if (e.key === 'Escape') vidFx(null, false);
     return;
   }
   if ($('.wallw.fs')) {
@@ -2470,8 +2450,8 @@ function fit() {
       return;
     }
     let f = t.classList.contains('abr')
-      ? (innerWidth < 900 ? 17 : 30)
-      : (innerWidth < 900 ? 14 : 20);
+      ? (innerWidth < 900 ? 15 : 18.5)
+      : (innerWidth < 900 ? 14 : 16.5);
     t.style.fontSize = f + 'px';
     while (innerWidth >= 900 && sc && sc.scrollHeight > sc.clientHeight + 1 && f > 4.5) {
       f -= 0.5;
@@ -2972,63 +2952,7 @@ function mixWall(force = false) {
 }
 
 const TKN = '<div class="tkn"><button type="button" class="btn" data-t="-1">‹ Previous</button><button type="button" class="btn" data-cv>Back to cover</button></div>';
-const VFB = '<div class="vfr"><button type="button" class="btn" data-vfs>Full screen</button></div>';
-
-let vfsPh = null;
-
-function vidFs(vp) {
-  if (!vp) return;
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
-    return;
-  }
-  const f = vp.requestFullscreen || vp.webkitRequestFullscreen;
-  if (f) {
-    try {
-      const r = f.call(vp);
-      if (r && r.catch) r.catch(() => vidFx(vp, true));
-    } catch (_) {
-      vidFx(vp, true);
-    }
-  } else {
-    vidFx(vp, true);
-  }
-}
-
-function vidFx(vp, on) {
-  if (on) {
-    vfsPh = document.createComment('v');
-    vp.before(vfsPh);
-    document.body.append(vp);
-    vp.classList.add('fx');
-    const x = document.createElement('button');
-    x.className = 'vx';
-    x.setAttribute('data-vx', '');
-    x.setAttribute('aria-label', 'Close full screen');
-    x.textContent = '×';
-    vp.append(x);
-  } else {
-    const w = $('.vp.fx');
-    if (!w) return;
-    w.classList.remove('fx');
-    const x = $('.vx', w);
-    if (x) x.remove();
-    if (vfsPh && vfsPh.parentNode) vfsPh.replaceWith(w);
-    else w.remove();
-    vfsPh = null;
-  }
-}
-
 document.addEventListener('click', e => {
-  const b = e.target.closest('[data-vfs]');
-  if (b) {
-    vidFs(b.closest('.vt').querySelector('.vp'));
-    return;
-  }
-  if (e.target.closest('[data-vx]')) {
-    vidFx(null, false);
-    return;
-  }
   if (e.target.closest('[data-cv]')) {
     go('cover');
   }

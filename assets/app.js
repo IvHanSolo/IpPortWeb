@@ -1056,6 +1056,7 @@ window.addEventListener('resize', fitFolderTitles);
 
 function render(v, s = 0) {
   wallFs(false);
+  if (toTopBtn) toTopBtn.classList.remove('visible');
   vidFx(null, false);
   const fromPage = cur;
   cur = v;
@@ -2565,6 +2566,89 @@ document.addEventListener('pointerleave', e => {
 
 document.addEventListener('mouseover', cwQ);
 addEventListener('resize', cwQ);
+
+let toTopBtn = null;
+let toTopR = 0;
+
+function updateToTop() {
+  if (window.innerWidth > 900) {
+    if (toTopBtn) toTopBtn.classList.remove('visible');
+    return;
+  }
+
+  if (!toTopBtn) {
+    toTopBtn = document.createElement('button');
+    toTopBtn.type = 'button';
+    toTopBtn.id = 'btnToTop';
+    toTopBtn.className = 'btn-to-top';
+    toTopBtn.setAttribute('aria-label', 'Back to top');
+    toTopBtn.innerHTML = '<span>To the top ↑</span>';
+    toTopBtn.onclick = e => {
+      e.preventDefault();
+      e.stopPropagation();
+      scrollToTop();
+    };
+    toTopBtn.addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      scrollToTop();
+    });
+    document.body.appendChild(toTopBtn);
+  }
+
+  const pkPanel = document.querySelector('.lb.pk .panel');
+  let y = 0;
+  let totalH = 0;
+  let viewH = window.innerHeight;
+
+  if (pkPanel) {
+    y = pkPanel.scrollTop;
+    totalH = pkPanel.scrollHeight;
+    viewH = pkPanel.clientHeight;
+  } else {
+    y = (BK && BK.scrollTop) || window.scrollY || document.documentElement.scrollTop || 0;
+    totalH = (BK && BK.scrollHeight) || document.documentElement.scrollHeight || 0;
+    viewH = (BK && BK.clientHeight) || window.innerHeight;
+  }
+
+  // Show popup when scroll is long (totalH >= viewH * 1.5) and scrolled down roughly 2 swipes
+  const isLong = totalH >= viewH * 1.5;
+  const isDeep = y >= Math.min(500, Math.round(viewH * 0.85));
+
+  if (isLong && isDeep) {
+    toTopBtn.classList.add('visible');
+  } else if (y < 240) {
+    toTopBtn.classList.remove('visible');
+  }
+}
+
+function scrollToTop() {
+  const pkPanel = document.querySelector('.lb.pk .panel');
+  if (pkPanel && pkPanel.scrollTop > 20) {
+    pkPanel.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  if (BK && BK.scrollTop > 20) {
+    BK.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+  document.body.scrollTo({ top: 0, behavior: 'smooth' });
+
+  setTimeout(() => {
+    if (toTopBtn) toTopBtn.classList.remove('visible');
+  }, 350);
+}
+
+const qToTop = () => {
+  toTopR = toTopR || requestAnimationFrame(() => {
+    toTopR = 0;
+    updateToTop();
+  });
+};
+
+document.addEventListener('scroll', qToTop, true);
+addEventListener('touchmove', qToTop, { passive: true });
+addEventListener('resize', qToTop, { passive: true });
+
 
 addEventListener('wheel', e => {
   if (cur !== 'cover') return;

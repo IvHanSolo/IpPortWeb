@@ -870,3 +870,12 @@ body.nt{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 /* Cover wall smooth transition & jank prevention */
 .cwall{transition:opacity .35s ease;opacity:1}
 .cwall.cw-settling{opacity:0;pointer-events:none}
+
+
+/* Dynamic "To the top" popup for mobile long scrolls */
+.btn-to-top{display:none}
+@media(max-width:900px){
+  .btn-to-top{display:inline-flex;position:fixed;bottom:calc(54px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(24px) scale(.92);align-items:center;justify-content:center;gap:6px;padding:8px 18px;background:rgba(18,18,18,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid var(--o);border-radius:24px;color:#fff;font:700 12px/1 var(--f-head);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 6px 20px rgba(0,0,0,.75),0 0 16px rgba(255,90,31,.45);z-index:45;cursor:pointer;pointer-events:none;opacity:0;transition:transform .28s cubic-bezier(.2,.9,.3,1),opacity .25s ease,background .2s,box-shadow .2s;user-select:none;-webkit-tap-highlight-color:transparent}
+  .btn-to-top.visible{transform:translateX(-50%) translateY(0) scale(1);opacity:1;pointer-events:auto}
+  .btn-to-top:active{transform:translateX(-50%) translateY(2px) scale(.96);background:var(--o);color:#111;box-shadow:0 4px 22px rgba(255,90,31,.75)}
+}

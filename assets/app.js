@@ -1213,6 +1213,7 @@ function render(v, s = 0) {
   ordBoard();
   pdfCovers();
   fit();
+  fitMiniPosters();
   if (v === 'cover') {
     const cw = $('.cwall');
     if (cw) cw.classList.remove('cw-settling');
@@ -3931,6 +3932,14 @@ function poster(o, mini) {
 </article>`.trim();
 }
 
+function fitMiniPosters() {
+  $$('.tile.mp').forEach(t => {
+    const p = $('.poster', t);
+    const w = t.clientWidth;
+    if (p && w) p.style.transform = `scale(${(w / 440).toFixed(4)})`;
+  });
+}
+
 function posterFit() {
   const p = $('.lb .poster');
   if (!p) return;
@@ -3948,6 +3957,7 @@ function posterFit() {
 }
 
 addEventListener('resize', () => {
+  fitMiniPosters();
   if (lb && !lb.hidden && lb.classList.contains('po')) posterFit();
 });
 

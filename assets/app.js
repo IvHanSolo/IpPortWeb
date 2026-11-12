@@ -1110,6 +1110,10 @@ const isM = () => matchMedia('(max-width:900px)').matches;
 
 let cur = 'cover';
 let nextCwallHtml = '';
+let dotItems = [];
+let edgePv = null;
+let edgeNx = null;
+let pageRectCache = null;
 const preloadedCoverSrcs = new Set();
 let sp = 0;
 let want = null;
@@ -1133,22 +1137,32 @@ const EG = d => `<button class="edge ${d < 0 ? 'pv' : 'nx'}" data-t="${d}" aria-
 const nb = (i, n, s) => `<div class="nb">${i || s ? '<button class="pv" data-t="-1"><i></i>' + tg(-1) + '</button>' : '<span class="gap"></span>'}${n ? `<em>${n}</em>` : ''}${i < order.length - 1 || s < sets().length - 1 ? '<button data-t="1">' + tg(1) + '<i></i></button>' : '<span class="gap"></span>'}</div>`;
 
 
-// Auto-fit folder titles so single words never break or wrap mid-word
+// Auto-fit folder titles with batched layout reads/writes
 function fitFolderTitles() {
-  $$('.folders .fold b, .fold b').forEach(b => {
-    b.style.fontSize = '';
+  const els = $$('.folders .fold b, .fold b');
+  if (!els.length) return;
+  els.forEach(b => { b.style.fontSize = ''; });
+  const meas = els.map(b => {
     const parent = b.parentElement;
-    if (!parent) return;
-    const maxW = parent.clientWidth - (parseFloat(getComputedStyle(parent).paddingLeft) || 0) - (parseFloat(getComputedStyle(parent).paddingRight) || 0);
-    let sz = parseFloat(getComputedStyle(b).fontSize);
-    let iter = 0;
-    while (b.scrollWidth > maxW + 1 && sz > 7.5 && iter++ < 14) {
-      sz -= 0.5;
-      b.style.fontSize = sz + 'px';
-    }
-  });
+    if (!parent) return null;
+    const ps = getComputedStyle(parent);
+    const maxW = parent.clientWidth - (parseFloat(ps.paddingLeft) || 0) - (parseFloat(ps.paddingRight) || 0);
+    const sw = b.scrollWidth;
+    if (sw <= maxW + 1) return null;
+    const sz = parseFloat(getComputedStyle(b).fontSize) || 14;
+    return { b, maxW, sz: Math.max(7.5, Math.floor((sz * maxW / sw) * 2) / 2) };
+  }).filter(Boolean);
+  if (!meas.length) return;
+  meas.forEach(m => { m.b.style.fontSize = m.sz + 'px'; });
+  for (let pass = 0; pass < 2; pass++) {
+    const retry = meas.filter(m => m.b.scrollWidth > m.maxW + 1 && m.sz > 7.5);
+    if (!retry.length) break;
+    retry.forEach(m => {
+      m.sz = Math.max(7.5, m.sz - 0.5);
+      m.b.style.fontSize = m.sz + 'px';
+    });
+  }
 }
-window.addEventListener('resize', fitFolderTitles);
 
 function render(v, s = 0) {
   wallFs(false);
@@ -1197,17 +1211,20 @@ function render(v, s = 0) {
   $('#top').innerHTML = nb(i, names[v] + (n > 1 ? ` ${s + 1}/${n}` : ''), s);
   $$('#tabs a').forEach(a => a.toggleAttribute('aria-current', a.dataset.v === v));
 
+  const dotCount = innerWidth < 900 ? 8 : 12;
   $$('.dots').forEach(d => {
-    for (let k = 0; k < (innerWidth < 900 ? 8 : 12); k++) {
-      const e = document.createElement('i');
+    let h = '';
+    for (let k = 0; k < dotCount; k++) {
       const z = Math.random();
-      e.className = 'dot';
-      e.dataset.z = z.toFixed(2);
-      e.textContent = ['I', 'P', 'i', 'p'][Math.random() * 4 | 0];
-      e.style.cssText = `font-size:${22 + z * 58}px;left:${Math.random() * 92}%;top:${Math.random() * 92}%;rotate:${Math.round(Math.random() * 120 - 60)}deg;opacity:${0.25 + z * 0.3}`;
-      d.append(e);
+      const ch = ['I', 'P', 'i', 'p'][(Math.random() * 4) | 0];
+      h += `<i class="dot" data-z="${z.toFixed(2)}" style="font-size:${(22 + z * 58).toFixed(1)}px;left:${(Math.random() * 92).toFixed(1)}%;top:${(Math.random() * 92).toFixed(1)}%;rotate:${Math.round(Math.random() * 120 - 60)}deg;opacity:${(0.25 + z * 0.3).toFixed(2)}">${ch}</i>`;
     }
+    d.innerHTML = h;
   });
+  dotItems = $$('.dot').map(el => ({ el, z: +el.dataset.z || 0 }));
+  edgePv = $('.edge.pv', L);
+  edgeNx = $('.edge.nx', R);
+  pageRectCache = null;
 
   applyWall();
   ordBoard();
@@ -1359,6 +1376,7 @@ function nav() {
     R.style.transform = '';
     L.style.opacity = '';
     R.style.opacity = '';
+    pageRectCache = null;
     fin();
   };
 
@@ -1659,45 +1677,63 @@ addEventListener('wheel', e => {
 }, { passive: true });
 
 function clearEdges() {
-  $$('.edge.on').forEach(b => b.classList.remove('on'));
+  if (edgePv) edgePv.classList.remove('on');
+  if (edgeNx) edgeNx.classList.remove('on');
 }
 
+let ptrRaf = 0;
+let ptrEvt = null;
 addEventListener('pointermove', e => {
-  if (e.pointerType === 'touch' || isM() || open() || busy || dg || dragAl) {
-    clearEdges();
-    return;
-  }
-  const hitEdge = e.target && e.target.closest && e.target.closest('.edge');
-  const toggleEdge = (pageEl, btn, isLeft) => {
-    if (!pageEl || !btn) return;
-    if (hitEdge === btn) {
-      btn.classList.add('on');
-      return;
+  if (e.pointerType === 'touch') return;
+  ptrEvt = e;
+  if (ptrRaf) return;
+  ptrRaf = requestAnimationFrame(() => {
+    ptrRaf = 0;
+    const ev = ptrEvt;
+    if (!ev) return;
+    const isModal = open();
+    const mob = isM();
+
+    if (!mob && !isModal && !busy && !dg && !dragAl && (edgePv || edgeNx)) {
+      if (!pageRectCache) {
+        pageRectCache = {
+          l: L ? L.getBoundingClientRect() : null,
+          r: R ? R.getBoundingClientRect() : null
+        };
+      }
+      const hitEdge = ev.target && ev.target.closest && ev.target.closest('.edge');
+      const toggleEdge = (r, btn, isLeft) => {
+        if (!r || !btn) return;
+        if (hitEdge === btn) {
+          btn.classList.add('on');
+          return;
+        }
+        const midY = r.top + r.height / 2;
+        const yBand = Math.min(84, r.height * 0.16);
+        const inY = Math.abs(ev.clientY - midY) <= yBand;
+        const inX = isLeft
+          ? ev.clientX >= r.left && ev.clientX <= r.left + 52
+          : ev.clientX >= r.right - 56 && ev.clientX <= r.right;
+        btn.classList.toggle('on', inY && inX);
+      };
+      toggleEdge(pageRectCache.l, edgePv, true);
+      toggleEdge(pageRectCache.r, edgeNx, false);
+    } else {
+      clearEdges();
     }
-    const r = pageEl.getBoundingClientRect();
-    const midY = r.top + r.height / 2;
-    const yBand = Math.min(84, r.height * 0.16);
-    const inY = Math.abs(e.clientY - midY) <= yBand;
-    const inX = isLeft
-      ? e.clientX >= r.left && e.clientX <= r.left + 52
-      : e.clientX >= r.right - 56 && e.clientX <= r.right;
-    btn.classList.toggle('on', inY && inX);
-  };
-  toggleEdge(L, $('.edge.pv', L), true);
-  toggleEdge(R, $('.edge.nx', R), false);
-});
+
+    if (!reduce && !isModal && dotItems.length) {
+      const x = ev.clientX / innerWidth - 0.5;
+      const y = ev.clientY / innerHeight - 0.5;
+      for (let k = 0; k < dotItems.length; k++) {
+        const d = dotItems[k];
+        d.el.style.transform = `translate(${(-x * 90 * d.z).toFixed(1)}px,${(-y * 90 * d.z).toFixed(1)}px)`;
+      }
+    }
+  });
+}, { passive: true });
 document.addEventListener('pointerleave', clearEdges);
 addEventListener('blur', clearEdges);
-
-if (!reduce) {
-  addEventListener('pointermove', e => {
-    const x = e.clientX / innerWidth - 0.5;
-    const y = e.clientY / innerHeight - 0.5;
-    $$('.dot').forEach(o => {
-      o.style.transform = `translate(${-x * 90 * o.dataset.z}px,${-y * 90 * o.dataset.z}px)`;
-    });
-  });
-}
 
 /* ---- fullscreen detail views (albums + videos) ---- */
 const embA = u => {
@@ -2766,7 +2802,24 @@ function fit() {
   }
 }
 
-addEventListener('resize', () => fit());
+let resRaf = 0;
+addEventListener('resize', () => {
+  pageRectCache = null;
+  if (resRaf) return;
+  resRaf = requestAnimationFrame(() => {
+    resRaf = 0;
+    if (cur === 'cover') {
+      const w = $('.cwall');
+      if (w && cwCols !== cwN()) w.innerHTML = cwall();
+      cwQ();
+    }
+    fit();
+    fitFolderTitles();
+    fitMiniPosters();
+    if (lb && !lb.hidden && lb.classList.contains('po')) posterFit();
+    if (window.innerWidth <= 900 || (toTopBtn && toTopBtn.classList.contains('visible'))) qToTop();
+  });
+}, { passive: true });
 if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(() => {
     fit();
@@ -2855,10 +2908,7 @@ function cwall() {
 const cwN = () => (innerWidth >= 1700 ? 5 : innerWidth > 1100 ? 4 : innerWidth > 640 ? 3 : 2);
 let cwCols = 0;
 
-addEventListener('resize', () => {
-  const w = $('.cwall');
-  if (w && cwCols !== cwN()) w.innerHTML = cwall();
-});
+
 
 /* cover text gets its black stroke only while a light piece, or the piece being chosen, sits behind that line of text */
 function cwStk() {
@@ -2912,6 +2962,7 @@ function updateCoverFade() {
 
 let cwR = 0;
 const cwQ = () => {
+  if (cur !== 'cover') return;
   cwR = cwR || requestAnimationFrame(() => {
     cwR = 0;
     updateCoverFade();
@@ -2952,7 +3003,7 @@ document.addEventListener('pointerleave', e => {
 document.addEventListener('mouseover', e => {
   if (cur === 'cover' && e.target && e.target.closest && e.target.closest('.cwall')) cwQ();
 });
-addEventListener('resize', () => { if (cur === 'cover') cwQ(); });
+
 
 let toTopBtn = null;
 let toTopR = 0;
@@ -3033,6 +3084,7 @@ function scrollToTop() {
 }
 
 const qToTop = () => {
+  if (window.innerWidth > 900 && (!toTopBtn || !toTopBtn.classList.contains('visible'))) return;
   toTopR = toTopR || requestAnimationFrame(() => {
     toTopR = 0;
     updateToTop();
@@ -3041,7 +3093,6 @@ const qToTop = () => {
 
 document.addEventListener('scroll', qToTop, true);
 addEventListener('touchmove', qToTop, { passive: true });
-addEventListener('resize', qToTop, { passive: true });
 
 
 addEventListener('wheel', e => {
@@ -3451,7 +3502,9 @@ function ordBoard() {
   const v = $('#vboard[data-kind="video"]');
   if (v && !v.dataset.mx) {
     v.dataset.mx = 1;
-    shuf([...v.querySelectorAll('.bt')]).forEach(x => v.append(x));
+    const vf = document.createDocumentFragment();
+    shuf([...v.querySelectorAll('.bt')]).forEach(x => vf.append(x));
+    v.append(vf);
   }
   const b = $('#vboard[data-kind="photos"]');
   if (!b) return;
@@ -3459,7 +3512,9 @@ function ordBoard() {
   const hasSpecificFilter = $$('.chip.on[data-vfilter]').some(c => c.dataset.vfilter);
   if (hasSpecificFilter) t.sort((a, b) => a.dataset.o - b.dataset.o);
   else shuf(t);
-  t.forEach(x => b.append(x));
+  const bf = document.createDocumentFragment();
+  t.forEach(x => bf.append(x));
+  b.append(bf);
 }
 
 /* ---- video board: press and hold a piece, then drag it to a new spot (mouse and touch) ---- */
@@ -3722,9 +3777,14 @@ const pdfLib = () =>
   }));
 
 function pdfCovers() {
-  $$('.cvr[data-pdf],.tile[data-pdf]').forEach(el => {
-    if (el.dataset.done) return;
-    el.dataset.done = 1;
+  const els = $$('.cvr[data-pdf],.tile[data-pdf]').filter(el => !el.dataset.done);
+  if (!els.length) return;
+  els.forEach(el => { el.dataset.done = 1; });
+  let idxQ = 0;
+  const runNext = () => {
+    if (idxQ >= els.length) return;
+    const el = els[idxQ++];
+    if (!el.isConnected) { runNext(); return; }
     const u = el.dataset.pdf.split('#')[0];
     pdfLib()
       .then(L => L.getDocument(u).promise)
@@ -3736,14 +3796,17 @@ function pdfCovers() {
         c.width = v.width;
         c.height = v.height;
         return pg.render({ canvasContext: c.getContext('2d'), viewport: v }).promise.then(() => {
+          if (!el.isConnected) return;
           [...el.children].forEach(x => x.classList.contains('rmo') || x.remove());
           el.prepend(c);
           el.classList.add('ok');
           if (el.classList.contains('tile')) el.style.aspectRatio = v0.width + '/' + v0.height;
         });
       })
-      .catch(() => {});
-  });
+      .catch(() => {})
+      .finally(runNext);
+  };
+  for (let k = 0; k < Math.min(2, els.length); k++) runNext();
 }
 
 document.addEventListener('click', e => {
@@ -3934,9 +3997,10 @@ function poster(o, mini) {
 }
 
 function fitMiniPosters() {
-  $$('.tile.mp').forEach(t => {
-    const p = $('.poster', t);
-    const w = t.clientWidth;
+  const tiles = $$('.tile.mp');
+  if (!tiles.length) return;
+  const jobs = tiles.map(t => ({ p: $('.poster', t), w: t.clientWidth }));
+  jobs.forEach(({ p, w }) => {
     if (p && w) p.style.transform = `scale(${(w / 440).toFixed(4)})`;
   });
 }
@@ -3957,18 +4021,26 @@ function posterFit() {
   }
 }
 
-addEventListener('resize', () => {
-  fitMiniPosters();
-  if (lb && !lb.hidden && lb.classList.contains('po')) posterFit();
-});
 
+
+const PAL_CACHE = new Map();
 function palOf(p) {
   if (!p || p.dataset.pal !== 'auto') return;
   p.dataset.pal = 'done';
   const im = $('.pcv img', p);
   const sw = $('.psw', p);
+  if (!im || !sw) return;
+  const key = im.getAttribute('src') || im.src;
+  if (PAL_CACHE.has(key)) {
+    sw.innerHTML = PAL_CACHE.get(key);
+    return;
+  }
   const go = () => {
     try {
+      if (PAL_CACHE.has(key)) {
+        sw.innerHTML = PAL_CACHE.get(key);
+        return;
+      }
       const c = document.createElement('canvas');
       c.width = c.height = 40;
       const x = c.getContext('2d');
@@ -3991,11 +4063,13 @@ function palOf(p) {
         }
         if (out.length === 5) break;
       }
-      sw.innerHTML = out.map(q => `<i style="background:rgb(${q})"></i>`).join('');
+      const html = out.map(q => `<i style="background:rgb(${q})"></i>`).join('');
+      PAL_CACHE.set(key, html);
+      sw.innerHTML = html;
     } catch (_) {}
   };
   if (im.complete) go();
-  else im.addEventListener('load', go);
+  else im.addEventListener('load', go, { once: true });
 }
 
 function posterPal() {

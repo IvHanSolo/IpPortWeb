@@ -427,7 +427,7 @@ const B = {
       </div>`,
       `<div class="abx abr">
         <h2>Profile</h2>
-        <p>${esc(PG('about').body || 'Thane-based MBA candidate in Communications Management at FLAME University, with a grounding in film, television and digital content. I have worked across scripting, content creation, on-set assistance and post-production, at Entre Nous Experiences, Caliac Studios and Juggernaut Productions, and on live events such as Lollapalooza India. I am growing into creative management, with Photoshop, Lightroom and Canva alongside photography and videography.')}</p>
+        <p>${esc(PG('about').body || 'I am a Thane-based MBA candidate in Communications Management at FLAME University, with a grounding in film, television and digital content. I have worked across scripting, content creation, on-set assistance and post-production, at Entre Nous Experiences, Caliac Studios and Juggernaut Productions, and on live events such as Lollapalooza India. I am growing into creative management, with Photoshop, Lightroom and Canva alongside photography and videography.')}</p>
         <div class="abb">
           <button type="button" class="btn" data-pop="work">Work Ex</button>
           <button type="button" class="btn" data-pop="education">Education</button>

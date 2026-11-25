@@ -1290,6 +1290,326 @@
                                                               "exif":  "",
                                                               "desc":  "Overhead electric railway wires and twin steel tracks curve under a soft violet twilight sky.",
                                                               "src":  "catenary-rail-twilight.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Night Sparks on the Rise",
+                                                              "tags":  [
+                                                                           "night",
+                                                                           "construction",
+                                                                           "architecture",
+                                                                           "urban",
+                                                                           "welding",
+                                                                           "sparks"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A welder showers bright orange sparks through the upper window frames of a high-rise skeleton under construction at night.",
+                                                              "src":  "construction-welding-night-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Blue Hour on the Tarmac",
+                                                              "tags":  [
+                                                                           "airport",
+                                                                           "aviation",
+                                                                           "twilight",
+                                                                           "blue-hour",
+                                                                           "urban",
+                                                                           "travel"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Apron shuttles and ground crew under towering tarmac floodlights during a deep blue twilight at the airport.",
+                                                              "src":  "indigo-tarmac-twilight-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Courtyard Through the Slit",
+                                                              "tags":  [
+                                                                           "architecture",
+                                                                           "minimalism",
+                                                                           "geometric",
+                                                                           "reflection",
+                                                                           "courtyard"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A narrow vertical aperture between textured wooden panels opens onto a tranquil green pool and sunlit palm courtyard.",
+                                                              "src":  "architectural-courtyard-slit-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Old Rust \u0026 Green Leaves",
+                                                              "tags":  [
+                                                                           "vintage",
+                                                                           "car",
+                                                                           "automotive",
+                                                                           "night",
+                                                                           "moody",
+                                                                           "urban"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A weathered vintage car nestled into night greenery with its single round headlight flaring through the dark.",
+                                                              "src":  "vintage-car-headlight-foliage-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Layers of the Skyline",
+                                                              "tags":  [
+                                                                           "architecture",
+                                                                           "urban",
+                                                                           "cityscape",
+                                                                           "scaffolding",
+                                                                           "geometric",
+                                                                           "skyline"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Bamboo scaffolding and rooftop transmission masts catch the golden sun against a modern sail-crested skyscraper.",
+                                                              "src":  "urban-spire-scaffolding-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Butterfly Lanterns on the Expressway",
+                                                              "tags":  [
+                                                                           "black-and-white",
+                                                                           "monochrome",
+                                                                           "highway",
+                                                                           "traffic",
+                                                                           "urban",
+                                                                           "architecture"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Vehicles move along the damp highway tarmac beneath sculptural butterfly lampposts against a brooding overcast sky.",
+                                                              "src":  "monochrome-highway-butterfly-lamps-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Monsoon Commute",
+                                                              "tags":  [
+                                                                           "monsoon",
+                                                                           "rain",
+                                                                           "street",
+                                                                           "mumbai",
+                                                                           "urban",
+                                                                           "reflections",
+                                                                           "cyclist"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A lone cyclist pedals through drenched streets and puddles reflecting shopfront lights during a heavy city downpour.",
+                                                              "src":  "monsoon-city-street-cyclist-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Bridge Across the Commute",
+                                                              "tags":  [
+                                                                           "black-and-white",
+                                                                           "monochrome",
+                                                                           "bridge",
+                                                                           "architecture",
+                                                                           "urban",
+                                                                           "highway",
+                                                                           "traffic"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "City traffic flows beneath the elevated pylon and stay-cables of an urban bridge under pale monochrome skies.",
+                                                              "src":  "cable-stayed-bridge-traffic-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Vessel in the Plaster",
+                                                              "tags":  [
+                                                                           "minimalism",
+                                                                           "texture",
+                                                                           "architecture",
+                                                                           "detail",
+                                                                           "urban",
+                                                                           "reflection"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A ribbed electrical conduit spirals out of a raw wall fissure, reflected on polished black stone beside a rusted ladder.",
+                                                              "src":  "conduit-wall-fissure-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Hose Box in the Green",
+                                                              "tags":  [
+                                                                           "red",
+                                                                           "urban",
+                                                                           "plants",
+                                                                           "minimalism",
+                                                                           "details",
+                                                                           "colour-contrast"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A vivid red emergency hose box stands out against soft shadows and lush variegated green leaves.",
+                                                              "src":  "fire-hose-box-foliage-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Lantana Geometry",
+                                                              "tags":  [
+                                                                           "flower",
+                                                                           "flora",
+                                                                           "nature",
+                                                                           "macro",
+                                                                           "botanical",
+                                                                           "yellow",
+                                                                           "pink"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Delicate pink and yellow florets form an intricate geometric rosette nestled among vibrant green leaves.",
+                                                              "src":  "lantana-cluster-foliage-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Amber Mist \u0026 Palm",
+                                                              "tags":  [
+                                                                           "night",
+                                                                           "palm",
+                                                                           "mist",
+                                                                           "atmosphere",
+                                                                           "amber",
+                                                                           "urban",
+                                                                           "moody"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A lone palm tree stands enveloped in glowing amber fog and dense shadows of a quiet night.",
+                                                              "src":  "lonely-palm-mist-night-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Bougainvillea Cluster",
+                                                              "tags":  [
+                                                                           "flower",
+                                                                           "flora",
+                                                                           "bougainvillea",
+                                                                           "pink",
+                                                                           "nature",
+                                                                           "botanical"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Crisp clusters of magenta bougainvillea bracts framed by soft, diffused garden green.",
+                                                              "src":  "bougainvillea-cluster-pink-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Lamplight Crossing",
+                                                              "tags":  [
+                                                                           "black-and-white",
+                                                                           "monochrome",
+                                                                           "night",
+                                                                           "street",
+                                                                           "architecture",
+                                                                           "urban"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A dazzling streetlight starburst casts sharp shadows as two people walk along a quiet heritage street.",
+                                                              "src":  "monochrome-streetlamp-night-walk-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Himalayan Ridge \u0026 Village",
+                                                              "tags":  [
+                                                                           "mountains",
+                                                                           "himalayas",
+                                                                           "landscape",
+                                                                           "valley",
+                                                                           "clouds",
+                                                                           "nature",
+                                                                           "snow"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Deep forested valley ridges and hillside village homes lead up toward dramatic snow-crested Himalayan peaks.",
+                                                              "src":  "himachal-valley-snow-peaks-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Fungal Solitude",
+                                                              "tags":  [
+                                                                           "mushroom",
+                                                                           "fungi",
+                                                                           "nature",
+                                                                           "macro",
+                                                                           "grass",
+                                                                           "morning",
+                                                                           "minimalism"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A lone capped mushroom rises quietly through blades of field grass at dusk.",
+                                                              "src":  "mushroom-meadow-grass-1x1.webp"
+                                                          },
+                                                          {
+                                                              "src":  "shadows-car-street-1x1.webp",
+                                                              "title":  "Shadows on the Asphalt",
+                                                              "caption":  "Two silhouettes cast long upon the warm afternoon tarmac beside a parked car.",
+                                                              "tags":  [
+                                                                           "shadows",
+                                                                           "asphalt",
+                                                                           "silhouette",
+                                                                           "minimalist",
+                                                                           "street"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "rooftop-tanks-tin-shacks-1x1.webp",
+                                                              "title":  "Rooftop Sintex \u0026 Tin",
+                                                              "caption":  "A tapestry of corrugated metal, bright yellow water tanks, and weather-worn walls.",
+                                                              "tags":  [
+                                                                           "rooftop",
+                                                                           "architecture",
+                                                                           "urban",
+                                                                           "tin-roof",
+                                                                           "yellow",
+                                                                           "mumbai"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "stop-sign-wet-asphalt-1x1.webp",
+                                                              "title":  "Stop on the Wet Road",
+                                                              "caption":  "Bold red lettering on a white traffic barrier holding ground on rain-slicked tarmac.",
+                                                              "tags":  [
+                                                                           "traffic",
+                                                                           "stop",
+                                                                           "sign",
+                                                                           "rain",
+                                                                           "asphalt",
+                                                                           "street"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "cables-cobalt-roof-sky-1x1.webp",
+                                                              "title":  "Cobalt Shed \u0026 Wires",
+                                                              "caption":  "Clean blue sky sliced by power lines above a vibrant cobalt tin canopy.",
+                                                              "tags":  [
+                                                                           "sky",
+                                                                           "cables",
+                                                                           "cobalt",
+                                                                           "tin-roof",
+                                                                           "minimal",
+                                                                           "blue"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "vintage-red-fiat-street-1x1.webp",
+                                                              "title":  "Classic Red Padmini",
+                                                              "caption":  "A gleaming cherry-red classic sedan resting on wet pavement among modern traffic.",
+                                                              "tags":  [
+                                                                           "vintage-car",
+                                                                           "classic",
+                                                                           "fiat",
+                                                                           "red-car",
+                                                                           "street",
+                                                                           "mumbai"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "monochrome-platform-benches-1x1.webp",
+                                                              "title":  "Platform Concourse in Monochrome",
+                                                              "caption":  "Overhead canopy light washing across the polished platform floor and waiting commuters.",
+                                                              "tags":  [
+                                                                           "monochrome",
+                                                                           "railway",
+                                                                           "train-station",
+                                                                           "commuters",
+                                                                           "benches",
+                                                                           "architecture"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "vintage-red-fiat-portrait.webp",
+                                                              "title":  "Classic Red Padmini in Profile",
+                                                              "caption":  "Full vertical profile of the vintage cherry-red sedan parked along wet city stones.",
+                                                              "tags":  [
+                                                                           "vintage-car",
+                                                                           "classic",
+                                                                           "fiat",
+                                                                           "red-car",
+                                                                           "street",
+                                                                           "mumbai",
+                                                                           "portrait"
+                                                                       ]
                                                           }
                                                       ]
                                         },
@@ -1847,6 +2167,265 @@
                                                               "exif":  "",
                                                               "desc":  "A contemplative nighttime profile illuminated by the soft glow of terrace lanterns.",
                                                               "src":  "nishu-poolside-night-silhouette.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Curious Gaze",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "portrait",
+                                                                           "child",
+                                                                           "candid",
+                                                                           "street",
+                                                                           "expression",
+                                                                           "texture"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "An inquisitive toddler looks directly into the lens while biting gently on a string before a weathered pink wall.",
+                                                              "src":  "toddler-curious-glance-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Platform Six",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "street",
+                                                                           "railway",
+                                                                           "train",
+                                                                           "commute",
+                                                                           "mumbai",
+                                                                           "candid"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A police officer stands watch on the platform as arriving train passengers stream past into the station.",
+                                                              "src":  "platform-guard-commuters-train-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Riff in the Haze",
+                                                              "tags":  [
+                                                                           "music",
+                                                                           "concert",
+                                                                           "guitarist",
+                                                                           "stage",
+                                                                           "silhouette",
+                                                                           "moody",
+                                                                           "performance"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A guitarist silhouetted in a glowing veil of warm amber stage smoke mid-solo.",
+                                                              "src":  "guitarist-amber-fog-silhouette-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Electric Reverie",
+                                                              "tags":  [
+                                                                           "music",
+                                                                           "concert",
+                                                                           "guitarist",
+                                                                           "people",
+                                                                           "performance",
+                                                                           "stage"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A guitarist lost in melody under spotlight, fingers fretting a clean chord on an electric guitar.",
+                                                              "src":  "guitarist-white-strat-solo-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Pearls \u0026 Neon Streaks",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "portrait",
+                                                                           "night",
+                                                                           "neon",
+                                                                           "flare",
+                                                                           "elegance",
+                                                                           "moody"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A portrait illuminated by vertical streaks of electric blue and crimson lens flares in the night.",
+                                                              "src":  "night-portrait-pearls-neon-flare-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Stories in the Sun",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "portrait",
+                                                                           "street",
+                                                                           "mumbai",
+                                                                           "candid",
+                                                                           "expression",
+                                                                           "elder"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "An animated elderly gentleman with a sculpted white beard gestures mid-conversation on a sunlit city street.",
+                                                              "src":  "bearded-elder-street-portrait-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Vocalist in Crimson",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "concert",
+                                                                           "performance",
+                                                                           "music",
+                                                                           "singer",
+                                                                           "stage",
+                                                                           "moody",
+                                                                           "red"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A vocalist pauses at the microphone, silhouetted against deep shadows and intense crimson sidelight.",
+                                                              "src":  "stage-performer-red-rimlight-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Tender Companion",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "child",
+                                                                           "kitten",
+                                                                           "cat",
+                                                                           "animals",
+                                                                           "affection",
+                                                                           "candid",
+                                                                           "portrait"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A little child shares an intimate, tender moment nuzzling a young tabby kitten in the sun.",
+                                                              "src":  "toddler-kitten-affection-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Mevin in Daylight",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "portrait",
+                                                                           "candid",
+                                                                           "expression",
+                                                                           "curls",
+                                                                           "daylight"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A candid outdoor portrait of Mevin looking to the side with soft ambient green bokeh.",
+                                                              "src":  "mevin-portrait-daylight-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Amber Nightfall",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "portrait",
+                                                                           "night",
+                                                                           "amber",
+                                                                           "garden",
+                                                                           "moody",
+                                                                           "shadows"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Nisarg stands contemplative in a garden bathed in warm golden floodlight beneath a dark night sky.",
+                                                              "src":  "nisarg-night-garden-amber-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Poolside Morning",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "friends",
+                                                                           "lifestyle",
+                                                                           "pool",
+                                                                           "tea",
+                                                                           "candid",
+                                                                           "summer"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Mevin sips tea on a patio sofa framed by vibrant flowers while a friend frames a photograph by the pool.",
+                                                              "src":  "poolside-tea-photographer-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Noir in Shadow",
+                                                              "tags":  [
+                                                                           "people",
+                                                                           "portrait",
+                                                                           "black-and-white",
+                                                                           "monochrome",
+                                                                           "noir",
+                                                                           "fedora",
+                                                                           "cigarette",
+                                                                           "cinematic"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A sharp, cinematic black-and-white portrait of a man in a fedora and trench coat holding a cigarette against a wall.",
+                                                              "src":  "film-noir-fedora-cigarette-1x1.webp"
+                                                          },
+                                                          {
+                                                              "src":  "window-silhouette-lonely-room-1x1.webp",
+                                                              "title":  "Overcast Solitude",
+                                                              "caption":  "Framed against the window bars, looking out across the misty monsoon rooftops.",
+                                                              "tags":  [
+                                                                           "silhouette",
+                                                                           "window",
+                                                                           "portrait",
+                                                                           "moody",
+                                                                           "interior",
+                                                                           "monsoon"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "rapper-seated-stage-mic-1x1.webp",
+                                                              "title":  "Cypher on the Floorboards",
+                                                              "caption":  "Grounded mid-performance, holding the mic close under the ambient stage wash.",
+                                                              "tags":  [
+                                                                           "hiphop",
+                                                                           "performer",
+                                                                           "stage",
+                                                                           "concert",
+                                                                           "microphone",
+                                                                           "artist"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "police-wharf-blue-portal-1x1.webp",
+                                                              "title":  "Sentry by the Wharf",
+                                                              "caption":  "Framed through a brilliant blue doorway, an officer keeps watch over the harbor boats.",
+                                                              "tags":  [
+                                                                           "police",
+                                                                           "wharf",
+                                                                           "maritime",
+                                                                           "portal",
+                                                                           "blue",
+                                                                           "dock"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "friends-beach-quad-bikes-1x1.webp",
+                                                              "title":  "Shoreline Comrades",
+                                                              "caption":  "Soumitra and Vinayak standing easy on the sand with ATVs idling along the shore.",
+                                                              "tags":  [
+                                                                           "friends",
+                                                                           "beach",
+                                                                           "quad-bike",
+                                                                           "afternoon",
+                                                                           "portrait",
+                                                                           "coastal"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "man-seated-ferry-sea-waves-1x1.webp",
+                                                              "title":  "Voyage Across the Waves",
+                                                              "caption":  "Perched upon the deck box, watching the churned blue water roll away in the sea breeze.",
+                                                              "tags":  [
+                                                                           "sea",
+                                                                           "ferry",
+                                                                           "waves",
+                                                                           "voyage",
+                                                                           "solitude",
+                                                                           "travel"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "hands-phone-backpack-sepia-1x1.webp",
+                                                              "title":  "Grip \u0026 Commute",
+                                                              "caption":  "Weathered hands clutching a screen and a worn shoulder strap on the journey.",
+                                                              "tags":  [
+                                                                           "hands",
+                                                                           "sepia",
+                                                                           "phone",
+                                                                           "backpack",
+                                                                           "detail",
+                                                                           "monochrome"
+                                                                       ]
                                                           }
                                                       ]
                                         },
@@ -2445,6 +3024,392 @@
                                                               "exif":  "",
                                                               "desc":  "A litter of puppies huddles playfully around a welcoming pair of sneakers.",
                                                               "src":  "three-puppies-around-feet.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Under the Banyan",
+                                                              "tags":  [
+                                                                           "beagle",
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "morning",
+                                                                           "nature",
+                                                                           "outdoor"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A curious beagle inspects forest debris and tangled tree roots during a sunny woodland walk on the leash.",
+                                                              "src":  "beagle-tree-roots-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Pavement Trot",
+                                                              "tags":  [
+                                                                           "beagle",
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "street",
+                                                                           "urban",
+                                                                           "morning"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A spirited beagle strides briskly along the curbside on a taut red leash in the late afternoon sun.",
+                                                              "src":  "beagle-pavement-stride-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Sunlit Cockerel",
+                                                              "tags":  [
+                                                                           "rooster",
+                                                                           "bird",
+                                                                           "animals",
+                                                                           "profile",
+                                                                           "golden-hour",
+                                                                           "details"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Golden hour sidelight accents the crimson comb and shimmering hackle feathers of a proud farm rooster.",
+                                                              "src":  "rooster-sunlit-profile-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Joy in Motion",
+                                                              "tags":  [
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "motion-blur",
+                                                                           "kinetic",
+                                                                           "playful",
+                                                                           "abstract"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A dynamic kinetic blur captures the exuberant, happy energy of a golden dog mid-play.",
+                                                              "src":  "playful-dog-motion-blur-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Glass Climber",
+                                                              "tags":  [
+                                                                           "frog",
+                                                                           "amphibian",
+                                                                           "macro",
+                                                                           "animals",
+                                                                           "wildlife",
+                                                                           "yellow",
+                                                                           "details"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A luminous yellow tree frog displays its suction-padded toes as it scales a wet glass surface.",
+                                                              "src":  "yellow-treefrog-glass-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Night Sentry",
+                                                              "tags":  [
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "monochrome",
+                                                                           "black-and-white",
+                                                                           "night",
+                                                                           "minimalism"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A lone dog sits poised and still against an ink-black background of night foliage in moody monochrome.",
+                                                              "src":  "monochrome-dog-night-terrace-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Shadow \u0026 White",
+                                                              "tags":  [
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "monochrome",
+                                                                           "high-key",
+                                                                           "black-and-white",
+                                                                           "portrait"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A sleek black dog rests calmly, isolated against a stark, high-key white expanse in striking graphic contrast.",
+                                                              "src":  "high-key-black-dog-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Sunlit Slumber",
+                                                              "tags":  [
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "street",
+                                                                           "golden-hour",
+                                                                           "peaceful",
+                                                                           "candid"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A street dog rests on warm road tarmac, head raised in late afternoon golden sunlight.",
+                                                              "src":  "sunlit-indie-dog-road-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Hedge Den",
+                                                              "tags":  [
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "humor",
+                                                                           "plants",
+                                                                           "red",
+                                                                           "urban"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "An indie dog takes refuge in a trimmed green bush beneath a vivid red emergency hose cabinet.",
+                                                              "src":  "dog-in-hedge-firebox-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Sweater Nap on the Pitch",
+                                                              "tags":  [
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "red",
+                                                                           "grass",
+                                                                           "sports",
+                                                                           "whimsical"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A hound wearing a red knit sweater sleeps peacefully on the open grass of a sunny sports ground.",
+                                                              "src":  "dog-red-sweater-lawn-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Marble Siesta",
+                                                              "tags":  [
+                                                                           "dog",
+                                                                           "animals",
+                                                                           "canine",
+                                                                           "sleep",
+                                                                           "minimalism",
+                                                                           "texture",
+                                                                           "urban"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A dark hound curls up in deep sleep on a cool polished marble ledge against a textured wall.",
+                                                              "src":  "sleeping-black-dog-ledge-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Leap Over Concrete",
+                                                              "tags":  [
+                                                                           "grasshopper",
+                                                                           "insect",
+                                                                           "animals",
+                                                                           "architecture",
+                                                                           "minimalism",
+                                                                           "stadium"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A bright green grasshopper perched on glass appears to leap high above descending concrete stadium bleachers.",
+                                                              "src":  "grasshopper-stadium-steps-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Shoreline Steeds",
+                                                              "tags":  [
+                                                                           "horse",
+                                                                           "animals",
+                                                                           "beach",
+                                                                           "coastal",
+                                                                           "sand",
+                                                                           "seascape"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Two saddled riding horses stand in quiet companionship along the damp sands of an ocean beach.",
+                                                              "src":  "coastal-horses-shoreline-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Warm Bamboo Rest",
+                                                              "tags":  [
+                                                                           "cat",
+                                                                           "animals",
+                                                                           "feline",
+                                                                           "portrait",
+                                                                           "sunlight",
+                                                                           "details"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A gentle calico cat rests its chin on a smooth bamboo rod, soaking in the midday warmth.",
+                                                              "src":  "cat-resting-bamboo-pole-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Speckled Wall Moth",
+                                                              "tags":  [
+                                                                           "moth",
+                                                                           "insect",
+                                                                           "animals",
+                                                                           "texture",
+                                                                           "minimalism",
+                                                                           "macro"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A geometric black and gold moth clings to the rough texture of a sun-warmed stucco wall.",
+                                                              "src":  "speckled-moth-stucco-wall-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Stairwell Scout",
+                                                              "tags":  [
+                                                                           "cat",
+                                                                           "animals",
+                                                                           "feline",
+                                                                           "black-and-white",
+                                                                           "monochrome",
+                                                                           "stairs",
+                                                                           "candid"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A curious tabby cat peers wide-eyed from behind a metal stair rail in crisp black-and-white.",
+                                                              "src":  "cat-stairs-peek-monochrome-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Sunbeam Watch",
+                                                              "tags":  [
+                                                                           "cat",
+                                                                           "animals",
+                                                                           "feline",
+                                                                           "sunlight",
+                                                                           "portrait",
+                                                                           "warmth",
+                                                                           "details"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A slender tabby cat sits in strong indoor side-light, golden eyes fixed on the room.",
+                                                              "src":  "tabby-cat-sunlight-profile-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Afternoon Slumber",
+                                                              "tags":  [
+                                                                           "cat",
+                                                                           "animals",
+                                                                           "feline",
+                                                                           "sleep",
+                                                                           "cozy",
+                                                                           "peaceful",
+                                                                           "domestic"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A trio of ginger and white cats surrender to heavy afternoon sleep on rustic wooden benches.",
+                                                              "src":  "three-sleeping-cats-benches-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Patio Snooze",
+                                                              "tags":  [
+                                                                           "cat",
+                                                                           "animals",
+                                                                           "feline",
+                                                                           "sleep",
+                                                                           "patio",
+                                                                           "chair",
+                                                                           "night"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A sleeping calico cat curls into a tight ball on a teal wire garden chair on a paved courtyard.",
+                                                              "src":  "cat-curled-patio-chair-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Street Feast",
+                                                              "tags":  [
+                                                                           "cat",
+                                                                           "animals",
+                                                                           "kitten",
+                                                                           "feline",
+                                                                           "street",
+                                                                           "candid",
+                                                                           "calico"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A hungry street kitten arches forward to eat from a crinkled foil saucer on the pavement.",
+                                                              "src":  "calico-kitten-eating-saucer-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "First Prowl",
+                                                              "tags":  [
+                                                                           "cat",
+                                                                           "animals",
+                                                                           "kitten",
+                                                                           "feline",
+                                                                           "candid",
+                                                                           "details",
+                                                                           "prowl"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A wide-eyed tabby kitten steps forward on white paws, exploring the rocky garden soil.",
+                                                              "src":  "tabby-kitten-curious-prowl-1x1.webp"
+                                                          },
+                                                          {
+                                                              "src":  "two-puppies-sleeping-ledge-1x1.webp",
+                                                              "title":  "Ledge Slumber",
+                                                              "caption":  "Two tiny brown pups curled up in unison along the cool stone edge.",
+                                                              "tags":  [
+                                                                           "puppies",
+                                                                           "sleep",
+                                                                           "dog",
+                                                                           "cute",
+                                                                           "indie-dog",
+                                                                           "pavement"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "puppies-huddle-pavement-1x1.webp",
+                                                              "title":  "Shoelace Huddle",
+                                                              "caption":  "A curious trio of street puppies gathering right at the tip of worn sneakers.",
+                                                              "tags":  [
+                                                                           "puppies",
+                                                                           "pavement",
+                                                                           "curious",
+                                                                           "indie-dog",
+                                                                           "street-animals"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "curious-puppy-looking-up-1x1.webp",
+                                                              "title":  "Soulful Eyes",
+                                                              "caption":  "Sitting tall on weathered paving stones, gazing upward with gentle curiosity.",
+                                                              "tags":  [
+                                                                           "puppy",
+                                                                           "portrait",
+                                                                           "dog",
+                                                                           "indie-dog",
+                                                                           "pavement",
+                                                                           "eyes"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "crow-stainless-bin-perch-1x1.webp",
+                                                              "title":  "Urban Sentry on the Bin",
+                                                              "caption":  "A sharp-eyed house crow claims its vantage atop a sunlit stainless steel trash can.",
+                                                              "tags":  [
+                                                                           "crow",
+                                                                           "bird",
+                                                                           "urban-wildlife",
+                                                                           "park",
+                                                                           "golden-hour"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "black-dog-stone-ledge-slumber-1x1.webp",
+                                                              "title":  "Black Dog on Polished Granite",
+                                                              "caption":  "Curled deep in midday sleep along the cool dark stone foundation.",
+                                                              "tags":  [
+                                                                           "dog",
+                                                                           "black-dog",
+                                                                           "sleep",
+                                                                           "ledge",
+                                                                           "granite",
+                                                                           "peaceful"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "tabby-kitten-ground-prowl-1x1.webp",
+                                                              "title":  "Ground Investigation",
+                                                              "caption":  "Large ears perked forward as a tiny tabby investigates the rough stony yard.",
+                                                              "tags":  [
+                                                                           "kitten",
+                                                                           "tabby",
+                                                                           "ears",
+                                                                           "curious",
+                                                                           "ground",
+                                                                           "cute"
+                                                                       ]
                                                           }
                                                       ]
                                         },
@@ -2744,6 +3709,146 @@
                                                               "exif":  "",
                                                               "desc":  "A beverage vending machine glows in electric cyan and green against an ink-black station platform.",
                                                               "src":  "vendiman-cyan-glow-station.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Chromatic Aura",
+                                                              "tags":  [
+                                                                           "abstract",
+                                                                           "colours",
+                                                                           "portrait",
+                                                                           "thermal",
+                                                                           "infrared",
+                                                                           "experimental",
+                                                                           "glow"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "An experimental thermal-spectrum study capturing human contour as an iridescent aura of cyan, magenta, and deep shadows.",
+                                                              "src":  "thermal-portrait-alan-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Violet Perch",
+                                                              "tags":  [
+                                                                           "abstract",
+                                                                           "colours",
+                                                                           "bird",
+                                                                           "nature",
+                                                                           "silhouette",
+                                                                           "violet",
+                                                                           "branches"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A lone bird rests within an intricate tangle of branches graded in psychedelic ultraviolet and electric cyan tones.",
+                                                              "src":  "bird-violet-branches-abstract-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Kinetic Rhythm",
+                                                              "tags":  [
+                                                                           "abstract",
+                                                                           "colours",
+                                                                           "music",
+                                                                           "percussion",
+                                                                           "experimental",
+                                                                           "glitch",
+                                                                           "neon"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "Prismatic color fringing and kinetic motion layers transform a live drummer into an electric chromatic abstraction.",
+                                                              "src":  "chromatic-percussion-abstract-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Electric Carnival Dreams",
+                                                              "tags":  [
+                                                                           "abstract",
+                                                                           "colours",
+                                                                           "composite",
+                                                                           "double-exposure",
+                                                                           "silhouette",
+                                                                           "ferris-wheel",
+                                                                           "night"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "A surreal double-exposure superimposing a silhouetted profile onto the neon luminescence of a carnival Ferris wheel and power grid.",
+                                                              "src":  "ferris-silhouette-composite-1x1.webp"
+                                                          },
+                                                          {
+                                                              "title":  "Feline Chromatics",
+                                                              "tags":  [
+                                                                           "abstract",
+                                                                           "colours",
+                                                                           "cat",
+                                                                           "feline",
+                                                                           "experimental",
+                                                                           "violet",
+                                                                           "psychedelic"
+                                                                       ],
+                                                              "exif":  "",
+                                                              "desc":  "An experimental high-saturation tonal study from behind a cat\u0027s head, glowing in electric violet and citrus yellow.",
+                                                              "src":  "feline-aurora-psychedelic-1x1.webp"
+                                                          },
+                                                          {
+                                                              "src":  "streetlamp-rainbow-halo-1x1.webp",
+                                                              "title":  "Chromatic Ring Diffraction",
+                                                              "caption":  "Spectral concentric rings flare across the dark lens around a solitary streetlamp.",
+                                                              "tags":  [
+                                                                           "night",
+                                                                           "halo",
+                                                                           "diffraction",
+                                                                           "rainbow",
+                                                                           "streetlamp",
+                                                                           "abstract"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "neon-tattoo-reflection-1x1.webp",
+                                                              "title":  "Crimson Tattoo Neon",
+                                                              "caption":  "Luminous scarlet lettering burning into the dark, mirrored along the wet ground.",
+                                                              "tags":  [
+                                                                           "neon",
+                                                                           "red",
+                                                                           "tattoo",
+                                                                           "reflection",
+                                                                           "night",
+                                                                           "rain"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "sample-album-art-typography-1x1.webp",
+                                                              "title":  "Sample Album Cover",
+                                                              "caption":  "Bold title typography overlaid across inverted chromatic street flora.",
+                                                              "tags":  [
+                                                                           "typography",
+                                                                           "graphic",
+                                                                           "album-art",
+                                                                           "poster",
+                                                                           "colours",
+                                                                           "design"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "traffic-cone-motion-trail-1x1.webp",
+                                                              "title":  "Kinetic Hazard",
+                                                              "caption":  "A fallen traffic cone glowing with kinetic light trails across dark asphalt.",
+                                                              "tags":  [
+                                                                           "traffic-cone",
+                                                                           "motion-blur",
+                                                                           "orange",
+                                                                           "asphalt",
+                                                                           "abstract",
+                                                                           "kinetic"
+                                                                       ]
+                                                          },
+                                                          {
+                                                              "src":  "hilltop-temple-magenta-dawn-1x1.webp",
+                                                              "title":  "Magenta Temple Skyline",
+                                                              "caption":  "A hillside shrine silhouetted sharply against an electric magenta horizon.",
+                                                              "tags":  [
+                                                                           "temple",
+                                                                           "magenta",
+                                                                           "pink-sky",
+                                                                           "hilltop",
+                                                                           "abstract",
+                                                                           "psychedelic"
+                                                                       ]
                                                           }
                                                       ]
                                         }
